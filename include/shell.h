@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:22:04 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/27 20:42:33 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/04/28 12:26:51 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	resize(int sig);
 void	end_select(int sig);
 
 /*
-**		tools
+**		array_funcions.c
 */
 char			**ft_tab_strcpy(char **to_copy);
 void			clear_tab(char **array);
@@ -163,9 +163,21 @@ int		ft_putchar2(int c);
 void	initial_position();
 
 /*
-**		keys.c
+**		command_line_read.c
 */
 int		keys_action(t_env *e, int input, t_list *lst);
-char	*get_input(void);
+void	get_input(char **line);
+
+/*
+**		command_line_read.c
+*/
+void	write_char(t_env *e, int input, t_list *lst);
+void	delete_char(t_env *e, t_list *lst);
+
+/*
+**		tools.c
+*/
+void	del_lst_char(void *content, size_t size);
+void	list_init(t_list *lst);
 
 #endif

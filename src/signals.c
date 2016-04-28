@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:40:44 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/27 19:50:56 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/04/28 12:20:42 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	end_select(int sig)
 	if (sig != SIGWINCH && sig != SIGSTOP && sig != SIGCONT)
 	{
 		term_reset(get_env()->term);
-		close(get_env()->fd);
 		exit(0);
 	}
 }
@@ -67,10 +66,10 @@ void	signal_catcher(void)
 //	signal(SIGWINCH, resize);
 	signal(SIGTSTP, suspend);
 	signal(SIGCONT, restart);
-	while (i < 32)
-	{
-		if (i != SIGWINCH && i != SIGTSTP && i != SIGCONT)
-			signal(i, end_select);
-		i++;
-	}
+//	while (i < 32)
+//	{
+//		if (i != SIGWINCH && i != SIGTSTP && i != SIGCONT)
+//			signal(i, end_select);
+//		i++;
+//	}
 }

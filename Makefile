@@ -6,7 +6,7 @@
 #    By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/07 08:41:32 by qdegraev          #+#    #+#              #
-#    Updated: 2016/04/27 16:05:24 by qdegraev         ###   ########.fr        #
+#    Updated: 2016/04/28 12:31:23 by qdegraev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,9 +45,11 @@ SRC =  env.c \
 	prompt.c \
 	get_env.c \
 	do_fork.c \
-	keys.c \
+	command_line_edit.c \
+	command_line_read.c \
 	term_control.c \
 	signals.c \
+	array_functions.c \
 
 OBJ = $(SRC:.c=.o)
 
