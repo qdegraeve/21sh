@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:27:06 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/27 19:45:50 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/04/29 16:12:06 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_env(t_env *e)
 void	term_set(void)
 {
 	char			*name;
+	struct termios	term;
 
 	if (!(name = getenv("TERM")))
 	{
@@ -34,17 +35,22 @@ void	term_set(void)
 		exit(EXIT_FAILURE);
 	}
 	tgetent(NULL, name);
-	tcgetattr(0, &get_env()->term);
-	get_env()->term.c_lflag &= ~(ECHO);
-	get_env()->term.c_lflag &= ~(ICANON);
-	get_env()->term.c_cc[VMIN] = 1;
-	get_env()->term.c_cc[VTIME] = 0;
-	tcsetattr(0, TCSADRAIN, &get_env()->term);
+	tcgetattr(0, &term);
+	term.c_lflag &= ~(ECHO);
+	term.c_lflag &= ~(ICANON);
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSADRAIN, &term);
 }
 
-void	term_reset(struct termios term)
+void	term_reset(void)
 {
-	tcsetattr(0, 0, &term);
+	struct termios	term;
+
+	tcgetattr(0, &term);
+	term.c_lflag &= (ECHO);
+	term.c_lflag &= (ICANON);
+	tcsetattr(0, TCSANOW, &term);
 }
 
 t_env	*get_env()

@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:22:04 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/28 12:26:51 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/04/29 17:54:02 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct	s_builtin
 	char		env_v;
 	char		env_u;
 	char		env_or_cpy;
+	int			fd_history;
+	t_list		lst;
 }				t_builtin;
 
 typedef struct		s_env
@@ -62,10 +64,12 @@ typedef struct		s_env
 	struct termios	term;
 }					t_env;
 
-typedef struct	prompt
+typedef struct	history
 {
-	char		letter;
-}				t_prompt;
+	char		*command;
+	char		*command_edit;
+	char		to_save;
+}				t_history;
 
 typedef struct	s_commands
 {
@@ -158,7 +162,7 @@ void			unset_env_one(char *remove, t_builtin *b);
 void	init_env(t_env *e);
 t_env	*get_env();
 void	term_set(void);
-void	term_reset(struct termios term);
+void	term_reset(void);
 int		ft_putchar2(int c);
 void	initial_position();
 
@@ -166,13 +170,15 @@ void	initial_position();
 **		command_line_read.c
 */
 int		keys_action(t_env *e, int input, t_list *lst);
-void	get_input(char **line);
+char	*get_input(t_builtin *b);
+void	list_to_string(t_list *lst, t_elem *elem);
 
 /*
-**		command_line_read.c
+**		command_line_edit.c
 */
-void	write_char(t_env *e, int input, t_list *lst);
-void	delete_char(t_env *e, t_list *lst);
+void	write_char(t_env *e, char input, t_elem *elem);
+char	*delete_char(t_env *e, char *src);
+t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem);
 
 /*
 **		tools.c

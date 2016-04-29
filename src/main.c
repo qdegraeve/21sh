@@ -6,11 +6,12 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:22:43 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/28 11:28:42 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/04/29 17:46:15 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include <pwd.h>
 
 void	init_builtin(t_builtin *b, char *command)
 {
@@ -34,13 +35,35 @@ void	init_builtin(t_builtin *b, char *command)
 	b->argv = get_argv(b, command);
 }
 
+void	get_history(t_builtin *b)
+{
+	t_history		h;
+
+	list_init(&b->lst);
+	ft_bzero(&h, sizeof(t_history));
+	while (get_next_line(b->fd_history, &h.command) > 0)
+	{
+		ft_lstadd_last(&b->lst, &h, sizeof(t_history));
+		ft_bzero(&h, sizeof(t_history));
+	}
+	close(b->fd_history);
+	b->fd_history = -1;
+}
+
 void	loop_fork(t_builtin b)
 {
 	int		i;
+	char	*file;
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 
 	i = 0;
 	b.env_cpy = NULL;
 	b.error = 0;
+	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
+	if ((b.fd_history = open(file, O_CREAT | O_RDWR, mode)) < 0)
+		ft_printf("fd == %d", b.fd_history);
+	ft_strdel(&file);
+	get_history(&b);
 	while (42)
 	{
 		i = 0;
