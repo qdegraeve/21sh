@@ -6,7 +6,7 @@
 #    By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/07 08:41:32 by qdegraev          #+#    #+#              #
-#    Updated: 2016/04/28 12:31:23 by qdegraev         ###   ########.fr        #
+#    Updated: 2016/05/02 17:14:08 by nahmed-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRC =  env.c \
 	term_control.c \
 	signals.c \
 	array_functions.c \
+	move_cursor.c
 
 OBJ = $(SRC:.c=.o)
 
