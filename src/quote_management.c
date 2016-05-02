@@ -16,11 +16,11 @@ int		command_complete(t_env *e)
 
 void	ft_quote(t_env *e, char c)
 {
-	if (c == 39)
+	if (c == 39 && !e->dquote && !e->bquote)
 		e->quote = (e->quote + 1) % 2;
-	else if (c == 34)
+	else if (c == 34 && !e->quote && !e->bquote)
 		e->dquote = (e->dquote + 1) % 2;
-	else if (c == 96)
+	else if (c == 96 && !e->quote)
 		e->bquote = (e->bquote + 1) % 2;
 	else
 	{
@@ -33,13 +33,16 @@ void	ft_quote(t_env *e, char c)
 
 void	quote_prompt(t_env *e)
 {
+	if (e->dquote)
+		ft_putstr_fd("dquote", e->fd);
 	if (e->quote)
-		ft_putstr_fd("quote> ", e->fd);
-	else if (e->bquote)
+		ft_putstr_fd("quote", e->fd);
+	if (e->bquote)
+	{
+		if (e->dquote)
+			ft_putstr_fd(" ", e->fd);
 		ft_putstr_fd("bquote> ", e->fd);
-	else if (e->dquote)
-		ft_putstr_fd("dquote> ", e->fd);
-	else if (e->par > 0)
-		ft_putstr_fd("> ", e->fd);
+	}
+	ft_putstr_fd("> ", e->fd);
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 }
