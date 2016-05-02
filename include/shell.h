@@ -6,7 +6,10 @@
 # define KLEFT	4479771
 # define KRIGHT	4414235
 # define ESC	27
-
+# define HOME 4741915
+# define END 4610843
+# define LEFT_OPT 1146821403
+# define RIGHT_OPT 1130044187
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/libft.h"
 # include "../libft/include/get_next_line.h"
@@ -171,6 +174,12 @@ void	list_to_string(t_list *lst, t_elem *elem);
 void	write_char(t_env *e, char input, t_elem *elem);
 char	*delete_char(t_env *e, char *src);
 t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem);
+
+/*
+**  Move cursor
+*/
+void move_cursor_line(t_env *e, int input);
+void move_cursor_word(t_env *e, int input);
 
 /*
 **		tools.c
