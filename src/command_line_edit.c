@@ -25,6 +25,7 @@ void	write_char(t_env *e, char input, t_elem *elem)
 	t_history *h;
 
 	h = elem->content;
+	ft_quote(e, input);
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
 	if (e->curs_max != e->curs_pos)

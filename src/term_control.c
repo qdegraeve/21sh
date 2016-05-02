@@ -10,6 +10,10 @@ void	init_env(t_env *e)
 	e->col = 0;
 	e->up = 0;
 	e->fd = 0;
+	e->quote = 0;
+	e->bquote = 0;
+	e->dquote = 0;
+	e->par = 0;
 }
 
 void	term_set(void)
