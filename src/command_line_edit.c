@@ -61,7 +61,7 @@ t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem)
 {
 	tputs(tgetstr("rc", NULL), 0, ft_putchar2);
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
-	tputs(tgetstr("ce", NULL), 0, ft_putchar2);
+	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	if (input == KUP && elem != lst->head)
 		elem = elem->prev;
 	else if (input == KDOWN && elem != lst->tail)

@@ -46,6 +46,9 @@ typedef struct		s_env
 {
 	int				curs_pos;
 	int				curs_max;
+	int				curs_line;
+	int				prompt_len;
+	int				width;
 	int				length;
 	char			on;
 	int				line;

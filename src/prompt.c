@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 16:47:58 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/28 18:53:17 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/02 21:24:26 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*get_pwd_prompt(char *path)
 	i = ft_strlen(path);
 	while (path[i] != '/')
 		i--;
+	get_env()->prompt_len = ft_strlen(path + i + 1) + 5;
 	return (path + i + 1);
 }
 
@@ -71,8 +72,8 @@ char	**get_commands(t_builtin *b)
 
 	line = NULL;
 	commands = NULL;
-	b->error ? prompt(1) : prompt(0);
 	init_env(get_env());
+	b->error ? prompt(1) : prompt(0);
 	line = get_input(b);
 	commands = ft_strsplit(line, ';');
 	return (commands);

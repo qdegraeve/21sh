@@ -16,6 +16,12 @@ int		command_complete(t_env *e)
 
 void	ft_quote(t_env *e, char c)
 {
+//	ft_printf("km == %d\n", tgetflag("km"));
+//	ft_printf("ws == %d\n", tgetnum("ws"));
+//	ft_printf("li == %d\n", tgetnum("li"));
+//	ft_printf("lm == %d\n", tgetnum("lm"));
+//	ft_printf("ho == %s\n", tgetstr("ho", NULL));
+//	ft_printf("mm == %s\n", tgetstr("mm", NULL));
 	if (c == 39 && !e->dquote && !e->bquote)
 		e->quote = (e->quote + 1) % 2;
 	else if (c == 34 && !e->quote && !e->bquote)

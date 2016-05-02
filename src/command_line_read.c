@@ -19,13 +19,27 @@ int		keys_action(t_env *e, int input, t_list *lst)
 		h1->command_edit = delete_char(e, h1->command_edit ? h1->command_edit : h1->command);
 	else if (input == KLEFT && e->curs_pos)
 	{
+			if (!((e->curs_pos + e->prompt_len) % e->width))
+			{
+				tputs(tgoto(tgetstr("RI", NULL), 0, e->width), 0, ft_putchar2);
+				tputs(tgetstr("up", NULL), 0, ft_putchar2);
+			}
+			else
+				tputs(tgetstr("le", NULL), 0, ft_putchar2);
 			e->curs_pos--;
-			tputs(tgetstr("le", NULL), 0, ft_putchar2);
 	}
 	else if (input == KRIGHT && e->curs_pos < e->curs_max)
 	{
-			e->curs_pos++;
+		if (!((e->curs_pos + e->prompt_len + 1) % e->width))
+		{
+			tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
+			tputs(tgetstr("do", NULL), 0, ft_putchar2);
+		}
+		else
+		{
 			tputs(tgetstr("nd", NULL), 0, ft_putchar2);
+		}
+		e->curs_pos++;
 	}
 	else if ((input == KUP && elem->prev) || (input == KDOWN && elem->next))
 		elem = command_memory(e, input, lst, elem);
@@ -62,15 +76,16 @@ char	*get_input(t_builtin *b)
 	ft_bzero(buf, 4);
 	term_set();
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
+	get_env()->width = tgetnum("co");
 	while (42)
 	{
 		if (input == 10)
 		{
 			if (command_complete(get_env()))
 			{
-			ft_putchar_fd('\n', get_env()->fd);
-			term_reset();
-			return (((t_history*)b->lst.tail->content)->command);
+				ft_putchar_fd('\n', get_env()->fd);
+				term_reset();
+				return (((t_history*)b->lst.tail->content)->command);
 			}
 			else
 				quote_prompt(get_env());

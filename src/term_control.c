@@ -14,6 +14,8 @@ void	init_env(t_env *e)
 	e->bquote = 0;
 	e->dquote = 0;
 	e->par = 0;
+	e->prompt_len = 0;
+	e->width = 0;
 }
 
 void	term_set(void)
