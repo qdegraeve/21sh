@@ -20,6 +20,7 @@ void move_cursor_line(t_env *e, int input)
 
 void move_cursor_word(t_env *e, int input)
 {
+	e = (void*)e;
 	if (input == LEFT_OPT)
 	{
 
