@@ -6,16 +6,16 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 09:59:27 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/20 14:56:53 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/02 14:24:34 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_lstadd(t_elem **alst, t_elem *new)
+void		ft_lstadd(t_elem **alst, t_elem *to_add)
 {
-	if (alst == NULL || new == NULL)
+	if (alst == NULL || to_add == NULL)
 		return ;
-	new->next = *alst;
-	*alst = new;
+	to_add->next = *alst;
+	*alst = to_add;
 }

@@ -6,7 +6,7 @@
 /*   By: afillion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 14:04:50 by afillion          #+#    #+#             */
-/*   Updated: 2016/04/27 20:26:12 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/02 14:22:39 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-
-typedef struct		s_elem
-{
-	void			*content;
-	size_t			content_size;
-	struct s_elem	*next;
-	struct s_elem	*prev;
-}					t_elem;
-
-typedef struct		s_list
-{
-	int				length;
-	struct s_elem	*head;
-	struct s_elem	*tail;
-}					t_list;
+# include "ft_list.h"
 
 void				*ft_memchr(const void *s, int c, size_t n);
 void				ft_bzero(void *s, size_t n);
@@ -93,24 +79,5 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
-
-t_elem				*ft_lstnew(void const *content, size_t content_size);
-void				ft_lstdelone(t_list *lst, t_elem **alst,
-		void (*del)(void *, size_t));
-void				ft_lstdel(t_list *lst, void (*del)(void *, size_t));
-void				ft_lstadd(t_elem **alst, t_elem *new);
-void				ft_lstiter(t_elem *lst, void (*f)(t_elem *elem));
-t_elem				*ft_lstmap(t_elem *lst, t_elem *(*f)(t_elem *elem));
-void				ft_lstadd_back(t_elem **beg_lst, void const *content,
-		size_t cont_size);
-int					ft_lstadd_last(t_list *lst, void const *content,
-		size_t content_size);
-int					ft_lstadd_first(t_list *lst, void const *content,
-		size_t cont_size);
-int					ft_lstadd_first_circ(t_list *lst, void const *content,
-		size_t cont_size);
-int					ft_lstadd_last_circ(t_list *lst, void const *content,
-		size_t cont_size);
-int		ft_lstinsert(t_list *lst, void *content, int content_size, int pos);
 
 #endif

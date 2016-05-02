@@ -6,11 +6,12 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/15 17:39:03 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/29 16:13:09 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/02 10:33:36 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include <pwd.h>
 
 const t_commands	g_code_error[6] = {{"cd", &exec_cd},
 	{"env", &exec_env},
@@ -44,9 +45,11 @@ void	get_env_index(t_builtin **b)
 void	exec_exit(t_builtin *b)
 {
 	t_elem	*elem;
+	char	*file;
 
 	elem = b->lst.head;
 	b->error = 0;
+	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
 	if (b->env_cpy)
 		clear_tab(b->env_cpy);
 	if (b->env)
@@ -55,7 +58,7 @@ void	exec_exit(t_builtin *b)
 		ft_strdel(&b->path);
 	if (b->argv)
 		clear_tab(b->argv);
-	if ((b->fd_history = open("/nfs/2015/q/qdegraev/.21sh_history", O_RDWR | O_APPEND)) < 0)
+	if ((b->fd_history = open(file, O_RDWR | O_APPEND)) < 0)
 		ft_printf("fd == %d", b->fd_history);
 	while (elem)
 	{
