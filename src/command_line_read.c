@@ -13,7 +13,7 @@ int		keys_action(t_env *e, int input, t_list *lst)
 		elem = lst->tail;
 	}
 	h1 = elem->content;
-	if (input > 31 && input < 127)
+	if ((input > 31 && input < 127) || (input == 10 && !command_complete(e)))
 		write_char(e, (char)input, elem);
 	else if (input == 127 && e->curs_pos != 0)
 		h1->command_edit = delete_char(e, h1->command_edit ? h1->command_edit : h1->command);
@@ -31,7 +31,6 @@ int		keys_action(t_env *e, int input, t_list *lst)
 		elem = command_memory(e, input, lst, elem);
 	else if (input == 10)
 	{
-
 		list_to_string(lst, elem);
 		if (h1->command)
 			elem = lst->tail->next;
@@ -63,18 +62,20 @@ char	*get_input(t_builtin *b)
 	{
 		if (input == 10)
 		{
+			if (command_complete(e))
+			{
 			ft_putchar_fd('\n', get_env()->fd);
 			term_reset();
 			return (((t_history*)b->lst.tail->content)->command);
+			}
+			else
+				quote_prompt(e);
 		}
-		else
-		{
-			read(0, buf, 4);
-			buf[4] = '\0';
-			input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
-			keys_action(get_env(), input, &b->lst);
-			ft_bzero(buf, 4);
-		}
+		read(0, buf, 4);
+		buf[4] = '\0';
+		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
+		keys_action(get_env(), input, &b->lst);
+		ft_bzero(buf, 4);
 		//		ft_printf("input == %d\n", input);
 	}
 }
