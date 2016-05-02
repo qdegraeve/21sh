@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/27 14:22:04 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/29 17:54:02 by qdegraev         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -61,6 +49,10 @@ typedef struct		s_env
 	int				col;
 	int				up;
 	int				fd;
+	char			quote;
+	char			dquote;
+	char			bquote;
+	char			par;
 	struct termios	term;
 }					t_env;
 
