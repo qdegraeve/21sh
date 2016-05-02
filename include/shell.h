@@ -187,4 +187,12 @@ void move_cursor_word(t_env *e, int input);
 void	del_lst_char(void *content, size_t size);
 void	list_init(t_list *lst);
 
+/*
+**		quote_management.c
+*/
+int		ft_is_quote(char c);
+int		command_complete(t_env *e);
+void	ft_quote(t_env *e, char c);
+void	quote_prompt(t_env *e);
+
 #endif

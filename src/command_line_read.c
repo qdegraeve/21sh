@@ -66,14 +66,14 @@ char	*get_input(t_builtin *b)
 	{
 		if (input == 10)
 		{
-			if (command_complete(e))
+			if (command_complete(get_env()))
 			{
 			ft_putchar_fd('\n', get_env()->fd);
 			term_reset();
 			return (((t_history*)b->lst.tail->content)->command);
 			}
 			else
-				quote_prompt(e);
+				quote_prompt(get_env());
 		}
 		read(0, buf, 4);
 		buf[4] = '\0';
