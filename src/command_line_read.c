@@ -19,14 +19,14 @@ int		keys_action(t_env *e, int input, t_list *lst)
 		h1->command_edit = delete_char(e, h1->command_edit ? h1->command_edit : h1->command);
 	else if (input == KLEFT && e->curs_pos)
 	{
-			if (!((e->curs_pos + e->prompt_len) % e->width))
-			{
-				tputs(tgoto(tgetstr("RI", NULL), 0, e->width), 0, ft_putchar2);
-				tputs(tgetstr("up", NULL), 0, ft_putchar2);
-			}
-			else
-				tputs(tgetstr("le", NULL), 0, ft_putchar2);
-			e->curs_pos--;
+		if (!((e->curs_pos + e->prompt_len) % e->width))
+		{
+			tputs(tgoto(tgetstr("RI", NULL), 0, e->width), 0, ft_putchar2);
+			tputs(tgetstr("up", NULL), 0, ft_putchar2);
+		}
+		else
+			tputs(tgetstr("le", NULL), 0, ft_putchar2);
+		e->curs_pos--;
 	}
 	else if (input == KRIGHT && e->curs_pos < e->curs_max)
 	{
@@ -36,9 +36,7 @@ int		keys_action(t_env *e, int input, t_list *lst)
 			tputs(tgetstr("do", NULL), 0, ft_putchar2);
 		}
 		else
-		{
 			tputs(tgetstr("nd", NULL), 0, ft_putchar2);
-		}
 		e->curs_pos++;
 	}
 	else if ((input == KUP && elem->prev) || (input == KDOWN && elem->next))
@@ -70,13 +68,13 @@ void	list_to_string(t_list *lst, t_elem *elem)
 char	*get_input(t_builtin *b)
 {
 	int		input;
-	char	buf[5];
+	char	buf[8];
 
-	input = 0;
 	ft_bzero(buf, 4);
 	term_set();
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	get_env()->width = tgetnum("co");
+	input = 0;
 	while (42)
 	{
 		if (input == 10)
@@ -90,11 +88,13 @@ char	*get_input(t_builtin *b)
 			else
 				quote_prompt(get_env());
 		}
-		read(0, buf, 4);
-		buf[4] = '\0';
+		input = 0;
+		read(0, buf, 7);
+		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
+//		ft_printf("input == %d\n", input);
+//		ft_printf("input == %s\n", buf + 4);
 		keys_action(get_env(), input, &b->lst);
 		ft_bzero(buf, 4);
-		//		ft_printf("input == %d\n", input);
 	}
 }
