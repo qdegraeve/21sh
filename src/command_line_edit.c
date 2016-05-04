@@ -104,7 +104,6 @@ t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem)
 	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
 	if (e->curs_pos)
 		move_cursor_line(e, HOME, str);
-	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	if (input == KUP && elem != lst->head)
 		elem = elem->prev;

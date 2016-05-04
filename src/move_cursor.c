@@ -57,52 +57,44 @@ void move_cursor_line(t_env *e, int input, char *str)
 static void move_cursor_word_right(t_env *e, char *str)
 {
 	int		save_pos;
-	int		i;
 	int		j;
+	int		blank;
 
 	save_pos = e->curs_pos;
-	i = 0;
 	j = 0;
-	while (save_pos < e->curs_max)
+	blank = ft_iswhitespace(str[save_pos]);
+	while (save_pos <= e->curs_max)
 	{
-		if (str[save_pos] == ' ')
+		if (ft_iswhitespace(str[save_pos]) != blank || save_pos == e->curs_max)
 		{
-			i++;
+			tputs(tgoto(tgetstr("RI", NULL), 0, j), 0, ft_putchar2);
+			e->curs_pos = save_pos;
 			break;
 		}
 		save_pos++;
 		j++;
-	}
-	if (i > 0)
-	{
-		tputs(tgoto(tgetstr("RI", NULL), 0, j + 1), 0, ft_putchar2);
-		e->curs_pos = save_pos + 1;
 	}
 }
 
 static void move_cursor_word_left(t_env *e, char *str)
 {
 	int		save_pos;
-	int		i;
 	int		j;
+	int		blank;
 
 	save_pos = e->curs_pos;
-	i = 0;
 	j = 0;
-	while (save_pos > 0)
+	blank = ft_iswhitespace(str[save_pos]);
+	while (save_pos >= 0)
 	{
-		save_pos--;
-		j++;
-		if (str[save_pos] == ' ')
+		if (ft_iswhitespace(str[save_pos]) != blank || save_pos == 0)
 		{
-			i++;
+			tputs(tgoto(tgetstr("LE", NULL), 0, j), 0, ft_putchar2);
+			e->curs_pos = save_pos;
 			break;
 		}
-	}
-	if (i > 0)
-	{
-		tputs(tgoto(tgetstr("LE", NULL), 0, j), 0, ft_putchar2);
-		e->curs_pos = save_pos;
+		save_pos--;
+		j++;
 	}
 }
 
