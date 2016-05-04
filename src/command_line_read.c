@@ -14,6 +14,7 @@ int		get_prev_lfeed(t_env *e, char *str, int i)
 		if (str[j++] == '\n')
 			lfeed++;
 	}
+	i--;
 	while (str[i] && str[i] != '\n')
 	{
 		len++;
@@ -32,6 +33,7 @@ int		keys_action(t_env *e, int input, t_list *lst)
 	t_history		h;
 	t_history		*h1;
 	char			*str;
+	int				i = 0;
 
 	if (!elem)
 	{
@@ -49,7 +51,8 @@ int		keys_action(t_env *e, int input, t_list *lst)
 	{
 		if (str[e->curs_pos - 1] == '\n')
 		{
-			tputs(tgoto(tgetstr("RI", NULL), 0, get_prev_lfeed(e, str, e->curs_pos - 1)), 0, ft_putchar2);
+			if ((i = get_prev_lfeed(e, str, e->curs_pos - 1)))
+				tputs(tgoto(tgetstr("RI", NULL), 0, i), 0, ft_putchar2);
 			tputs(tgetstr("up", NULL), 0, ft_putchar2);
 		}
 		else if (!((e->curs_pos + e->prompt_len) % e->width))
