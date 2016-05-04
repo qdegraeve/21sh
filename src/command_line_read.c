@@ -38,15 +38,21 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	if (!elem)
 	{
 		ft_bzero(&h, sizeof(t_history));
+		h.command = NULL;
+		h.command_edit = NULL;
 		ft_lstadd_last(lst, &h, sizeof(t_history));
 		elem = lst->tail;
 	}
 	h1 = elem->content;
-	str = h1->command_edit ? h1->command_edit : h1->command;
+	str = ft_strlen(h1->command_edit) > 0 ? h1->command_edit : h1->command;
 	if (input > 31 && input < 127)
 		write_char(e, (char)input, elem);
 	else if (input == 127 && e->curs_pos != 0)
-		h1->command_edit = delete_char(e, h1->command_edit ? h1->command_edit : h1->command);
+	{
+		if (!h1->command_edit)
+			h1->command_edit = ft_strdup(h1->command);
+		h1->command_edit = delete_char(e, h1->command_edit);
+	}
 	else if (input == KLEFT && e->curs_pos)
 	{
 		if (str[e->curs_pos - 1] == '\n')
@@ -78,7 +84,7 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	else if ((input == KUP && elem->prev) || (input == KDOWN && elem->next))
 		elem = command_memory(e, input, lst, elem);
 	else if (input == END || input == HOME)
-		move_cursor_line(e, input);
+		move_cursor_line(e, input, str);
 	else if (input == LEFT_OPT || input == RIGHT_OPT)
 		move_cursor_word(e, input);
 	else if (input == 10)
@@ -104,8 +110,18 @@ void	list_to_string(t_list *lst, t_elem *elem)
 
 	str = ((t_history*)lst->tail->content)->command;
 	h = elem->content;
+	if (ft_strlen(h->command_edit))
+	{
+		if (elem == lst->tail)
+			((t_history*)lst->tail->content)->command = ft_cjoin(str, ft_strdup(h->command_edit));
+		else
+			((t_history*)lst->tail->content)->command = ft_strjoin(str, h->command_edit);
+	}
+	else if (elem != lst->tail)
+		((t_history*)lst->tail->content)->command = ft_strdup(h->command);
 	if (h->command_edit)
-		((t_history*)lst->tail->content)->command = ft_cjoin(str, h->command_edit);
+		ft_strdel(&h->command_edit);
+	h->command_edit = NULL;
 	h->to_save = 1;
 }
 

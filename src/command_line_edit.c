@@ -38,11 +38,12 @@ void	display_command(t_env *e, char input, char *str)
 	}
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr_fd(str, e->fd);
+	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
 	if ((move = ((e->curs_max + e->prompt_len) / e->width) - ((e->curs_pos + e->prompt_len) / e->width)))
 		tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
 	move = input == 127 ? (e->curs_pos - 1 + e->prompt_len) % e->width : (e->curs_pos + 1 + e->prompt_len) % e->width;
-	if ((move = (e->curs_pos + 1 + e->prompt_len) % e->width))
+	if (move)
 		tputs(tgoto(tgetstr("RI", NULL), 0, move), 0, ft_putchar2);
 
 }
@@ -80,15 +81,15 @@ char	*delete_char(t_env *e, char *src)
 
 	if (ft_is_quote(src[e->curs_pos - 1]))
 		ft_quote(e, src[e->curs_pos - 1]);
-	len = ft_strlen(src);
+	len = ft_strlen(src) - 1;
 	dest = ft_strnew(len);
 	dest = ft_strncpy(dest, src, e->curs_pos -1);
 	dest = ft_strcat(dest, src + e->curs_pos);
 	dest[len] = '\0';
 	if (src)
 		ft_strdel(&src);
-	tputs(tgetstr("le", NULL), 0, ft_putchar2);
-	tputs(tgetstr("dc", NULL), 0, ft_putchar2);
+	display_command(e, 127, dest);
+	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos--;
 	e->curs_max--;
 	return (dest);
@@ -96,25 +97,32 @@ char	*delete_char(t_env *e, char *src)
 
 t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem)
 {
+	t_history	*h;
+	char		*str;
+
+	h = elem->content;
+	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
 	if (e->curs_pos)
-		move_cursor_line(e, HOME);
+		move_cursor_line(e, HOME, str);
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	if (input == KUP && elem != lst->head)
 		elem = elem->prev;
 	else if (input == KDOWN && elem != lst->tail)
 		elem = elem->next;
+	h = elem->content;
 	e->curs_max = 0;
-	if (((t_history*)elem->content)->command_edit)
+	if (h->command_edit)
 	{
-		ft_putstr(((t_history*)elem->content)->command_edit);
-		e->curs_max = ft_strlen(((t_history*)elem->content)->command_edit);
+		ft_putstr(h->command_edit);
+		e->curs_max = ft_strlen(h->command_edit);
 	}
-	else if (((t_history*)elem->content)->command)
+	else if (h->command)
 	{
-		ft_putstr(((t_history*)elem->content)->command);
-		e->curs_max = ft_strlen(((t_history*)elem->content)->command);
+		ft_putstr(h->command);
+		e->curs_max = ft_strlen(h->command);
 	}
+	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos = e->curs_max;
 	return (elem);
 }

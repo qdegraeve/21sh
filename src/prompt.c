@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 16:47:58 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/02 21:24:26 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/04 19:01:05 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ char	**get_commands(t_builtin *b)
 	init_env(get_env());
 	b->error ? prompt(1) : prompt(0);
 	line = get_input(b);
-	commands = ft_strsplit(line, ';');
+	if (line)
+		commands = ft_strsplit(line, ';');
 	return (commands);
 }
 
