@@ -78,6 +78,8 @@ char	*delete_char(t_env *e, char *src)
 	char	*dest;
 	int		len;
 
+	if (ft_is_quote(src[e->curs_pos - 1]))
+		ft_quote(e, src[e->curs_pos - 1]);
 	len = ft_strlen(src);
 	dest = ft_strnew(len);
 	dest = ft_strncpy(dest, src, e->curs_pos -1);
