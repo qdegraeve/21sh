@@ -27,7 +27,7 @@ int		get_prev_lfeed(t_env *e, char *str, int i)
 	return (len);
 }
 
-int		keys_action(t_env *e, int input, t_list *lst)
+int		edit_line(t_env *e, int input, t_list *lst)
 {
 	static t_elem	*elem = NULL;
 	t_history		h;
@@ -43,7 +43,7 @@ int		keys_action(t_env *e, int input, t_list *lst)
 	}
 	h1 = elem->content;
 	str = h1->command_edit ? h1->command_edit : h1->command;
-	if ((input > 31 && input < 127) || (input == 10 && !command_complete(e)))
+	if (input > 31 && input < 127)
 		write_char(e, (char)input, elem);
 	else if (input == 127 && e->curs_pos != 0)
 		h1->command_edit = delete_char(e, h1->command_edit ? h1->command_edit : h1->command);
@@ -84,7 +84,14 @@ int		keys_action(t_env *e, int input, t_list *lst)
 	else if (input == 10)
 	{
 		list_to_string(lst, elem);
-		if (h1->command)
+		if (!command_complete(get_env()))
+		{
+			h1->command = ft_cjoin(h1->command, ft_strdup("\n"));
+			h1->command_edit = ft_strnew(0);
+			e->curs_pos = 0;
+			e->curs_max = 0;
+		}
+		else if (h1->command)
 			elem = lst->tail->next;
 	}
 	return (0);
@@ -93,11 +100,12 @@ int		keys_action(t_env *e, int input, t_list *lst)
 void	list_to_string(t_list *lst, t_elem *elem)
 {
 	t_history	*h;
+	char		*str;
 
+	str = ((t_history*)lst->tail->content)->command;
 	h = elem->content;
 	if (h->command_edit)
-		((t_history*)lst->tail->content)->command = ft_strdup(h->command_edit);
-	ft_strdel(&h->command_edit);
+		((t_history*)lst->tail->content)->command = ft_cjoin(str, h->command_edit);
 	h->to_save = 1;
 }
 
@@ -115,9 +123,9 @@ char	*get_input(t_builtin *b)
 	{
 		if (input == 10)
 		{
+			ft_putchar_fd('\n', get_env()->fd);
 			if (command_complete(get_env()))
 			{
-				ft_putchar_fd('\n', get_env()->fd);
 				term_reset();
 				return (((t_history*)b->lst.tail->content)->command);
 			}
@@ -130,7 +138,7 @@ char	*get_input(t_builtin *b)
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
 		//		ft_printf("input == %d\n", input);
 		//		ft_printf("input == %s\n", buf + 4);
-		keys_action(get_env(), input, &b->lst);
+		edit_line(get_env(), input, &b->lst);
 		ft_bzero(buf, 4);
 	}
 }

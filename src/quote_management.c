@@ -39,16 +39,25 @@ void	ft_quote(t_env *e, char c)
 
 void	quote_prompt(t_env *e)
 {
+	e->prompt_len = 0;
 	if (e->dquote)
+	{
 		ft_putstr_fd("dquote", e->fd);
+		e->prompt_len += 6;
+	}
 	if (e->quote)
+	{
 		ft_putstr_fd("quote", e->fd);
+		e->prompt_len += 5;
+	}
 	if (e->bquote)
 	{
 		if (e->dquote)
 			ft_putstr_fd(" ", e->fd);
-		ft_putstr_fd("bquote> ", e->fd);
+		ft_putstr_fd("bquote", e->fd);
+		e->prompt_len += e->dquote ? 7 : 6;
 	}
 	ft_putstr_fd("> ", e->fd);
+	e->prompt_len += 2;
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 }

@@ -30,6 +30,7 @@ typedef struct	s_builtin
 	char		**commands;
 	char		**argv;
 	char		*path;
+	char		*paste;
 	int			path_e;
 	int			home;
 	char		error;
