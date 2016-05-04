@@ -77,7 +77,7 @@ int		keys_action(t_env *e, int input, t_list *lst)
 	else if (input == END || input == HOME)
 		move_cursor_line(e, input);
 	else if (input == LEFT_OPT || input == RIGHT_OPT)
-		move_cursor_word(e, input);
+		move_cursor_word(e, input, str);
 	else if (input == 10)
 	{
 		list_to_string(lst, elem);

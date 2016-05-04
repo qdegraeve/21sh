@@ -27,15 +27,36 @@ void move_cursor_line(t_env *e, int input)
 	}
 }
 
-void move_cursor_word(t_env *e, int input)
+void move_cursor_word(t_env *e, int input, char *str)
 {
-	e = (void*)e;
+	int		save_pos;
+	int		i;
+	int		j;
+
+	save_pos = e->curs_pos;
+	i = 0;
+	j = 0;
 	if (input == LEFT_OPT)
 	{
-
 	}
 	else if (input == RIGHT_OPT)
 	{
-
+		if (str[save_pos] == ' ')
+			save_pos++;
+		while (save_pos < e->curs_max)
+		{
+			if (str[save_pos] == ' ')
+			{
+				i++;
+				break;
+			}
+			save_pos++;
+			j++;
+		}
+		if (i > 0)
+		{
+			tputs(tgoto(tgetstr("RI", NULL), 0, j), 0, ft_putchar2);
+			e->curs_pos += i;
+		}
 	}
 }
