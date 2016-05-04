@@ -183,7 +183,7 @@ t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem);
 **  Move cursor
 */
 void move_cursor_line(t_env *e, int input, char *str);
-void move_cursor_word(t_env *e, int input);
+void move_cursor_word(t_env *e, int input, char *str);
 
 /*
 **		tools.c
