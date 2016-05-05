@@ -84,9 +84,11 @@ void	keys_actions(t_env *e, int input, t_list *lst, t_elem **elem)
 			h->command_edit = ft_strdup(h->command);
 		h->command_edit = delete_char(e, h->command_edit);
 	}
-	else if (input == 4 && *elem == lst->tail)
+	else if (input == 4)
 	{
-		if (!h->command_edit)
+		if (h->command_edit && ft_strlen(h->command_edit) == 0 && *elem != lst->tail)
+			exec_exit(get_buil());
+		else if (!(ft_strlen(h->command_edit)) && *elem == lst->tail)
 			exec_exit(get_buil());
 	}
 	else if (input == KLEFT && e->curs_pos)

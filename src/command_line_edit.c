@@ -25,8 +25,8 @@ void	display_command(t_env *e, char input, char *str)
 	int		i;
 	int		j;
 
-	i = ft_strlen(str);
 	j = 0;
+	i = ft_strlen(str);
 	go_to_position(e, str, 0);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr_fd(str, e->fd);
@@ -55,6 +55,7 @@ char	*delete_char(t_env *e, char *src)
 	char	*dest;
 	int		len;
 
+	dest = NULL;
 	if (ft_is_quote(src[e->curs_pos - 1]))
 		ft_quote(e, src[e->curs_pos - 1]);
 	len = ft_strlen(src) - 1;
