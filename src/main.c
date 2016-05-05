@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:22:43 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/05 17:44:38 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/05/05 19:49:50 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int		main(int ac, char **av, char **env)
 
 	b = get_buil();
 	b->env = NULL;
+	b->paste = NULL;
 	if (ac != 1 || av[1])
 		return (0);
 	ft_bzero(b, sizeof(t_builtin));

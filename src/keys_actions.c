@@ -101,5 +101,5 @@ void	keys_actions(t_env *e, int input, t_list *lst, t_elem **elem)
 	else if ((input == LEFT_OPT  && e->curs_pos > 0) || (input == RIGHT_OPT && e->curs_pos < e->curs_max))
 		move_cursor_word(e, input, str);
 	else if (input == CUT_OPT | input == PASTE_OPT | input == COPY_OPT)
-		copy_paste_mod(e, input, str);
+		copy_paste_mod(e, input, str, elem);
 }
