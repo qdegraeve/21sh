@@ -82,9 +82,9 @@ typedef struct	s_commands
 typedef struct stat	t_stat;
 
 /*
-**		minishell
+**		21sh main
 */
-void			loop_fork(t_builtin b);
+void			loop_fork(t_builtin *b);
 void			sig_handler(int sig);
 void			init_builtin(t_builtin *b, char *command);
 
@@ -198,7 +198,7 @@ void copy_paste_mod(t_env *e, int input, char *str);
 */
 void	del_lst_char(void *content, size_t size);
 void	list_init(t_list *lst);
-
+t_builtin *get_buil(void);
 /*
 **		quote_management.c
 */

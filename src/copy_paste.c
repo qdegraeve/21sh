@@ -1,19 +1,29 @@
 #include "shell.h"
 
+
+static void cut(t_env *e, char *str, t_builtin *b)
+{
+	str += 1;
+	e = (void*)e;
+}
+
+static void copy(t_env *e, char *str, t_builtin *b)
+{
+	
+}
+
+static void paste(t_env *e, char *str, t_builtin *b)
+{
+	str += 1;
+	e = (void*)e;
+}
+
 void copy_paste_mod(t_env *e, int input, char *str)
 {
-	e = (void*)e;
-	str += 1;
 	if (input == CUT_OPT)
-	{
-		ft_printf("CUT MODE ENABLED");
-	}
+		cut(e, str, get_buil());
 	else if (input == COPY_OPT)
-	{
-		ft_printf("COPY MODE ENABLED");
-	}
+		copy(e, str, get_buil());
 	else if (input == PASTE_OPT)
-	{
-		ft_printf("PASTE MODE ENABLED");
-	}
+		paste(e, str, get_buil());
 }

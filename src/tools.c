@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 12:29:07 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/28 18:12:11 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/05 17:44:51 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,13 @@ void	list_init(t_list *lst)
 	lst->head = NULL;
 	lst->tail = NULL;
 	lst->length = 0;
+}
+
+t_builtin *get_buil()
+{
+	static t_builtin *b = NULL;
+
+	if (!b)
+		b = (t_builtin*)malloc(sizeof(t_builtin) + 1);
+	return (b);
 }

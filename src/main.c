@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:22:43 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/29 17:46:15 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/05 17:44:38 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,35 +50,35 @@ void	get_history(t_builtin *b)
 	b->fd_history = -1;
 }
 
-void	loop_fork(t_builtin b)
+void	loop_fork(t_builtin *b)
 {
 	int		i;
 	char	*file;
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 
 	i = 0;
-	b.env_cpy = NULL;
-	b.error = 0;
+	b->env_cpy = NULL;
+	b->error = 0;
 	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
-	if ((b.fd_history = open(file, O_CREAT | O_RDWR, mode)) < 0)
-		ft_printf("fd == %d", b.fd_history);
+	if ((b->fd_history = open(file, O_CREAT | O_RDWR, mode)) < 0)
+		ft_printf("fd == %d", b->fd_history);
 	ft_strdel(&file);
-	get_history(&b);
+	get_history(b);
 	while (42)
 	{
 		i = 0;
-		b.commands = get_commands(&b);
-		while (b.commands && b.commands[i])
+		b->commands = get_commands(b);
+		while (b->commands && b->commands[i])
 		{
-			init_builtin(&b, b.commands[i]);
-			if (b.argv[0])
-				get_command(b.argv[0], &b);
-			if (b.path)
-				do_fork(&b);
+			init_builtin(b, b->commands[i]);
+			if (b->argv[0])
+				get_command(b->argv[0], b);
+			if (b->path)
+				do_fork(b);
 			i++;
 		}
-		if (b.commands)
-			clear_tab(b.commands);
+		if (b->commands)
+			clear_tab(b->commands);
 	}
 }
 
@@ -100,15 +100,16 @@ void	sh_level(t_builtin *b)
 
 int		main(int ac, char **av, char **env)
 {
-	t_builtin b;
+	t_builtin *b;
 
-	b.env = NULL;
+	b = get_buil();
+	b->env = NULL;
 	if (ac != 1 || av[1])
 		return (0);
-	ft_bzero(&b, sizeof(b));
+	ft_bzero(b, sizeof(t_builtin));
 	if (env[0])
-		b.env = ft_tab_strcpy(env);
-	sh_level(&b);
+		b->env = ft_tab_strcpy(env);
+	sh_level(b);
 //	signal_catcher();
 	loop_fork(b);
 	return (0);
