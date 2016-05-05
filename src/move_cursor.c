@@ -1,32 +1,5 @@
 #include "shell.h"
 
-int		calc_line(t_env *e, char *str, int pos)
-{
-	int		i;
-	int		j;
-	int		ret;
-
-	i = 0;
-	j = 0;
-	ret = 0;
-	while (i < pos && str[i] != '\n')
-		i++;
-	ret += (i - 1 + e->prompt_len) / e->width;
-	while (i < pos)
-	{
-		j = 0;
-		if (str[i] == '\n')
-		{
-			i++;
-			ret++;
-		}
-		while (str[i] != '\n' && i++ < pos)
-			j++;
-		ret += j / e->width;
-	}
-	return (ret);
-}
-
 void move_cursor_line(t_env *e, int input, char *str)
 {
 	int		diff;

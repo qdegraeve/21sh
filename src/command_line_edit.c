@@ -22,20 +22,11 @@ char	*string_insert(char *src, char ins, int pos)
 
 void	display_command(t_env *e, char input, char *str)
 {
-	int		move;
 	int		i;
 	int		j;
 
 	i = ft_strlen(str);
 	j = 0;
-	move = 0;
-//	if (e->curs_pos)
-//	{
-//		tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
-//		if ((move = calc_line(e, str, e->curs_pos)))
-//			tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
-//		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
-//	}
 	go_to_position(e, str, 0);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr_fd(str, e->fd);
@@ -93,18 +84,15 @@ t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem)
 	else if (input == KDOWN && elem != lst->tail)
 		elem = elem->next;
 	h = elem->content;
+	str = h->command_edit ? h->command_edit : h->command;
 	e->curs_max = 0;
-	if (h->command_edit)
+	if (str)
 	{
-		ft_putstr(h->command_edit);
-		e->curs_max = ft_strlen(h->command_edit);
-	}
-	else if (h->command)
-	{
-		ft_putstr(h->command);
-		e->curs_max = ft_strlen(h->command);
+		ft_putstr(str);
+		e->curs_max = ft_strlen(str);
 	}
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos = e->curs_max;
 	return (elem);
 }
+
