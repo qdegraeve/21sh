@@ -31,49 +31,18 @@ int		edit_line(t_env *e, int input, t_list *lst)
 {
 	static t_elem	*elem = NULL;
 	t_history		*h;
-	char			*str;
 
 	if (!elem)
 	{
 		ft_lstadd_last(lst, &h, sizeof(t_history));
 		elem = lst->tail;
 		ft_bzero((t_history*)elem->content, sizeof(t_history));
-
 	}
-	h = elem->content;
-//	if (input != 10)
-//		keys_actions(e, input, lst, elem);
-	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
-	if (input > 31 && input < 127)
-		write_char(e, (char)input, elem);
-	else if (input == 127 && e->curs_pos != 0)
+	if (input != 10)
+		keys_actions(e, input, lst, &elem);
+	else
 	{
-		if (!h->command_edit)
-			h->command_edit = ft_strdup(h->command);
-		h->command_edit = delete_char(e, h->command_edit);
-	}
-	else if (input == KLEFT && e->curs_pos)
-	{
-		go_to_position(e, str, e->curs_pos - 1);
-		e->curs_pos--;
-	}
-	else if (input == KRIGHT && e->curs_pos < e->curs_max)
-	{
-		go_to_position(e, str, e->curs_pos + 1);
-		e->curs_pos++;
-	}
-	else if ((input == KUP && elem->prev) || (input == KDOWN && elem->next))
-		elem = command_memory(e, input, lst, elem);
-	else if (input == END || input == HOME)
-		move_cursor_line(e, input, str);
-	else if (input == LEFT_OPT || input == RIGHT_OPT)
-		move_cursor_word(e, input, str);
-	else if (input == CUT_OPT | input == PASTE_OPT | input == COPY_OPT)
-		copy_paste_mod(e, input, str);
-	else if (input == 10)
-	{
-		list_to_string(lst, elem);
-		elem = lst->tail;
+		list_to_string(lst, &elem);
 		h = elem->content;
 		if (!command_complete(get_env()))
 		{
@@ -88,26 +57,27 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	return (0);
 }
 
-void	list_to_string(t_list *lst, t_elem *elem)
+void	list_to_string(t_list *lst, t_elem **elem)
 {
 	t_history	*h;
 	char		*str;
 
 	str = ((t_history*)lst->tail->content)->command;
-	h = elem->content;
+	h = (*elem)->content;
 	if (h->command_edit)
 	{
-		if (elem == lst->tail)
+		if (*elem == lst->tail)
 			((t_history*)lst->tail->content)->command = ft_cjoin(str, ft_strdup(h->command_edit));
 		else
 			((t_history*)lst->tail->content)->command = ft_strjoin(str, h->command_edit);
 	}
-	else if (elem != lst->tail)
+	else if (*elem != lst->tail)
 		((t_history*)lst->tail->content)->command = ft_strdup(h->command);
 	if (h->command_edit)
 		ft_strdel(&h->command_edit);
 	h->command_edit = NULL;
 	h->to_save = 1;
+	*elem = lst->tail;
 }
 
 char	*get_input(t_builtin *b)

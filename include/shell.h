@@ -173,7 +173,7 @@ void	initial_position();
 */
 int		keys_action(t_env *e, int input, t_list *lst);
 char	*get_input(t_builtin *b);
-void	list_to_string(t_list *lst, t_elem *elem);
+void	list_to_string(t_list *lst, t_elem **elem);
 int		get_prev_lfeed(t_env *e, char *str, int i);
 
 /*
@@ -213,6 +213,6 @@ void	quote_prompt(t_env *e);
 int		calc_line(t_env *e, char *str, int pos);
 int		calc_row(t_env *e, char *str, int pos);
 void	go_to_position(t_env *e, char *str, int position);
-void	keys_actions(t_env *e, int input, t_list *lst, t_elem *elem);
+void	keys_actions(t_env *e, int input, t_list *lst, t_elem **elem);
 
 #endif
