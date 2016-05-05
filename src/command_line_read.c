@@ -30,55 +30,36 @@ int		get_prev_lfeed(t_env *e, char *str, int i)
 int		edit_line(t_env *e, int input, t_list *lst)
 {
 	static t_elem	*elem = NULL;
-	t_history		h;
-	t_history		*h1;
+	t_history		*h;
 	char			*str;
-	int				i = 0;
 
 	if (!elem)
 	{
-		ft_bzero(&h, sizeof(t_history));
-		h.command = NULL;
-		h.command_edit = NULL;
 		ft_lstadd_last(lst, &h, sizeof(t_history));
 		elem = lst->tail;
+		ft_bzero((t_history*)elem->content, sizeof(t_history));
+
 	}
-	h1 = elem->content;
-	str = ft_strlen(h1->command_edit) > 0 ? h1->command_edit : h1->command;
+	h = elem->content;
+//	if (input != 10)
+//		keys_actions(e, input, lst, elem);
+	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
 	if (input > 31 && input < 127)
 		write_char(e, (char)input, elem);
 	else if (input == 127 && e->curs_pos != 0)
 	{
-		if (!h1->command_edit)
-			h1->command_edit = ft_strdup(h1->command);
-		h1->command_edit = delete_char(e, h1->command_edit);
+		if (!h->command_edit)
+			h->command_edit = ft_strdup(h->command);
+		h->command_edit = delete_char(e, h->command_edit);
 	}
 	else if (input == KLEFT && e->curs_pos)
 	{
-		if (str[e->curs_pos - 1] == '\n')
-		{
-			if ((i = get_prev_lfeed(e, str, e->curs_pos - 1)))
-				tputs(tgoto(tgetstr("RI", NULL), 0, i), 0, ft_putchar2);
-			tputs(tgetstr("up", NULL), 0, ft_putchar2);
-		}
-		else if (!((e->curs_pos + e->prompt_len) % e->width))
-		{
-			tputs(tgoto(tgetstr("RI", NULL), 0, e->width), 0, ft_putchar2);
-			tputs(tgetstr("up", NULL), 0, ft_putchar2);
-		}
-		else
-			tputs(tgetstr("le", NULL), 0, ft_putchar2);
+		go_to_position(e, str, e->curs_pos - 1);
 		e->curs_pos--;
 	}
 	else if (input == KRIGHT && e->curs_pos < e->curs_max)
 	{
-		if (!((e->curs_pos + e->prompt_len + 1) % e->width) || str[e->curs_pos + 1] == '\n')
-		{
-			tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
-			tputs(tgetstr("do", NULL), 0, ft_putchar2);
-		}
-		else
-			tputs(tgetstr("nd", NULL), 0, ft_putchar2);
+		go_to_position(e, str, e->curs_pos + 1);
 		e->curs_pos++;
 	}
 	else if ((input == KUP && elem->prev) || (input == KDOWN && elem->next))
@@ -90,14 +71,16 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	else if (input == 10)
 	{
 		list_to_string(lst, elem);
+		elem = lst->tail;
+		h = elem->content;
 		if (!command_complete(get_env()))
 		{
-			h1->command = ft_cjoin(h1->command, ft_strdup("\n"));
-			h1->command_edit = ft_strnew(0);
+			h->command = ft_cjoin(h->command, ft_strdup("\n"));
+			h->command_edit = ft_strnew(0);
 			e->curs_pos = 0;
 			e->curs_max = 0;
 		}
-		else if (h1->command)
+		else if (ft_strlen(h->command) > 0)
 			elem = lst->tail->next;
 	}
 	return (0);
@@ -110,7 +93,7 @@ void	list_to_string(t_list *lst, t_elem *elem)
 
 	str = ((t_history*)lst->tail->content)->command;
 	h = elem->content;
-	if (ft_strlen(h->command_edit))
+	if (h->command_edit)
 	{
 		if (elem == lst->tail)
 			((t_history*)lst->tail->content)->command = ft_cjoin(str, ft_strdup(h->command_edit));
@@ -128,6 +111,7 @@ void	list_to_string(t_list *lst, t_elem *elem)
 char	*get_input(t_builtin *b)
 {
 	int		input;
+	int		r;
 	char	buf[8];
 
 	ft_bzero(buf, 4);
@@ -137,6 +121,7 @@ char	*get_input(t_builtin *b)
 	input = 0;
 	while (42)
 	{
+		r = 0;
 		if (input == 10)
 		{
 			ft_putchar_fd('\n', get_env()->fd);
@@ -149,10 +134,10 @@ char	*get_input(t_builtin *b)
 				quote_prompt(get_env());
 		}
 		input = 0;
-		read(0, buf, 7);
+		r = read(0, buf, 7);
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
-		//		ft_printf("input == %d\n", input);
+		//ft_printf("read == %d -- input == %d\n", r, input);
 		//		ft_printf("input == %s\n", buf + 4);
 		edit_line(get_env(), input, &b->lst);
 		ft_bzero(buf, 4);

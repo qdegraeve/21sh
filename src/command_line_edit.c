@@ -29,23 +29,21 @@ void	display_command(t_env *e, char input, char *str)
 	i = ft_strlen(str);
 	j = 0;
 	move = 0;
-	if (e->curs_pos)
-	{
-		tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
-		if ((move = (e->curs_pos - 1 + e->prompt_len) / e->width))
-			tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
-		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
-	}
+//	if (e->curs_pos)
+//	{
+//		tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
+//		if ((move = calc_line(e, str, e->curs_pos)))
+//			tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
+//		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
+//	}
+	go_to_position(e, str, 0);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr_fd(str, e->fd);
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
-	tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
-	if ((move = ((e->curs_max + e->prompt_len) / e->width) - ((e->curs_pos + e->prompt_len) / e->width)))
-		tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
-	move = input == 127 ? (e->curs_pos - 1 + e->prompt_len) % e->width : (e->curs_pos + 1 + e->prompt_len) % e->width;
-	if (move)
-		tputs(tgoto(tgetstr("RI", NULL), 0, move), 0, ft_putchar2);
-
+	j = input == 127 ? e->curs_pos - 1 : e->curs_pos + 1;
+	e->curs_pos = e->curs_max;
+	go_to_position(e, str, j);
+	e->curs_pos = j;
 }
 
 void	write_char(t_env *e, char input, t_elem *elem)
@@ -56,22 +54,9 @@ void	write_char(t_env *e, char input, t_elem *elem)
 	ft_quote(e, input);
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
-//	if (e->curs_max != e->curs_pos)
-//		tputs(tgetstr("im", NULL), 5, ft_putchar2);
-//	ft_putchar_fd(input, e->fd);
-//	if (e->curs_max != e->curs_pos)
-//		tputs(tgetstr("ei", NULL), 5, ft_putchar2);
 	h->command_edit = string_insert(h->command_edit, input, e->curs_pos);
-	if (input == 10)
-	{
-		ft_putchar_fd('\n', e->fd);
-//		e->curs_max = 0;
-//		e->curs_pos = 0;
-	}
-	else
-		display_command(e, input, h->command_edit);
 	e->curs_max++;
-	e->curs_pos++;
+	display_command(e, input, h->command_edit);
 }
 
 char	*delete_char(t_env *e, char *src)
@@ -88,10 +73,8 @@ char	*delete_char(t_env *e, char *src)
 	dest[len] = '\0';
 	if (src)
 		ft_strdel(&src);
-	display_command(e, 127, dest);
-	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
-	e->curs_pos--;
 	e->curs_max--;
+	display_command(e, 127, dest);
 	return (dest);
 }
 

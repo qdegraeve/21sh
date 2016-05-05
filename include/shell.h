@@ -171,6 +171,7 @@ void	initial_position();
 int		keys_action(t_env *e, int input, t_list *lst);
 char	*get_input(t_builtin *b);
 void	list_to_string(t_list *lst, t_elem *elem);
+int		get_prev_lfeed(t_env *e, char *str, int i);
 
 /*
 **		command_line_edit.c
@@ -198,5 +199,13 @@ int		ft_is_quote(char c);
 int		command_complete(t_env *e);
 void	ft_quote(t_env *e, char c);
 void	quote_prompt(t_env *e);
+
+/*
+**		keys_actions.c
+*/
+int		calc_line(t_env *e, char *str, int pos);
+int		calc_row(t_env *e, char *str, int pos);
+void	go_to_position(t_env *e, char *str, int position);
+void	keys_actions(t_env *e, int input, t_list *lst, t_elem *elem);
 
 #endif
