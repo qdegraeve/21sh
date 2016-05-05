@@ -6,7 +6,7 @@
 #    By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/07 08:41:32 by qdegraev          #+#    #+#              #
-#    Updated: 2016/05/05 11:18:04 by qdegraev         ###   ########.fr        #
+#    Updated: 2016/05/05 16:48:18 by nahmed-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC =  env.c \
 	move_cursor.c \
 	quote_management.c \
 	keys_actions.c \
+	copy_paste.c
 
 OBJ = $(SRC:.c=.o)
 

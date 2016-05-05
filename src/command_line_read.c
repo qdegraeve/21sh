@@ -68,6 +68,8 @@ int		edit_line(t_env *e, int input, t_list *lst)
 		move_cursor_line(e, input, str);
 	else if (input == LEFT_OPT || input == RIGHT_OPT)
 		move_cursor_word(e, input, str);
+	else if (input == CUT_OPT | input == PASTE_OPT | input == COPY_OPT)
+		copy_paste_mod(e, input, str);
 	else if (input == 10)
 	{
 		list_to_string(lst, elem);
@@ -137,7 +139,7 @@ char	*get_input(t_builtin *b)
 		r = read(0, buf, 7);
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
-		//ft_printf("read == %d -- input == %d\n", r, input);
+	//	ft_printf("read == %d -- input == %d\n", r, input);
 		//		ft_printf("input == %s\n", buf + 4);
 		edit_line(get_env(), input, &b->lst);
 		ft_bzero(buf, 4);

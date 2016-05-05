@@ -10,6 +10,9 @@
 # define END 4610843
 # define LEFT_OPT 1146821403
 # define RIGHT_OPT 1130044187
+# define COPY_OPT -22845
+# define PASTE_OPT -6715422
+# define CUT_OPT -7894814
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/libft.h"
 # include "../libft/include/get_next_line.h"
@@ -186,6 +189,10 @@ t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem);
 void move_cursor_line(t_env *e, int input, char *str);
 void move_cursor_word(t_env *e, int input, char *str);
 
+/*
+**
+*/
+void copy_paste_mod(t_env *e, int input, char *str);
 /*
 **		tools.c
 */
