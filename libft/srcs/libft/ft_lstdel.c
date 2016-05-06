@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 09:59:51 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/25 21:09:11 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/06 13:18:32 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void		ft_lstdel(t_list *lst, void (*del)(void *, size_t))
 		ft_lstdelone(lst, &tmp, (*del));
 		tmp = backup;
 	}
+	lst = NULL;
 }
