@@ -18,21 +18,21 @@ static void paste(t_env *e, char *str, t_builtin *b, t_elem **elem)
 {
 	char	*dest;
 	int		len;
-	int		i = 0;
+	int		i;
 
-	if ((*elem)->next == NULL)
-		i = 1;
+	i = 0;
 	if (!b->paste)
 		return ;
 	len = ft_strlen(str) + ft_strlen(b->paste);
 	dest = ft_strnew(len);
-	dest = ft_strncpy(str, dest, e->curs_pos);
+	dest = ft_strncpy(dest, str, e->curs_pos);
 	dest = ft_strcat(dest, b->paste);
 	if (e->curs_pos < e->curs_max)
 		dest = ft_strcat(dest, b->paste + e->curs_pos);
 	dest[len + 1] = '\0';
-//	while (dest[i] != '\0')
-//		write_char(e, dest[i++], *elem);
+	ft_printf("\n%s", dest);
+	// a remplacer par write_char ?? 
+	e->curs_max += ft_strlen(b->paste);
 }
 
 void copy_paste_mod(t_env *e, int input, char *str, t_elem **elem)

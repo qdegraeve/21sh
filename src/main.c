@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/27 14:22:43 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/05 19:49:50 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/05/06 15:47:50 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		main(int ac, char **av, char **env)
 	if (env[0])
 		b->env = ft_tab_strcpy(env);
 	sh_level(b);
-//	signal_catcher();
+	signal_catcher();
 	loop_fork(b);
 	return (0);
 }

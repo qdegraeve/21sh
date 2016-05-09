@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/27 14:40:44 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/29 16:14:22 by qdegraev         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 void	end_select(int sig)
@@ -23,15 +11,15 @@ void	end_select(int sig)
 	}
 }
 
-//void	resize(int sig)
-//{
-//	if (sig == SIGWINCH)
-//	{
-//		display_choices(get_env());
-//		signal(SIGWINCH, resize);
-//	}
-//}
-//
+void	resize(int sig)
+{
+	if (sig == SIGWINCH)
+	{
+		term_reset();
+		signal(SIGWINCH, resize);
+	}
+}
+
 void	suspend(int sig)
 {
 	char	away[2];
@@ -60,10 +48,10 @@ void	restart(int sig)
 
 void	signal_catcher(void)
 {
-	int i;
+//	int i;
 
-	i = 0;
-//	signal(SIGWINCH, resize);
+//	i = 0;
+	signal(SIGWINCH, resize);
 //	signal(SIGTSTP, suspend);
 //	signal(SIGCONT, restart);
 //	while (i < 32)
