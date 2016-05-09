@@ -48,7 +48,6 @@ t_btree *lexer(char *str)
 	t_btree *root;
 	int		i;
 	int		j;
-	char	priority;
 	char	*tmp;
 
 	i = 0;
