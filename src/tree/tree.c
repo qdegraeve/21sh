@@ -45,7 +45,7 @@ void print_data(void *data)
 	t_infos *tmp;
 
 	tmp = ((t_btree*)data)->data;
-	ft_printf("\nCMDS %s\n", tmp->token);
+	ft_printf("\nCMDS %s|%d\n", tmp->token, tmp->priority);
 }
 
 void btree_insert_data(t_btree **root, void *item)
