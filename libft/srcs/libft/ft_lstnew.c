@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 10:00:28 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/20 19:29:07 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/06 13:05:38 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_elem		*ft_lstnew(void const *content, size_t content_size)
 	else
 	{
 		new->content_size = content_size;
-		if (!(new->content = malloc(content_size + 1)))
+		if (!(new->content = malloc(content_size)))
 			return (NULL);
 		ft_bzero(new->content, content_size);
 		ft_memcpy(new->content, content, content_size);

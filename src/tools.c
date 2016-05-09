@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 12:29:07 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/05 17:44:51 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/05/06 13:19:16 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	del_lst_char(void *content, size_t size)
 		ft_strdel(&h->command_edit);
 	ft_bzero(content, size);
 	free(content);
+	content = NULL;
 }
 
 void	list_init(t_list *lst)
