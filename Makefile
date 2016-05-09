@@ -6,7 +6,7 @@
 #    By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/07 08:41:32 by qdegraev          #+#    #+#              #
-#    Updated: 2016/05/06 10:42:11 by qdegraev         ###   ########.fr        #
+#    Updated: 2016/05/09 12:28:40 by nahmed-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ NAME = 21sh
 
 CC = clang
 
-VPATH = src:src/command_line
-
+VPATH = src:src/command_line:src/tree
 INCLUDES = include/
 
 ifdef FLAGS
@@ -53,7 +52,9 @@ SRC =  env.c \
 	move_cursor.c \
 	quote_management.c \
 	keys_actions.c \
-	copy_paste.c
+	copy_paste.c \
+	lexer.c \
+	tree.c \
 
 OBJ = $(SRC:.c=.o)
 

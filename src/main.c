@@ -1,19 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/27 14:22:43 by qdegraev          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2016/05/06 15:47:50 by nahmed-m         ###   ########.fr       */
-=======
-/*   Updated: 2016/05/06 12:54:48 by qdegraev         ###   ########.fr       */
->>>>>>> 0a927e17e0bb46cc4c4e31f0a79251e958150614
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 #include <pwd.h>
 
@@ -72,15 +56,23 @@ void	loop_fork(t_builtin *b)
 	{
 		i = 0;
 		b->commands = get_commands(b);
-		while (b->commands && b->commands[i])
-		{
-			init_builtin(b, b->commands[i]);
-			if (b->argv[0])
-				get_command(b->argv[0], b);
-			if (b->path)
-				do_fork(b);
-			i++;
-		}
+//		while (b->commands && b->commands[i])
+//		{
+//			init_builtin(b, b->commands[i]);
+			if (ft_strcmp(b->commands[0], "exit") == 0)
+					exit(1);
+			else
+			{
+				t_btree *root;
+				root = lexer(b->commands[0]);
+				btree_apply_infix(root, print_data);
+			}
+//			if (b->argv[0])
+//				get_command(b->argv[0], b);
+//			if (b->path)
+//				do_fork(b);
+//			i++;
+//		}
 		if (b->commands)
 			clear_tab(b->commands);
 	}
