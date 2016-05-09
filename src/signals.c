@@ -13,9 +13,22 @@ void	end_select(int sig)
 
 void	resize(int sig)
 {
+	t_history		*h;
+	char			*str;
+	struct winsize	win;
+	
+	h = get_env()->elem ? get_env()->elem->content : NULL;
+	if (h == NULL)
+	{
+		signal(SIGWINCH, resize);
+		return ;
+	}
+	str = h->command_edit ? h->command_edit : h->command;
 	if (sig == SIGWINCH)
 	{
-		term_reset();
+		ioctl(0, TIOCGWINSZ, &win);
+		get_env()->width = win.ws_col;
+		go_to_position(get_env(), str, get_env()->curs_pos);
 		signal(SIGWINCH, resize);
 	}
 }

@@ -1,18 +1,18 @@
 #ifndef COMMAND_LINE_H
 # define COMMAND_LINE_H
 
-# define KUP	4283163
-# define KDOWN	4348699
-# define KLEFT	4479771
-# define KRIGHT	4414235
-# define ESC	27
-# define HOME 4741915
-# define END 4610843
-# define LEFT_OPT 1146821403
-# define RIGHT_OPT 1130044187
-# define COPY_OPT -22845
-# define PASTE_OPT -6715422
-# define CUT_OPT -7894814
+# define KUP		4283163
+# define KDOWN		4348699
+# define KLEFT		4479771
+# define KRIGHT		4414235
+# define ESC		27
+# define HOME		4741915
+# define END		4610843
+# define LEFT_OPT	1146821403
+# define RIGHT_OPT	1130044187
+# define COPY_OPT	-22845
+# define PASTE_OPT	-6715422
+# define CUT_OPT	-7894814
 
 # include "shell.h"
 # include <termios.h>
@@ -38,6 +38,7 @@ typedef struct		s_env
 	char			dquote;
 	char			bquote;
 	char			par;
+	t_elem			*elem;
 	struct termios	term;
 }					t_env;
 

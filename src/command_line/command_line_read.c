@@ -29,21 +29,20 @@ int		get_prev_lfeed(t_env *e, char *str, int i)
 
 int		edit_line(t_env *e, int input, t_list *lst)
 {
-	static t_elem	*elem = NULL;
 	t_history		*h;
 
-	if (!elem)
+	if (!e->elem)
 	{
 		ft_lstadd_last(lst, &h, sizeof(t_history));
-		elem = lst->tail;
-		ft_bzero((t_history*)elem->content, sizeof(t_history));
+		e->elem = lst->tail;
+		ft_bzero((t_history*)e->elem->content, sizeof(t_history));
 	}
 	if (input != 10)
-		keys_actions(e, input, lst, &elem);
+		keys_actions(e, input, lst, &e->elem);
 	else
 	{
-		list_to_string(lst, &elem);
-		h = elem->content;
+		list_to_string(lst, &e->elem);
+		h = e->elem->content;
 		if (!command_complete(get_env()))
 		{
 			h->command = ft_cjoin(h->command, ft_strdup("\n"));
@@ -52,7 +51,7 @@ int		edit_line(t_env *e, int input, t_list *lst)
 			e->curs_max = 0;
 		}
 		else if (ft_strlen(h->command) > 0)
-			elem = lst->tail->next;
+			e->elem = lst->tail->next;
 	}
 	return (0);
 }
@@ -88,7 +87,6 @@ char	*get_input(t_builtin *b)
 
 	ft_bzero(buf, 4);
 	term_set();
-	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	get_env()->width = tgetnum("co");
 	input = 0;
 	while (42)
