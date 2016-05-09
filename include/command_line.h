@@ -83,7 +83,7 @@ void move_cursor_word(t_env *e, int input, char *str);
 /*
 **
 */
-void copy_paste_mod(t_env *e, int input, char *str, t_elem **elem);
+void copy_paste_mod(t_env *e, int input, t_elem **elem);
 
 /*
 **		tools.c

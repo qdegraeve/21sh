@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 10:04:56 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/03/16 10:05:02 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/09 19:50:40 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_putstr(char const *s)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	write(1, s, i);
 }

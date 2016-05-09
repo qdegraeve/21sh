@@ -107,8 +107,7 @@ char	*get_input(t_builtin *b)
 		r = read(0, buf, 7);
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
-	//	ft_printf("read == %d -- input == %d\n", r, input);
-		//		ft_printf("input == %s\n", buf + 4);
+	//	ft_printf("input == %d\n", input);
 		edit_line(get_env(), input, &b->lst);
 		ft_bzero(buf, 4);
 	}
