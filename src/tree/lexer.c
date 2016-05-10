@@ -2,17 +2,17 @@
 
 int get_io(char *str)
 {
-	if (str[0] == '|')
+	 if (str && str[0] == '|')
 		return (3);
-	else if (str[0] == ';')
+	else if (str && str[0] == ';')
 		return (4);
-	else if (str[0] == '>' && str[1] == '>')
+	else if (str && str[0] == '>' && str[1] == '>')
 		return (2);
-	else if (str[0] == '>')
+	else if (str && str[0] == '>')
 		return (1);
-	else if (str[0] == '<' && str[1] == '<')
+	else if (str && str[0] == '<' && str[1] == '<')
 		return (-2);
-	else if (str[0] == '<')
+	else if (str && str[0] == '<')
 		return (-1);
 	return (0);
 }
