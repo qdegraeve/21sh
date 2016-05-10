@@ -22,6 +22,7 @@ void	init_env(t_env *e)
 void	term_set(void)
 {
 	char			*name;
+	char			*bp = NULL;
 	struct termios	term;
 
 	if (!(name = getenv("TERM")))
@@ -29,7 +30,8 @@ void	term_set(void)
 		ft_putendl_fd("ft_select cannot work within an empty environment", 2);
 		exit(EXIT_FAILURE);
 	}
-	tgetent(NULL, name);
+	tgetent(bp, name);
+	ft_strdel(&bp);
 	tcgetattr(0, &term);
 	term.c_lflag &= ~(ECHO);
 	term.c_lflag &= ~(ICANON);

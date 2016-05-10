@@ -38,12 +38,12 @@ static void paste(t_env *e, char **str, t_builtin *b)
 	if (!b->paste)
 		return ;
 	go_to_position(e, *str, 0);
+	e->curs_max = ft_strlen(*str) + ft_strlen(b->paste);
 	dest = ft_strnew(e->curs_max);
 	dest = ft_strncpy(dest, *str, e->curs_pos);
 	dest = ft_strcat(dest, b->paste);
 	if (e->curs_pos < e->curs_max)
 		dest = ft_strcat(dest, *str + e->curs_pos);
-	e->curs_max = ft_strlen(*str) + ft_strlen(b->paste);
 	ft_strdel(str);
 	*str = dest;
 	dest[e->curs_max] = '\0';

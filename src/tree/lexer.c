@@ -40,7 +40,7 @@ static void add_all_node(t_btree **root, char *str)
 				i++;
 			tmp = (char *)malloc(sizeof(char) * i);
 			tmp = ft_strncpy(tmp, str, i);
-			tmp[i] = '\0';
+//			tmp[i] = '\0';
 			btree_insert_data(root, create_infos(tmp, priority));
 			str = &str[i];
 			i = 0;
@@ -73,7 +73,7 @@ t_btree *lexer(char *str)
 	{
 		tmp = (char *)malloc(sizeof(char) * i);
 		ft_strncpy(tmp, str, i);
-		tmp[i] = '\0';
+//		tmp[i] = '\0';
 		root = btree_create_node(create_infos(tmp, 0));
 		add_all_node(&root, &str[i]);
 	}

@@ -60,7 +60,7 @@ void	loop_fork(t_builtin *b)
 //		{
 //			init_builtin(b, b->commands[i]);
 			if (ft_strcmp(b->commands[0], "exit") == 0)
-					exit(1);
+					exec_exit(b);
 			else
 			{
 				t_btree *root;

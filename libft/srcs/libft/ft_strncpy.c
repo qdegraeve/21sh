@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 10:10:07 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/03/16 10:10:09 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/10 14:33:54 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 		dest[i] = src[i];
 		i++;
 	}
-	if (i < n)
+	if (i <= n)
 	{
-		while (i < n)
+		while (i <= n)
 		{
 			dest[i] = '\0';
 			i++;
@@ -32,3 +32,7 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 	}
 	return (dest);
 }
+
+
+ls << ls << ls >> ls << ls
+      <<     <<    >>    <<
