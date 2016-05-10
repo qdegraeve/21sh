@@ -1,18 +1,37 @@
 #include "tree.h"
 
-char get_io(char *str)
+int get_io(char *str)
 {
-	if (str[0] == '|' || str[0] == ';')
-		return (1);
+	if (str[0] == '|')
+		return (3);
+	else if (str[0] == ';')
+		return (4);
 	else if (str[0] == '>' && str[1] == '>')
 		return (2);
 	else if (str[0] == '>')
 		return (1);
 	else if (str[0] == '<' && str[1] == '<')
 		return (-2);
-	else if (str[1] == '<')
+	else if (str[0] == '<')
 		return (-1);
 	return (0);
+}
+
+static char *space_priority(char *str)
+{
+	if (str && str[0] == '|')
+		return (&str[1]);
+	else if (str && str[0] == ';')
+		return (&str[1]);
+	else if (str && str[0] == '>' && str[1] == '>')
+		return (&str[2]);
+	else if (str && str[0] == '>')
+		return (&str[1]);
+	else if (str && str[0] == '<' && str[1] == '<')
+		return (&str[2]);
+	else if (str && str[0] == '<')
+		return (&str[1]);
+	return (NULL);
 }
 
 static void add_all_node(t_btree **root, char *str)
@@ -22,30 +41,19 @@ static void add_all_node(t_btree **root, char *str)
 	int		priority;
 	char	*save;
 
-	save = ft_strcpy(ft_strnew(ft_strlen(str)), str);
+
 	i = 0;
-	while (str[i] && str)
+	save = ft_strcpy(ft_strnew(ft_strlen(str)), str);
+	while (save[i])
 	{
-		if ((priority = get_io(&str[i])) != 0)
-		{
-			if (priority > 0)
-				str = &str[priority + i + 1];
-			else if (priority < 0)
-				str = &str[ft_abs(priority) + i + 2];
-			else
-				ft_printf("ITS POSIIBLE! !!");
-		//	str = &str[priority > 0 ? priority + i : ft_abs(priority) + i + 1];
-			i = 0;
-			while (!(get_io(&str[i]) != 0) && str[i])
-				i++;
-			tmp = (char *)malloc(sizeof(char) * i);
-			tmp = ft_strncpy(tmp, str, i);
-//			tmp[i] = '\0';
-			btree_insert_data(root, create_infos(tmp, priority));
-			str = &str[i];
-			i = 0;
-		}
-		i++;
+		while (save[i] && ((priority = get_io(&save[i])) == 0))
+			i++;
+		tmp = (char *)malloc(sizeof(char) * i);
+		tmp = ft_strncpy(tmp, save, i);
+		btree_insert_data(root, create_infos(tmp, priority));
+		if ((save = space_priority(&save[i])) == NULL)
+			break;
+		i = 0;
 	}
 }
 
@@ -55,12 +63,14 @@ t_btree *lexer(char *str)
 	int		i;
 	int		j;
 	char	*tmp;
+	int		priority;
 
+	priority = 0;
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str[i] && str)
 	{
-		if (get_io(&str[i]) != 0)
+		if ((priority = get_io(&str[i])) != 0)
 		{
 			j = i;
 			break;
@@ -73,9 +83,9 @@ t_btree *lexer(char *str)
 	{
 		tmp = (char *)malloc(sizeof(char) * i);
 		ft_strncpy(tmp, str, i);
-//		tmp[i] = '\0';
-		root = btree_create_node(create_infos(tmp, 0));
-		add_all_node(&root, &str[i]);
+		root = btree_create_node(create_infos(tmp, priority));
+		str = space_priority(&str[i]);
+		add_all_node(&root, str);
 	}
 	return (root);
 }

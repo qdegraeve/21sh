@@ -16,7 +16,7 @@ t_btree *btree_create_node(void *data)
 	return (tmp);
 }
 
-t_infos *create_infos(char *token, char priority)
+t_infos *create_infos(char *token, int priority)
 {
 	t_infos *tmp;
 
@@ -45,7 +45,12 @@ void print_data(void *data)
 	t_infos *tmp;
 
 	tmp = ((t_btree*)data)->data;
-	ft_printf("\nCMDS %s|%d\n", tmp->token, tmp->priority);
+//	ft_printf("\nCMDS %s -> %d\n", tmp->token, tmp->priority); Quentin WTF ??
+	ft_putstr("\nCMDS ");
+	ft_putstr(tmp->token);
+	ft_putstr("-> ");
+	ft_putnbr(tmp->priority);
+	ft_putstr("\n");
 }
 
 void btree_insert_data(t_btree **root, void *item)

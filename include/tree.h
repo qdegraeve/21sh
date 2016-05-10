@@ -5,8 +5,8 @@
 
 typedef struct s_infos
 {
-	char *token;
-	char priority;
+	char	*token;
+	int		priority;
 }				t_infos;
 
 typedef struct s_btree
@@ -21,13 +21,13 @@ typedef struct s_btree
 */
 t_btree *btree_create_node(void *data);
 void btree_apply_infix(t_btree *root, void (*applyf)(void *));
-t_infos *create_infos(char *token, char priority);
+t_infos *create_infos(char *token, int priority);
 void print_data(void *data);
 void btree_insert_data(t_btree **root, void *item);
 
 /*
 ** LEXER
 */
-char	get_io(char *str);
+int		get_io(char *str);
 t_btree *lexer(char *str);
 #endif

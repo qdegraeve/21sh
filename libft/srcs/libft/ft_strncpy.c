@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 10:10:07 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/10 14:33:54 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/10 14:52:47 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,3 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 	}
 	return (dest);
 }
-
-
-ls << ls << ls >> ls << ls
-      <<     <<    >>    <<
