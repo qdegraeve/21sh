@@ -25,6 +25,7 @@ t_infos *create_infos(char *token, int priority)
 	{
 		tmp->token = token;
 		tmp->priority = priority;
+		tmp->id = generate_unique_id();
 	}
 	else
 		exit(0);
@@ -53,14 +54,23 @@ void print_data(void *data)
 	ft_putstr("\n");
 }
 
+int	generate_unique_id()
+{
+	static int id;
+
+	id = 0;
+	return (++id);
+}
 void btree_insert_data(t_btree **root, void *item)
 {
 	t_btree *tmp;
+	t_infos *data;
+	t_infos *data2;
 
 	tmp = *root;
-	if (((t_infos*)item)->priority > ((t_infos*)tmp)->priority || 
-			(((t_infos*)item)->priority < 0 && 
-			 (((t_infos*)tmp)->priority == ((t_infos*)tmp)->priority)))
+	data = tmp->data;
+	data2 = ((t_infos*)item);
+	if (data->id < data2->id)
 	{
 		if (tmp->left == NULL)
 			tmp->left = btree_create_node(item);
