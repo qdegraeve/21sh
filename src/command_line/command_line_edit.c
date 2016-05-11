@@ -70,21 +70,21 @@ char	*delete_char(t_env *e, char *src)
 	return (dest);
 }
 
-t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem)
+void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem)
 {
 	t_history	*h;
 	char		*str;
 
-	h = elem->content;
+	h = (*elem)->content;
 	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
 	if (e->curs_pos)
 		move_cursor_line(e, HOME, str);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
-	if (input == KUP && elem != lst->head)
-		elem = elem->prev;
-	else if (input == KDOWN && elem != lst->tail)
-		elem = elem->next;
-	h = elem->content;
+	if (input == KUP && *elem != lst->head)
+		*elem = (*elem)->prev;
+	else if (input == KDOWN && *elem != lst->tail)
+		*elem = (*elem)->next;
+	h = (*elem)->content;
 	str = h->command_edit ? h->command_edit : h->command;
 	e->curs_max = 0;
 	if (str)
@@ -94,6 +94,5 @@ t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem)
 	}
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos = e->curs_max;
-	return (elem);
 }
 

@@ -102,7 +102,7 @@ void	keys_actions(t_env *e, int input, t_list *lst, t_elem **elem)
 		e->curs_pos++;
 	}
 	else if ((input == KUP && (*elem)->prev) || (input == KDOWN && (*elem)->next))
-		*elem = command_memory(e, input, lst, *elem);
+		command_memory(e, input, lst, elem);
 	else if (input == END || input == HOME)
 		move_cursor_line(e, input, str);
 	else if ((input == LEFT_OPT  && e->curs_pos > 0) || (input == RIGHT_OPT && e->curs_pos < e->curs_max))

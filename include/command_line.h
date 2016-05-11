@@ -72,7 +72,7 @@ int		get_prev_lfeed(t_env *e, char *str, int i);
 */
 void	write_char(t_env *e, char input, t_elem *elem);
 char	*delete_char(t_env *e, char *src);
-t_elem	*command_memory(t_env *e, int input, t_list *lst, t_elem *elem);
+void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem);
 
 /*
 **  Move cursor
