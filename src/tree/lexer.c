@@ -87,5 +87,5 @@ t_btree *lexer(char *str)
 		str = space_priority(&str[i]);
 		add_all_node(&root, str);
 	}
-:W	return (root);
+	return (root);
 }
