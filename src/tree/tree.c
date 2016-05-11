@@ -40,13 +40,14 @@ void btree_apply_infix(t_btree *root, void (*applyf)(void *))
 	if (root->right != NULL)
 		btree_apply_infix(root->right, applyf);
 }
-
+#include <stdio.h>
 void print_data(void *data)
 {
 	t_infos *tmp;
 
 	tmp = ((t_btree*)data)->data;
-//	ft_printf("\nCMDS %s -> %d\n", tmp->token, tmp->priority); Quentin WTF ??
+	ft_printf("\nCMDS %s -> %d\n", tmp->token, tmp->priority);
+	printf("\nCMDS %s -> %d\n", tmp->token, tmp->priority);
 	ft_putstr("\nCMDS ");
 	ft_putstr(tmp->token);
 	ft_putstr("-> ");
@@ -59,7 +60,7 @@ int	generate_unique_id()
 	static int id;
 
 	id = 0;
-	return (++id);
+	return (id += 1);
 }
 void btree_insert_data(t_btree **root, void *item)
 {
@@ -69,19 +70,23 @@ void btree_insert_data(t_btree **root, void *item)
 
 	tmp = *root;
 	data = tmp->data;
-	data2 = ((t_infos*)item);
-	if (data->id < data2->id)
+	data2 = item;
+	if (tmp->left != NULL)
+		btree_insert_data(&tmp->left, item);
+	if (tmp->right != NULL)
+		btree_insert_data(&tmp->right, item);
+//	ft_printf(" root = %d item = %d", data->id, data2->id);
+//	ft_putnbr(data->id);
+//	ft_putnbr(data2->id);
+	if (data->id == data2->id - 1)
 	{
-		if (tmp->left == NULL)
-			tmp->left = btree_create_node(item);
-		else
-			btree_insert_data(&tmp->left, item);
-	}
-	else
-	{
-		if (tmp->right == NULL)
-			tmp->right = btree_create_node(item);
-		else
-			btree_insert_data(&tmp->right, item);
+		ft_putstr("ici");
+		return ;
+	//	if (tmp->left == NULL && priority)
+	//		tmp->left = btree_create_node(item);
+	//	else (tmp->right == NULL)
+	//	if (tmp->right == NULL)
+	//		tmp->right = btree_create_node(item);
+	//	else
 	}
 }
