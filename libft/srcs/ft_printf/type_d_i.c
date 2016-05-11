@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/12 10:39:10 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/11 10:32:11 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/11 10:46:28 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*type_d_std(long long d, t_arg *a)
 	int		i;
 
 	s = a->p == 0 && d == 0 ? ft_strnew(0) : ft_ltoa_base(d, 10);
-	ft_putstr(s);
 	i = ft_strlen(s);
 	a->ret = d < 0 || a->f_p || a->f_sp ? i + 1 : i;
 	while (i++ < a->p)
@@ -83,5 +82,6 @@ void	type_d(char type, t_arg *a)
 		d = (int)d;
 	s = a->f_zero && !a->f_m ? type_d_zero(d, a) : type_d_std(d, a);
 	a->ret = ft_strlen(s);
+	ft_putstr(s);
 	ft_strdel(&s);
 }
