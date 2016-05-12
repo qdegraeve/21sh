@@ -63,9 +63,10 @@ void	loop_fork(t_builtin *b)
 					exec_exit(b);
 			else
 			{
-				t_btree *root;
+				t_cmds *root;
+
 				root = lexer(b->commands[0]);
-				btree_apply_infix(root, print_data);
+				debug_lexer(&root);
 			}
 //			if (b->argv[0])
 //				get_command(b->argv[0], b);

@@ -5,7 +5,7 @@
 # include "../libft/include/libft.h"
 # include "../libft/include/get_next_line.h"
 # include "command_line.h"
-# include "tree.h"
+# include "lexer.h"
 # include <unistd.h>
 # include <sys/stat.h>
 # include <sys/wait.h>

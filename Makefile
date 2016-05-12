@@ -6,7 +6,7 @@
 #    By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/07 08:41:32 by qdegraev          #+#    #+#              #
-#    Updated: 2016/05/09 12:28:40 by nahmed-m         ###   ########.fr        #
+#*   Updated: 2016/05/12 16:38:41 by nahmed-m         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME = 21sh
 
 CC = clang
 
-VPATH = src:src/command_line:src/tree
+VPATH = src:src/command_line:src/lexer
 INCLUDES = include/
 
 ifdef FLAGS
@@ -54,7 +54,7 @@ SRC =  env.c \
 	keys_actions.c \
 	copy_paste.c \
 	lexer.c \
-	tree.c \
+	tools_lexer.c \
 
 OBJ = $(SRC:.c=.o)
 
