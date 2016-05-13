@@ -22,13 +22,15 @@ typedef struct s_cmds
 ** Tools
 */
 void	add_cmds(char *str, int pipe, t_cmds **root);
-void	add_io(char *str, t_io **io);
-void debug_lexer(t_cmds **tmp);
+void	add_io(char *str, t_cmds **root, int fd);
+void	debug_lexer(t_cmds **tmp);
+int		space_priority(char *str);
+int		get_io(char *str);
+void	count(int *i, int *total, int counter);
 
 /*
 ** LEXER
 */
-int		get_io(char *str);
 t_cmds	*lexer(char *str);
-int		add_all_io(t_cmds **root, char *str);
+int add_all_io(t_cmds **root, char *str);
 #endif

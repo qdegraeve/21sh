@@ -1,67 +1,52 @@
 #include "lexer.h"
 
-int get_io(char *str)
+
+static int get_priority(char *str)
 {
-	 if (str && str[0] == '|')
-		return (2);
-	else if (str && str[0] == ';')
-		return (1);
-	else if (str && str[0] == '>' && str[1] == '>')
-		return (-3);
-	else if (str && str[0] == '>')
-		return (-4);
-	else if (str && str[0] == '<' && str[1] == '<')
-		return (-2);
-	else if (str && str[0] == '<')
-		return (-1);
-	return (3);
+	int		priority;
+	int		i;
+
+	priority = 0;
+	i = 0;
+	while (str[i] && (priority = get_io(&str[i])) == 3)
+			i++;
+	return (priority);
 }
 
-static int space_priority(char *str)
-{
-	if (str && str[0] == '>' && str[1] == '>')
-		return (2);
-	else if (str && str[0] == '>')
-		return (1);
-	else if (str && str[0] == '<' && str[1] == '<')
-		return (2);
-	else if (str && str[0] == '<')
-		return (1);
-	return (0);
-}
 
 int add_all_io(t_cmds **root, char *str)
 {
 	int		i;
 	int		total;
-	t_io	*io = NULL;
 	char	*tmp;
 	int		priority;
+	int		priority2;
 
-	priority = 0;
 	i = 0;
 	total = 0;
 	while (str[i] && str)
 	{
+		priority2 = get_priority(str);
 		while (ft_isdigit(str[i]) == 1)
-			i++;
-		i += space_priority(&str[i]);
+			count(&i, &total, 1);
+		count(&i, &total, space_priority(&str[i]));
 		while (str[i] && ((priority = get_io(&str[i])) == 3))
-			i++;
-		tmp = (char *)malloc(sizeof(char) * i);
-		tmp = ft_strncpy(tmp, str, i);
+			count(&i, &total, 1);
+		while (priority < 0 && i > 0 && ft_isdigit(str[i - 1]) == 1)
+			count(&i, &total, -1);
+		tmp = ft_strncpy(ft_strnew(i), str, i);
+		priority2 <= -3 ? add_io(tmp, root, 2) : add_io(tmp, root, 1);
+		if (str[i] == '\0' || str[i + 1] == '\0')
+			return (total);
 		if (priority < 0)
 		{
-
+			str = &str[i];
+			i = 0;
 		}
 		else
-			return (total + i);
-//		btree_insert_data(root, create_infos(tmp, priority));
-//		if ((save = space_priority(&save[i])) == NULL)
-//			break;
-//		i = 0;
+			return (total + 1);
 	}
-return (1);
+	return (0);
 }
 
 t_cmds *lexer(char *str)
@@ -81,9 +66,9 @@ t_cmds *lexer(char *str)
 			i--;
 		tmp = (char *)malloc(sizeof(char) * i);
 		ft_strncpy(tmp, str, i);
+		add_cmds(tmp, (priority == 2 ? 1 : 0), &root);
 		if (priority == 1 || priority == 2 || priority == 3)
 		{
-			add_cmds(tmp, (priority == 2 ? 1 : 0), &root);
 			if (str[i] == '\0' || str[i + 1] == '\0')
 				return (root);
 			str = &str[i + 1];
