@@ -30,6 +30,7 @@ int		calc_line(t_env *e, char *str, int pos)
 {
 	int		i;
 	int		j;
+	int		k;
 	int		ret;
 
 	i = 0;
@@ -37,7 +38,8 @@ int		calc_line(t_env *e, char *str, int pos)
 	ret = 0;
 	while (i < pos && str[i] && str[i] != '\n')
 		i++;
-	ret += (i + e->prompt_len) / e->width;
+	k = (i + e->prompt_len) / e->width;
+	ret += (i + e->prompt_len) % e->width ? k : k - 1;
 	while (i < pos && str[i])
 	{
 		j = 0;
@@ -60,7 +62,9 @@ void	go_to_position(t_env *e, char *str, int position)
 	move = 0;
 	tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
 	if ((move = calc_line(e, str, e->curs_pos)))
+	{
 		tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
+		}
 	if (!position)
 		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
 	if (position && (move = calc_line(e, str, position)))

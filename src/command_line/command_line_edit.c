@@ -30,6 +30,8 @@ void	display_command(t_env *e, char input, char *str)
 	go_to_position(e, str, 0);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr_fd(str, e->fd);
+	if (!((e->curs_max + e->prompt_len) % e->width))
+		tputs(tgetstr("do", NULL), 0, ft_putchar2);
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	j = input == 127 ? e->curs_pos - 1 : e->curs_pos + 1;
 	e->curs_pos = e->curs_max;
@@ -91,6 +93,8 @@ void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem)
 	{
 		ft_putstr(str);
 		e->curs_max = ft_strlen(str);
+		if (!((e->curs_max + e->prompt_len) % e->width))
+			tputs(tgetstr("do", NULL), 0, ft_putchar2);
 	}
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos = e->curs_max;
