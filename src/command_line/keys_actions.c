@@ -38,8 +38,7 @@ int		calc_line(t_env *e, char *str, int pos)
 	ret = 0;
 	while (i < pos && str[i] && str[i] != '\n')
 		i++;
-	k = (i + e->prompt_len) / e->width;
-	ret += (i + e->prompt_len) % e->width ? k : k - 1;
+	ret += (i + e->prompt_len) / e->width;
 	while (i < pos && str[i])
 	{
 		j = 0;
