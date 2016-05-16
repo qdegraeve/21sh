@@ -28,6 +28,10 @@ void	resize(int sig)
 	{
 		ioctl(0, TIOCGWINSZ, &win);
 		get_env()->width = win.ws_col;
+		go_to_position(get_env(), str, 0);
+		tputs(tgetstr("cd", NULL), 0, ft_putchar2);
+		ft_putstr(str);
+		tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 		go_to_position(get_env(), str, get_env()->curs_pos);
 		signal(SIGWINCH, resize);
 	}
