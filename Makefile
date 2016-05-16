@@ -1,16 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/07 08:41:32 by qdegraev          #+#    #+#              #
-#*   Updated: 2016/05/12 16:38:41 by nahmed-m         ###   ########.fr       *#
-#                                                                              #
-# **************************************************************************** #
-
-
 LIBPATH = libft
 LIB = $(LIBPATH)/libft.a
 
@@ -18,7 +5,7 @@ NAME = 21sh
 
 CC = clang
 
-VPATH = src:src/command_line:src/lexer
+VPATH = src:src/command_line:src/lexer:src/parser
 INCLUDES = include/
 
 ifdef FLAGS
@@ -55,6 +42,8 @@ SRC =  env.c \
 	copy_paste.c \
 	lexer.c \
 	tools_lexer.c \
+	parser.c \
+	exec_simple.c \
 
 OBJ = $(SRC:.c=.o)
 

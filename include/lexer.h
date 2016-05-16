@@ -1,5 +1,5 @@
-#ifndef TREE_H
-#define TREE_H
+#ifndef LEXER_H
+#define LEXER_H
 
 #include "shell.h"
 
@@ -23,7 +23,7 @@ typedef struct s_cmds
 */
 void	add_cmds(char *str, int pipe, t_cmds **root);
 void	add_io(char *str, t_cmds **root, int fd);
-void	debug_lexer(t_cmds **tmp);
+void	debug_lexer(t_cmds **tmp); // SUPRIMER CETTE LIGNE AU RENDU
 int		space_priority(char *str);
 int		get_io(char *str);
 void	count(int *i, int *total, int counter);

@@ -5,13 +5,13 @@
 # include "../libft/include/libft.h"
 # include "../libft/include/get_next_line.h"
 # include "command_line.h"
-# include "lexer.h"
 # include <unistd.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <signal.h>
-
+# include "lexer.h"
+# include "parser.h"
 typedef struct	s_builtin
 {
 	char		**env;

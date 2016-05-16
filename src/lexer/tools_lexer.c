@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "shell.h"
 
 void	add_cmds(char *str, int pipe, t_cmds **root)
 {

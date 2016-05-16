@@ -1,5 +1,4 @@
-#include "lexer.h"
-
+#include "shell.h"
 
 static int get_priority(char *str)
 {
