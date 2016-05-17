@@ -43,7 +43,7 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	{
 		list_to_string(lst, &e->elem);
 		h = e->elem->content;
-		ft_putendl(h->command);
+		ft_printf("%c -- %d -- %s\n", h->command[e->curs_max], e->curs_max, h->command);
 		if (!command_complete(get_env()) || h->command[e->curs_max] == 92)
 		{
 			h->command = ft_cjoin(h->command, ft_strdup("\n"));

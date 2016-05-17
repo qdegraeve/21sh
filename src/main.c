@@ -55,7 +55,6 @@ void	loop_fork(t_builtin *b)
 	while (42)
 	{
 		i = 0;
-<<<<<<< HEAD
 		b->command = get_commands(b);
 		init_builtin(b, b->command);
 		t_cmds *root;
@@ -72,29 +71,6 @@ void	loop_fork(t_builtin *b)
 		if (b->command)
 			ft_strdel(&b->command);
 }
-=======
-		b->commands = get_commands(b);
-//		while (b->commands && b->commands[i])
-//		{
-			init_builtin(b, b->commands[i]);
-			if (b->argv[0])
-				get_command(b->argv[0], b);
-			else
-			{
-				t_cmds *root;
-
-				root = lexer(b->commands[0]);
-				debug_lexer(&root);
-				parser(&root);
-			}
-//			if (b->path)
-//				do_fork(b);
-//			i++;
-//		}
-		if (b->commands)
-			clear_tab(b->commands);
-	}
->>>>>>> a856cca8160dd07c29c9bc31aa36d54e6d77992f
 }
 
 void	sh_level(t_builtin *b)
