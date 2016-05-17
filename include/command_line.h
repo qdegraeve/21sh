@@ -22,6 +22,13 @@
 typedef struct		s_builtin	t_builtin;
 typedef struct		s_list		t_list;
 
+typedef struct	s_quote
+{
+	char		quote;
+	char		dquote;
+	char		bquote;
+}				t_quote;
+
 typedef struct		s_env
 {
 	int				curs_pos;
@@ -35,11 +42,8 @@ typedef struct		s_env
 	int				col;
 	int				up;
 	int				fd;
-	char			quote;
-	char			dquote;
-	char			bquote;
-	char			par;
 	t_elem			*elem;
+	t_quote			q;
 	struct termios	term;
 }					t_env;
 
@@ -94,8 +98,8 @@ t_builtin *get_buil(void);
 **		quote_management.c
 */
 int		ft_is_quote(char c);
-int		command_complete(t_env *e);
-void	ft_quote(t_env *e, char c);
+int		command_complete(t_quote *q, char *str);
+void	ft_quote(t_quote *q, char c);
 void	quote_prompt(t_env *e);
 
 /*

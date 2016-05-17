@@ -43,7 +43,7 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	{
 		list_to_string(lst, &e->elem);
 		h = e->elem->content;
-		if (!command_complete(get_env()) || h->command[ft_strlen(h->command) - 1] == 92)
+		if (!command_complete(&e->q, h->command) || h->command[ft_strlen(h->command) - 1] == 92)
 		{
 			h->command = ft_cjoin(h->command, ft_strdup("\n"));
 			h->command_edit = ft_strnew(0);

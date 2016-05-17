@@ -62,7 +62,6 @@ void		modif_command(t_env *e, int input, t_elem *elem)
 	t_history	*h;
 
 	h = elem->content;
-	ft_quote(e, input);
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
 	if (input > 31 && input < 127)

@@ -10,10 +10,9 @@ void	init_env(t_env *e)
 	e->col = 0;
 	e->up = 0;
 	e->fd = 0;
-	e->quote = 0;
-	e->bquote = 0;
-	e->dquote = 0;
-	e->par = 0;
+	e->q.quote = 0;
+	e->q.bquote = 0;
+	e->q.dquote = 0;
 	e->prompt_len = 0;
 	e->width = 0;
 	e->elem = NULL;
