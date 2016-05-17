@@ -6,10 +6,10 @@
 
 typedef struct s_cmds
 {
-	char		*cmd;
+	char		**cmd;
 	int			pipe;
-	char		*input;
-	char		*output;
+	char		**input;
+	char		**output;
 	struct s_cmds *next;
 }				t_cmds;
 
@@ -28,4 +28,5 @@ void	count(int *i, int *total, int counter);
 */
 t_cmds	*lexer(char *str);
 int add_all_io(t_cmds **root, char *str);
+int get_priority(char *str);
 #endif

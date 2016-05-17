@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int get_priority(char *str)
+int get_priority(char *str)
 {
 	int		priority;
 	int		i;
