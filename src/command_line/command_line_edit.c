@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	*string_insert(char *src, char ins, int pos)
+static char	*string_insert(char *src, char ins, int pos)
 {
 	char	*dest;
 	char	letter[2];
@@ -20,7 +20,23 @@ char	*string_insert(char *src, char ins, int pos)
 	return (dest);
 }
 
-void	display_command(t_env *e, int input, char *str)
+static char	*delete_char(t_env *e, int input, char *src)
+{
+	char	*dest;
+	int		len;
+
+	dest = NULL;
+	len = ft_strlen(src) - 1;
+	dest = ft_strnew(len);
+	dest = ft_strncpy(dest, src, input == 127 ? e->curs_pos -1 : e->curs_pos);
+	dest = ft_strcat(dest, input == 127 ? src + e->curs_pos : src + e->curs_pos + 1);
+	dest[len] = '\0';
+	if (src)
+		ft_strdel(&src);
+	return (dest);
+}
+
+static void	display_command(t_env *e, int input, char *str)
 {
 	int		j;
 
@@ -40,7 +56,7 @@ void	display_command(t_env *e, int input, char *str)
 	e->curs_pos = j;
 }
 
-void	write_char(t_env *e, char input, t_elem *elem)
+void	modif_command(t_env *e, int input, t_elem *elem)
 {
 	t_history *h;
 
@@ -48,49 +64,12 @@ void	write_char(t_env *e, char input, t_elem *elem)
 	ft_quote(e, input);
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
-	h->command_edit = string_insert(h->command_edit, input, e->curs_pos);
-	e->curs_max++;
+	if (input > 31 && input < 127)
+		h->command_edit = string_insert(h->command_edit, input, e->curs_pos);
+	else if (input == 127 || input == DEL)
+		h->command_edit = delete_char(e, input, h->command_edit);
+	e->curs_max = ft_strlen(h->command_edit);;
 	display_command(e, input, h->command_edit);
-}
-
-char	*suppr_char(t_env *e, char *src)
-{
-	char	*dest;
-	int		len;
-
-	dest = NULL;
-	if (ft_is_quote(src[e->curs_pos]))
-		ft_quote(e, src[e->curs_pos]);
-	len = ft_strlen(src) - 1;
-	dest = ft_strnew(len);
-	dest = ft_strncpy(dest, src, e->curs_pos);
-	dest = ft_strcat(dest, src + e->curs_pos + 1);
-	dest[len] = '\0';
-	if (src)
-		ft_strdel(&src);
-	e->curs_max--;
-	display_command(e, DEL, dest);
-	return (dest);
-}
-
-char	*delete_char(t_env *e, char *src)
-{
-	char	*dest;
-	int		len;
-
-	dest = NULL;
-	if (ft_is_quote(src[e->curs_pos - 1]))
-		ft_quote(e, src[e->curs_pos - 1]);
-	len = ft_strlen(src) - 1;
-	dest = ft_strnew(len);
-	dest = ft_strncpy(dest, src, e->curs_pos -1);
-	dest = ft_strcat(dest, src + e->curs_pos);
-	dest[len] = '\0';
-	if (src)
-		ft_strdel(&src);
-	e->curs_max--;
-	display_command(e, 127, dest);
-	return (dest);
 }
 
 void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem)

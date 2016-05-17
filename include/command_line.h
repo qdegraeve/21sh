@@ -71,9 +71,7 @@ int		get_prev_lfeed(t_env *e, char *str, int i);
 /*
 **		command_line_edit.c
 */
-void	write_char(t_env *e, char input, t_elem *elem);
-char	*delete_char(t_env *e, char *src);
-char	*suppr_char(t_env *e, char *src);
+void	modif_command(t_env *e, int input, t_elem *elem);
 void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem);
 
 /*
