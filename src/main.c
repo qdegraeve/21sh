@@ -67,7 +67,7 @@ void	loop_fork(t_builtin *b)
 
 				root = lexer(b->commands[0]);
 				debug_lexer(&root);
-				parser(&root);
+//				parser(&root);
 			}
 //			if (b->path)
 //				do_fork(b);

@@ -6,10 +6,10 @@
 
 typedef struct s_cmds
 {
-	char		**cmd;
+	char		*cmd;
 	int			pipe;
-	char		**input;
-	char		**output;
+	char		*input;
+	char		*output;
 	struct s_cmds *next;
 }				t_cmds;
 
