@@ -53,19 +53,15 @@ char	*quotes(char *line)
 	return (line);
 }
 
-char	**get_commands(t_builtin *b)
+char	*get_commands(t_builtin *b)
 {
 	char	*line;
-	char	**commands;
 
 	line = NULL;
-	commands = NULL;
 	init_env(get_env());
 	b->error ? prompt(1) : prompt(0);
-	line = get_input(b);
-	if (line)
-		commands = ft_strsplit(line, ';');
-	return (commands);
+	line = ft_strdup(get_input(b));
+	return (line);
 }
 
 char	**get_argv(t_builtin *b, char *command)
@@ -74,7 +70,6 @@ char	**get_argv(t_builtin *b, char *command)
 
 	argv = NULL;
 	b->error = 0;
-	command = quotes(command);
-	argv = ft_strsplit(command, 130);
+	argv = ft_strsplit(command, ' ');
 	return (argv);
 }

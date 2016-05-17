@@ -16,7 +16,7 @@ typedef struct	s_builtin
 {
 	char		**env;
 	char		**env_cpy;
-	char		**commands;
+	char		*command;
 	char		**argv;
 	char		*path;
 	char		*paste;
@@ -52,7 +52,7 @@ void			init_builtin(t_builtin *b, char *command);
 */
 char			*get_pwd_prompt(char *path);
 void			prompt(int error);
-char			**get_commands(t_builtin *b);
+char			*get_commands(t_builtin *b);
 char			**get_argv(t_builtin *b, char *command);
 char			*quotes(char *line);
 
