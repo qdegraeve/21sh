@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/15 17:39:03 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/10 11:16:18 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/17 14:59:03 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	no_path(t_builtin *b, char *command, char **test)
 		}
 	clear_tab(test);
 	b->error = 1;
-	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putstr_fd("21sh: command not found: ", 2);
 	ft_putendl_fd(command, 2);
 	b->path = NULL;
 }

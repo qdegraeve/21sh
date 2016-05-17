@@ -55,29 +55,22 @@ void	loop_fork(t_builtin *b)
 	while (42)
 	{
 		i = 0;
-		b->commands = get_commands(b);
-//		while (b->commands && b->commands[i])
-//		{
-//			init_builtin(b, b->commands[i]);
-			if (ft_strcmp(b->commands[0], "exit") == 0)
-					exec_exit(b);
-			else
-			{
-				t_cmds *root;
-
-				root = lexer(b->commands[0]);
-				debug_lexer(&root);
-				parser(&root);
-			}
-//			if (b->argv[0])
-//				get_command(b->argv[0], b);
-//			if (b->path)
-//				do_fork(b);
-//			i++;
-//		}
-		if (b->commands)
-			clear_tab(b->commands);
-	}
+		b->command = get_commands(b);
+		init_builtin(b, b->command);
+		t_cmds *root;
+		root = lexer(b->command);
+		ft_printf("caca = %s\n", b->command);
+		debug_lexer(&root);
+		parser(&root);
+		//			if (b->argv[0])
+		//				get_command(b->argv[0], b);
+		//			if (b->path)
+		//				do_fork(b);
+		//			i++;
+		//		}
+		if (b->command)
+			ft_strdel(&b->command);
+}
 }
 
 void	sh_level(t_builtin *b)
