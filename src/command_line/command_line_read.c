@@ -43,13 +43,13 @@ int		edit_line(t_env *e, int input, t_list *lst)
 	{
 		list_to_string(lst, &e->elem);
 		h = e->elem->content;
-		ft_printf("%c -- %d -- %s\n", h->command[e->curs_max], e->curs_max, h->command);
-		if (!command_complete(get_env()) || h->command[e->curs_max] == 92)
+		if (!command_complete(get_env()) || h->command[ft_strlen(h->command) - 1] == 92)
 		{
 			h->command = ft_cjoin(h->command, ft_strdup("\n"));
 			h->command_edit = ft_strnew(0);
 			e->curs_pos = 0;
 			e->curs_max = 0;
+			return (1);
 		}
 		else if (ft_strlen(h->command) > 0)
 			e->elem = lst->tail->next;
@@ -85,6 +85,7 @@ void	list_to_string(t_list *lst, t_elem **elem)
 char	*get_input(t_builtin *b)
 {
 	int		input;
+	int		ret;
 	char	buf[8];
 
 	term_set();
@@ -95,7 +96,7 @@ char	*get_input(t_builtin *b)
 		if (input == 10)
 		{
 			ft_putchar_fd('\n', get_env()->fd);
-			if (command_complete(get_env()))
+			if (ret == 0)
 			{
 				term_reset();
 				return (((t_history*)b->lst.tail->content)->command);
@@ -107,6 +108,6 @@ char	*get_input(t_builtin *b)
 		read(0, buf, 7);
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
-		edit_line(get_env(), input, &b->lst);
+		ret = edit_line(get_env(), input, &b->lst);
 	}
 }
