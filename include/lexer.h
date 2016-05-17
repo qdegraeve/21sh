@@ -3,18 +3,13 @@
 
 #include "shell.h"
 
-typedef struct s_io
-{
-	char	*str;
-	struct s_io *next;
-}				t_io;
 
 typedef struct s_cmds
 {
 	char		*cmd;
 	int			pipe;
-	struct s_io *input;
-	struct s_io *output;
+	char		*input;
+	char		*output;
 	struct s_cmds *next;
 }				t_cmds;
 
