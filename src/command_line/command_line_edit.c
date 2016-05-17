@@ -20,18 +20,21 @@ char	*string_insert(char *src, char ins, int pos)
 	return (dest);
 }
 
-void	display_command(t_env *e, char input, char *str)
+void	display_command(t_env *e, int input, char *str)
 {
-	int		i;
 	int		j;
 
 	j = 0;
-	i = ft_strlen(str);
 	go_to_position(e, str, 0);
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr_fd(str, e->fd);
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
-	j = input == 127 ? e->curs_pos - 1 : e->curs_pos + 1;
+	if (input == 127)
+		j = e->curs_pos - 1;
+	else if (input == DEL)
+		j = e->curs_pos;
+	else
+		j = e->curs_pos + 1;
 	e->curs_pos = e->curs_max;
 	go_to_position(e, str, j);
 	e->curs_pos = j;
@@ -48,6 +51,26 @@ void	write_char(t_env *e, char input, t_elem *elem)
 	h->command_edit = string_insert(h->command_edit, input, e->curs_pos);
 	e->curs_max++;
 	display_command(e, input, h->command_edit);
+}
+
+char	*suppr_char(t_env *e, char *src)
+{
+	char	*dest;
+	int		len;
+
+	dest = NULL;
+	if (ft_is_quote(src[e->curs_pos]))
+		ft_quote(e, src[e->curs_pos]);
+	len = ft_strlen(src) - 1;
+	dest = ft_strnew(len);
+	dest = ft_strncpy(dest, src, e->curs_pos);
+	dest = ft_strcat(dest, src + e->curs_pos + 1);
+	dest[len] = '\0';
+	if (src)
+		ft_strdel(&src);
+	e->curs_max--;
+	display_command(e, DEL, dest);
+	return (dest);
 }
 
 char	*delete_char(t_env *e, char *src)

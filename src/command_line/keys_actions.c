@@ -30,7 +30,6 @@ int		calc_line(t_env *e, char *str, int pos)
 {
 	int		i;
 	int		j;
-	int		k;
 	int		ret;
 
 	i = 0;
@@ -86,6 +85,12 @@ void	keys_actions(t_env *e, int input, t_list *lst, t_elem **elem)
 		if (!h->command_edit)
 			h->command_edit = ft_strdup(h->command);
 		h->command_edit = delete_char(e, h->command_edit);
+	}
+	else if (input == DEL && e->curs_max != 0)
+	{
+		if (!h->command_edit)
+			h->command_edit = ft_strdup(h->command);
+		h->command_edit = suppr_char(e, h->command_edit);
 	}
 	else if (input == 4)
 	{

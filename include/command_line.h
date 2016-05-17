@@ -8,6 +8,7 @@
 # define ESC		27
 # define HOME		4741915
 # define END		4610843
+# define DEL		2117294875
 # define LEFT_OPT	1146821403
 # define RIGHT_OPT	1130044187
 # define COPY_OPT	-22845
@@ -72,6 +73,7 @@ int		get_prev_lfeed(t_env *e, char *str, int i);
 */
 void	write_char(t_env *e, char input, t_elem *elem);
 char	*delete_char(t_env *e, char *src);
+char	*suppr_char(t_env *e, char *src);
 void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem);
 
 /*
