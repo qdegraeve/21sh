@@ -66,9 +66,11 @@ void	list_to_string(t_list *lst, t_elem **elem)
 	if (h->command_edit)
 	{
 		if (*elem == lst->tail)
-			((t_history*)lst->tail->content)->command = ft_cjoin(str, ft_strdup(h->command_edit));
+			((t_history*)lst->tail->content)->command =
+				ft_cjoin(str, ft_strdup(h->command_edit));
 		else
-			((t_history*)lst->tail->content)->command = ft_strjoin(str, h->command_edit);
+			((t_history*)lst->tail->content)->command =
+				ft_strjoin(str, h->command_edit);
 	}
 	else if (*elem != lst->tail)
 		((t_history*)lst->tail->content)->command = ft_strdup(h->command);
@@ -82,16 +84,13 @@ void	list_to_string(t_list *lst, t_elem **elem)
 char	*get_input(t_builtin *b)
 {
 	int		input;
-	int		r;
 	char	buf[8];
 
-	ft_bzero(buf, 4);
 	term_set();
-	get_env()->width = tgetnum("co");
 	input = 0;
 	while (42)
 	{
-		r = 0;
+		ft_bzero(buf, 8);
 		if (input == 10)
 		{
 			ft_putchar_fd('\n', get_env()->fd);
@@ -104,11 +103,9 @@ char	*get_input(t_builtin *b)
 				quote_prompt(get_env());
 		}
 		input = 0;
-		r = read(0, buf, 7);
+		read(0, buf, 7);
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
-	//	ft_printf("input == %d\n", input);
 		edit_line(get_env(), input, &b->lst);
-		ft_bzero(buf, 4);
 	}
 }

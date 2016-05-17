@@ -62,7 +62,7 @@ void	go_to_position(t_env *e, char *str, int position)
 	if ((move = calc_line(e, str, e->curs_pos)))
 	{
 		tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
-		}
+	}
 	if (!position)
 		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
 	if (position && (move = calc_line(e, str, position)))
@@ -79,11 +79,11 @@ void	keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 	h = (*elem)->content;
 	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
 	if ((i > 31 && i < 127) || (i == 127 && e->curs_pos != 0) ||
-			(i == DEL && e->curs_max != 0))
-			modif_command(e, i, *elem);
+			(i == DEL && e->curs_pos < e->curs_max))
+		modif_command(e, i, *elem);
 	else if (i == 4)
 	{
-		if (h->command_edit && ft_strlen(h->command_edit) == 0 && *elem != lst->tail)
+		if (ft_strlen(h->command_edit) == 0 && *elem != lst->tail)
 			exec_exit(get_buil());
 		else if (!(ft_strlen(h->command_edit)) && *elem == lst->tail)
 			exec_exit(get_buil());
@@ -98,7 +98,7 @@ void	keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 		command_memory(e, i, lst, elem);
 	else if (i == END || i == HOME)
 		move_cursor_line(e, i, str);
-	else if ((i == LEFT_OPT  && e->curs_pos > 0) ||
+	else if ((i == LEFT_OPT && e->curs_pos > 0) ||
 			(i == RIGHT_OPT && e->curs_pos < e->curs_max))
 		move_cursor_word(e, i, str);
 	else if (i == CUT_OPT | i == PASTE_OPT | i == COPY_OPT)

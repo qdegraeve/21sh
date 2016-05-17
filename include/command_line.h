@@ -58,7 +58,6 @@ t_env	*get_env();
 void	term_set(void);
 void	term_reset(void);
 int		ft_putchar2(int c);
-void	initial_position();
 
 /*
 **		command_line_read.c

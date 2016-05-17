@@ -22,9 +22,12 @@ void	init_env(t_env *e)
 void	term_set(void)
 {
 	char			*name;
-	char			*bp = NULL;
+	char			*bp;
 	struct termios	term;
+	struct winsize	win;
 
+	bp = NULL;
+	name = NULL;
 	if (!(name = getenv("TERM")))
 	{
 		ft_putendl_fd("ft_select cannot work within an empty environment", 2);
@@ -38,6 +41,8 @@ void	term_set(void)
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSADRAIN, &term);
+	ioctl(0, TIOCGWINSZ, &win);
+	get_env()->width = win.ws_col;
 }
 
 void	term_reset(void)
@@ -50,23 +55,17 @@ void	term_reset(void)
 	tcsetattr(0, TCSANOW, &term);
 }
 
-t_env	*get_env()
+t_env	*get_env(void)
 {
 	static t_env	*e = NULL;
 
 	if (!e)
 		e = (t_env*)malloc(sizeof(t_env) + 1);
-	return(e);
+	return (e);
 }
 
 int		ft_putchar2(int c)
 {
 	ft_putchar_fd(c, get_env()->fd);
 	return (0);
-}
-
-void	initial_position()
-{
-	tputs(tgetstr("rc", NULL), 0, ft_putchar2);
-	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 }

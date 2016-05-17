@@ -2,9 +2,9 @@
 
 static char	*string_insert(char *src, char ins, int pos)
 {
-	char	*dest;
-	char	letter[2];
-	int		len;
+	char		*dest;
+	char		letter[2];
+	int			len;
 
 	letter[0] = ins;
 	letter[1] = '\0';
@@ -22,14 +22,15 @@ static char	*string_insert(char *src, char ins, int pos)
 
 static char	*delete_char(t_env *e, int input, char *src)
 {
-	char	*dest;
-	int		len;
+	char		*dest;
+	int			len;
 
 	dest = NULL;
 	len = ft_strlen(src) - 1;
 	dest = ft_strnew(len);
-	dest = ft_strncpy(dest, src, input == 127 ? e->curs_pos -1 : e->curs_pos);
-	dest = ft_strcat(dest, input == 127 ? src + e->curs_pos : src + e->curs_pos + 1);
+	dest = ft_strncpy(dest, src, input == 127 ? e->curs_pos - 1 : e->curs_pos);
+	dest = ft_strcat(dest, input == 127 ? src + e->curs_pos :
+			src + e->curs_pos + 1);
 	dest[len] = '\0';
 	if (src)
 		ft_strdel(&src);
@@ -38,7 +39,7 @@ static char	*delete_char(t_env *e, int input, char *src)
 
 static void	display_command(t_env *e, int input, char *str)
 {
-	int		j;
+	int			j;
 
 	j = 0;
 	go_to_position(e, str, 0);
@@ -56,9 +57,9 @@ static void	display_command(t_env *e, int input, char *str)
 	e->curs_pos = j;
 }
 
-void	modif_command(t_env *e, int input, t_elem *elem)
+void		modif_command(t_env *e, int input, t_elem *elem)
 {
-	t_history *h;
+	t_history	*h;
 
 	h = elem->content;
 	ft_quote(e, input);
@@ -68,11 +69,11 @@ void	modif_command(t_env *e, int input, t_elem *elem)
 		h->command_edit = string_insert(h->command_edit, input, e->curs_pos);
 	else if (input == 127 || input == DEL)
 		h->command_edit = delete_char(e, input, h->command_edit);
-	e->curs_max = ft_strlen(h->command_edit);;
+	e->curs_max = ft_strlen(h->command_edit);
 	display_command(e, input, h->command_edit);
 }
 
-void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem)
+void		command_memory(t_env *e, int input, t_list *lst, t_elem **elem)
 {
 	t_history	*h;
 	char		*str;
@@ -97,4 +98,3 @@ void	command_memory(t_env *e, int input, t_list *lst, t_elem **elem)
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos = e->curs_max;
 }
-

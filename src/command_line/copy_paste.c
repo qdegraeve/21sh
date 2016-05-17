@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static void cut(t_env *e, char **str, t_builtin *b)
+static void	cut(t_env *e, char **str, t_builtin *b)
 {
 	char	*dest;
 
@@ -21,7 +21,7 @@ static void cut(t_env *e, char **str, t_builtin *b)
 	}
 }
 
-static void copy(t_env *e, char *str, t_builtin *b)
+static void	copy(t_env *e, char *str, t_builtin *b)
 {
 	if (b->paste)
 		ft_strdel(&b->paste);
@@ -29,7 +29,7 @@ static void copy(t_env *e, char *str, t_builtin *b)
 		b->paste = ft_strdup(str + e->curs_pos);
 }
 
-static void paste(t_env *e, char **str, t_builtin *b)
+static void	paste(t_env *e, char **str, t_builtin *b)
 {
 	char	*dest;
 	int		i;
@@ -53,7 +53,7 @@ static void paste(t_env *e, char **str, t_builtin *b)
 	go_to_position(e, *str, e->curs_pos);
 }
 
-void copy_paste_mod(t_env *e, int input, t_elem **elem)
+void		copy_paste_mod(t_env *e, int input, t_elem **elem)
 {
 	t_history	*h;
 

@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void move_cursor_line(t_env *e, int input, char *str)
+void		move_cursor_line(t_env *e, int input, char *str)
 {
 	int		diff;
 	int		move;
@@ -23,7 +23,7 @@ void move_cursor_line(t_env *e, int input, char *str)
 	}
 }
 
-static void move_cursor_word_right(t_env *e, char *str)
+static void	move_cursor_word_right(t_env *e, char *str)
 {
 	int		j;
 	int		blank;
@@ -32,17 +32,18 @@ static void move_cursor_word_right(t_env *e, char *str)
 	blank = ft_iswhitespace(str[e->curs_pos]);
 	while (e->curs_pos <= e->curs_max)
 	{
-		if (ft_iswhitespace(str[e->curs_pos]) != blank || e->curs_pos == e->curs_max)
+		if (ft_iswhitespace(str[e->curs_pos]) != blank ||
+				e->curs_pos == e->curs_max)
 		{
 			go_to_position(e, str, e->curs_pos);
-			break;
+			break ;
 		}
 		e->curs_pos++;
 		j++;
 	}
 }
 
-static void move_cursor_word_left(t_env *e, char *str)
+static void	move_cursor_word_left(t_env *e, char *str)
 {
 	int		j;
 	int		blank;
@@ -55,14 +56,14 @@ static void move_cursor_word_left(t_env *e, char *str)
 		{
 			e->curs_pos++;
 			go_to_position(e, str, e->curs_pos);
-			break;
+			break ;
 		}
 		e->curs_pos--;
 		j++;
 	}
 }
 
-void move_cursor_word(t_env *e, int input, char *str)
+void		move_cursor_word(t_env *e, int input, char *str)
 {
 	if (input == LEFT_OPT)
 		move_cursor_word_left(e, str);
