@@ -59,9 +59,8 @@ void	loop_fork(t_builtin *b)
 		init_builtin(b, b->command);
 		t_cmds *root;
 		root = lexer(b->command);
-		ft_printf("caca = %s\n", b->command);
 		debug_lexer(&root);
-		parser(&root);
+//		parser(&root);
 		//			if (b->argv[0])
 		//				get_command(b->argv[0], b);
 		//			if (b->path)
@@ -70,7 +69,11 @@ void	loop_fork(t_builtin *b)
 		//		}
 		if (b->command)
 			ft_strdel(&b->command);
+<<<<<<< HEAD
 }
+=======
+	}
+>>>>>>> 5259ce7c7b63370ffb0a51a63772816594ea0dd3
 }
 
 void	sh_level(t_builtin *b)
