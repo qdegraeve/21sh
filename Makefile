@@ -42,6 +42,8 @@ SRC =  env.c \
 	copy_paste.c \
 	lexer.c \
 	tools_lexer.c \
+	parser.c \
+	custom_strsplit.c \
 
 OBJ = $(SRC:.c=.o)
 

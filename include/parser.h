@@ -7,6 +7,7 @@
 ** PARSER
 */
 void	parser(t_cmds **root);
+char **custom_ft_strsplit(char const *s, char c);
 
 /*
 ** EXEC

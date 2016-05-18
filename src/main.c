@@ -60,7 +60,7 @@ void	loop_fork(t_builtin *b)
 		t_cmds *root;
 		root = lexer(b->command);
 		debug_lexer(&root);
-//		parser(&root);
+		parser(&root);
 		//			if (b->argv[0])
 		//				get_command(b->argv[0], b);
 		//			if (b->path)
