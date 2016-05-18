@@ -3,11 +3,18 @@
 
 #include "shell.h"
 #include "lexer.h"
+
+typedef struct s_cli
+{
+	char **cmd;
+	char **input;
+	char **output;
+}				t_cli;
 /*
 ** PARSER
 */
 void	parser(t_cmds **root);
-char **str_to_argv(char const *s);
+char	**str_to_argv(char const *s);
 
 /*
 ** EXEC
