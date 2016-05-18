@@ -44,7 +44,7 @@ int			add_all_io(t_cmds **root, char *str)
 
 	i = 0;
 	total = 0;
-	while (str[i] && str)
+	while (str && str[i])
 	{
 		priority2 = get_priority(str);
 		go_to_next_io(str, &i, &total, &priority);
@@ -82,7 +82,7 @@ t_cmds		*lexer(char *str)
 	priority = 0;
 	i = 0;
 	root = NULL;
-	while (str[i] && str)
+	while (str && str[i])
 	{
 		go_to_next_cmd(str, &i, &priority);
 		tmp = ft_strncpy(ft_strnew(i), str, i);
