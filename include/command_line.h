@@ -42,6 +42,7 @@ typedef struct		s_env
 	int				col;
 	int				up;
 	int				fd;
+	char			*src;
 	t_elem			*elem;
 	t_quote			q;
 	struct termios	term;
@@ -57,7 +58,7 @@ typedef struct	history
 /*
 **		term_control.c
 */
-void	init_env(t_env *e);
+void	init_env(t_env *e, char *src);
 t_env	*get_env();
 void	term_set(void);
 void	term_reset(void);
@@ -67,7 +68,7 @@ int		ft_putchar2(int c);
 **		command_line_read.c
 */
 int		keys_action(t_env *e, int input, t_list *lst);
-char	*get_input(t_builtin *b);
+char	*get_input(t_builtin *b, int input);
 void	list_to_string(t_list *lst, t_elem **elem);
 int		get_prev_lfeed(t_env *e, char *str, int i);
 

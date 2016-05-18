@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void	init_env(t_env *e)
+void	init_env(t_env *e, char * src)
 {
 	e->curs_pos = 0;
 	e->curs_max = 0;
@@ -15,7 +15,7 @@ void	init_env(t_env *e)
 	e->q.dquote = 0;
 	e->prompt_len = 0;
 	e->width = 0;
-	e->elem = NULL;
+	e->src = src;
 }
 
 void	term_set(void)
@@ -59,7 +59,10 @@ t_env	*get_env(void)
 	static t_env	*e = NULL;
 
 	if (!e)
-		e = (t_env*)malloc(sizeof(t_env) + 1);
+	{
+		e = (t_env*)malloc(sizeof(t_env));
+		e->elem = NULL;
+	}
 	return (e);
 }
 

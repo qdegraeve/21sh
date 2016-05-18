@@ -13,4 +13,10 @@ char **str_to_argv(char const *s);
 ** EXEC
 */
 void	exec_simple(t_cmds *cmd);
+
+/*
+** Heredoc.c
+*/
+char	*heredoc(char *src, t_builtin *b);
+
 #endif

@@ -44,6 +44,7 @@ SRC =  env.c \
 	tools_lexer.c \
 	parser.c \
 	custom_strsplit.c \
+	heredoc.c \
 
 OBJ = $(SRC:.c=.o)
 

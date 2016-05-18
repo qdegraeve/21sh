@@ -58,9 +58,9 @@ char	*get_commands(t_builtin *b)
 	char	*line;
 
 	line = NULL;
-	init_env(get_env());
+	init_env(get_env(), NULL);
 	b->error ? prompt(1) : prompt(0);
-	line = ft_strdup(get_input(b));
+	line = ft_strdup(get_input(b, 0));
 	return (line);
 }
 

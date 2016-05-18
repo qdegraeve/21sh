@@ -51,10 +51,14 @@ void	exec_exit(t_builtin *b)
 	while (elem)
 	{
 		if (((t_history*)elem->content)->to_save)
+		{
 			ft_putendl_fd(((t_history*)elem->content)->command, b->fd_history);
+		}
 		elem = elem->next;
 	}
+	DEBUG
 	ft_lstdel(&b->lst, del_lst_char);
+	DEBUG
 	close(b->fd_history);
 	term_reset();
 	exit(EXIT_SUCCESS);
