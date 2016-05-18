@@ -8,7 +8,7 @@ int		calc_row(t_env *e, char *str, int pos)
 
 	i = 0;
 	ret = 0;
-	while (i < pos && str[i] && str[i] != '\n')
+	while (i < pos && i < e->curs_max && str[i] != '\n')
 		i++;
 	ret += (i + e->prompt_len) % e->width;
 	while (i < pos && str[i])
@@ -35,10 +35,12 @@ int		calc_line(t_env *e, char *str, int pos)
 	i = 0;
 	j = 0;
 	ret = 0;
-	while (i < pos && str[i] && str[i] != '\n')
+	while (i < pos && i < e->curs_pos && str[i] != '\n')
 		i++;
 	ret += (i + e->prompt_len) / e->width;
-	while (i < pos && str[i])
+	if (str && i == e->curs_pos && str[i] == '\n')
+		ret++;
+	while (i < pos && i < e->curs_max)
 	{
 		j = 0;
 		if (str[i] == '\n')

@@ -29,4 +29,6 @@ void	count(int *i, int *total, int counter);
 t_cmds	*lexer(char *str);
 int add_all_io(t_cmds **root, char *str);
 int get_priority(char *str);
+t_quote		*get_quote(void);
+
 #endif
