@@ -17,7 +17,27 @@ int		command_complete(t_quote *q, char * str)
 	q->dquote = 0;
 	while (str && str[i])
 	{
-		ft_quote(q, str[i]);
+		if (i == 0 || str[i - 1] != 92)
+			ft_quote(q, str[i]);
+		i++;
+	}
+	if (q->quote || q->bquote || q->dquote)
+		return (0);
+	return (1);
+}
+
+int		command_ncomplete(t_quote *q, char * str, int len)
+{
+	int		i;
+
+	i = 0;
+	q->quote = 0;
+	q->bquote = 0;
+	q->dquote = 0;
+	while (str && i < len && str[i])
+	{
+		if (i == 0 || str[i - 1] != 92)
+			ft_quote(q, str[i]);
 		i++;
 	}
 	if (q->quote || q->bquote || q->dquote)

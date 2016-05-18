@@ -99,6 +99,7 @@ t_builtin *get_buil(void);
 */
 int		ft_is_quote(char c);
 int		command_complete(t_quote *q, char *str);
+int		command_ncomplete(t_quote *q, char * str, int len);
 void	ft_quote(t_quote *q, char c);
 void	quote_prompt(t_env *e);
 

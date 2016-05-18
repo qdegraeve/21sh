@@ -19,10 +19,7 @@ void	resize(int sig)
 	
 	h = get_env()->elem ? get_env()->elem->content : NULL;
 	if (h == NULL)
-	{
-		signal(SIGWINCH, resize);
 		return ;
-	}
 	str = h->command_edit ? h->command_edit : h->command;
 	if (sig == SIGWINCH)
 	{
@@ -33,7 +30,6 @@ void	resize(int sig)
 		ft_putstr(str);
 		tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 		go_to_position(get_env(), str, get_env()->curs_pos);
-		signal(SIGWINCH, resize);
 	}
 }
 

@@ -12,7 +12,7 @@ int			get_priority(char *str)
 	return (priority);
 }
 
-static t_quote	*get_quote(void)
+t_quote		*get_quote(void)
 {
 	static t_quote q;
 	q.quote = 0;
