@@ -6,7 +6,7 @@ static int		ft_lenword(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] != ' ' && !command_ncomplete(get_quote(), (char*)s, i))
+	while (s[i] && (s[i] != ' ' || !command_ncomplete(get_quote(), (char*)s, i)))
 		i++;
 	return (i);
 }
@@ -44,7 +44,7 @@ static char		**ft_taballoc(int nbword)
 	return (new);
 }
 
-static void		ft_split(char **new, const char *s, char c)
+static void		ft_split(char **new, const char *s)
 {
 	int		i;
 	char	*word;
@@ -61,13 +61,13 @@ static void		ft_split(char **new, const char *s, char c)
 			i++;
 		}
 		s += lenword;
-		while (*s == c)
+		while (*s == ' ')
 			s++;
 	}
 	new[i] = NULL;
 }
 
-char			**custom_ft_strsplit(char const *s, char c)
+char			**str_to_argv(char const *s)
 {
 	char	**new;
 	int		nbword;
@@ -77,6 +77,6 @@ char			**custom_ft_strsplit(char const *s, char c)
 	nbword = ft_countword(s);
 	if (!(new = ft_taballoc(nbword)))
 		return (NULL);
-	ft_split(new, s, c);
+	ft_split(new, s);
 	return (new);
 }

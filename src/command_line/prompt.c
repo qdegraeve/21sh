@@ -70,6 +70,6 @@ char	**get_argv(t_builtin *b, char *command)
 
 	argv = NULL;
 	b->error = 0;
-	argv = ft_strsplit(command, ' ');
+	argv = str_to_argv(command);
 	return (argv);
 }
