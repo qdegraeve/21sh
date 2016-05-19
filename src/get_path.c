@@ -77,7 +77,7 @@ void	get_command(char *command, t_builtin *b)
 		}
 		i++;
 	}
-	get_path(b->argv[0], b);
+	get_path(command, b);
 }
 
 void	no_path(t_builtin *b, char *command, char **test)

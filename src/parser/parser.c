@@ -66,29 +66,34 @@ static void clean_quote(char **line)
 }
 
 
-void	parser(t_cmds **root)
+void	parser(t_cmds **root, t_builtin *b)
 {
 	t_cmds *tmp;
 	t_cli	my_cli;
-
 	tmp = *root;
 	while (tmp != NULL)
 	{
-		my_cli.cmd = str_to_argv(tmp->cmd);
-		clean_quote(my_cli.cmd);
-		ft_print_tab(my_cli.cmd);
+		b->argv = NULL;
+		my_cli.input = NULL;
+		my_cli.output = NULL;
+		b->argv = str_to_argv(tmp->cmd);
+		clean_quote(b->argv);
+	//	ft_print_tab(my_cli.cmd);
 		if (tmp->input)
 		{
 			my_cli.input= str_to_argv(tmp->input);
 			clean_quote(my_cli.input);
-			ft_print_tab(my_cli.input);
+	//		ft_print_tab(my_cli.input);
 		}
 		if (tmp->output)
 		{
 			my_cli.output = str_to_argv(tmp->output);
 			clean_quote(my_cli.output);
-		ft_print_tab(my_cli.output);
+		//	ft_print_tab(my_cli.output);
 		}
+		get_command(b->argv[0], b);
+		if (b->path && tmp->pipe == 0)
+			exec_simple(my_cli, b);
 		tmp = tmp->next;
 	}
 }

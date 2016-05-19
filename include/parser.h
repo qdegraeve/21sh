@@ -13,13 +13,13 @@ typedef struct	s_cli
 /*
 ** PARSER
 */
-void			parser(t_cmds **root);
+void			parser(t_cmds **root, t_builtin *b);
 char			**str_to_argv(char const *s);
 
 /*
 ** EXEC
 */
-void			exec_simple(t_cmds *cmd);
+void	exec_simple(t_cli cli, t_builtin *b);
 
 /*
 ** Heredoc.c

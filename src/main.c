@@ -20,7 +20,7 @@ void	init_builtin(t_builtin *b, char *command)
 	b->path_e = -1;
 	b->home = -1;
 	b->error = 0;
-	b->argv = get_argv(b, command);
+//	b->argv = get_argv(b, command);
 }
 
 void	get_history(t_builtin *b)
@@ -35,16 +35,14 @@ void	get_history(t_builtin *b)
 		ft_bzero(&h, sizeof(t_history));
 	}
 	close(b->fd_history);
-	b->fd_history = -1;
+	->fd_history = -1;
 }
 
 void	loop_fork(t_builtin *b)
 {
-	int		i;
 	char	*file;
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 
-	i = 0;
 	b->env_cpy = NULL;
 	b->error = 0;
 	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
@@ -54,22 +52,13 @@ void	loop_fork(t_builtin *b)
 	get_history(b);
 	while (42)
 	{
-		i = 0;
 		b->command = get_commands(b);
 		init_builtin(b, b->command);
 		t_cmds *root = NULL;
 		root = lexer(b->command);
 		if (root)
-		{
-			debug_lexer(&root);
-			parser(&root);
-		}
-		//			if (b->argv[0])
-		//				get_command(b->argv[0], b);
-		//			if (b->path)
-		//				do_fork(b);
-		//			i++;
-		//		}
+			parser(&root, b);
+		//debug_lexer(&root);
 		if (b->command)
 			ft_strdel(&b->command);
 	}

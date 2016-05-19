@@ -45,6 +45,7 @@ SRC =  env.c \
 	parser.c \
 	custom_strsplit.c \
 	heredoc.c \
+	exec_simple.c \
 
 OBJ = $(SRC:.c=.o)
 
