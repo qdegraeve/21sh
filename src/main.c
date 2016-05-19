@@ -41,6 +41,7 @@ void	get_history(t_builtin *b)
 void	loop_fork(t_builtin *b)
 {
 	char	*file;
+	t_cmds	*root;
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 
 	b->env_cpy = NULL;
@@ -54,11 +55,11 @@ void	loop_fork(t_builtin *b)
 	{
 		b->command = get_commands(b);
 		init_builtin(b, b->command);
-		t_cmds *root = NULL;
+		root = NULL;
 		root = lexer(b->command);
+		debug_lexer(&root);
 		if (root)
 			parser(&root, b);
-		//debug_lexer(&root);
 		if (b->command)
 			ft_strdel(&b->command);
 	}

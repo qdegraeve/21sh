@@ -13,13 +13,18 @@ void	exec_simple(t_cli cli, t_builtin *b)
 	{
 		if (cli.input != NULL)
 		{
-			fd_input = open(cli.input[1], O_RDONLY);
-			if (fd_input < 0)
+			if (get_priority(cli.input[0]) == -2)
+				ft_putstr_fd(heredoc(cli.input[1], b), STDIN_FILENO);
+			else if (get_priority(cli.input[0]) == -1)
 			{
-				ft_printf("%s : No such file or directory", cli.input[1]);
-				return ;
+				fd_input = open(cli.input[1], O_RDONLY);
+				if (fd_input < 0)
+				{
+					ft_printf("%s : No such file or directory\n", cli.input[1]);
+					return ;
+				}
+				dup2(fd_input, STDIN_FILENO);
 			}
-			dup2(fd_input, STDIN_FILENO);
 		}
 		else if (cli.output != NULL)
 		{
