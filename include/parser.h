@@ -25,5 +25,10 @@ void	exec_simple(t_cli cli, t_builtin *b);
 */
 char			*heredoc(char *src, t_builtin *b);
 
+/*
+** Heredoc.c
+*/
+void			replace_dollar(char **str, t_builtin *b);
+
 #endif
 

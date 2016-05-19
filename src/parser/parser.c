@@ -76,6 +76,7 @@ void	parser(t_cmds **root, t_builtin *b)
 		b->argv = NULL;
 		my_cli.input = NULL;
 		my_cli.output = NULL;
+		replace_dollar(&tmp->cmd, b);
 		init_builtin(b, tmp->cmd);
 		clean_quote(b->argv);
 	//	ft_print_tab(my_cli.cmd);

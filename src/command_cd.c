@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 15:26:58 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/04/27 15:36:28 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/19 20:21:38 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,7 @@ void	cd_path(t_builtin *b)
 
 	pwd = NULL;
 	path = NULL;
-	if (b->argv[0][0] == '~')
-	{
-		if ((pwd = ft_getenv("HOME", b->env)) != NULL)
-			path = ft_strjoin(pwd, b->argv[0] + 1);
-		else
-			cd_no_home(b);
-	}
-	else if (b->argv[0][0] == '/')
+	if (b->argv[0][0] == '/')
 		path = ft_strdup(b->argv[0]);
 	else if (b->argv[0][0] == '-')
 		path = cd_oldpwd(b);

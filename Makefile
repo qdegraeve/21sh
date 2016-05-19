@@ -46,6 +46,7 @@ SRC =  env.c \
 	custom_strsplit.c \
 	heredoc.c \
 	exec_simple.c \
+	dollar_option.c \
 
 OBJ = $(SRC:.c=.o)
 
