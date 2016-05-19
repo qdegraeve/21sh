@@ -76,7 +76,7 @@ void	parser(t_cmds **root, t_builtin *b)
 		b->argv = NULL;
 		my_cli.input = NULL;
 		my_cli.output = NULL;
-		b->argv = str_to_argv(tmp->cmd);
+		init_builtin(b, tmp->cmd);
 		clean_quote(b->argv);
 	//	ft_print_tab(my_cli.cmd);
 		if (tmp->input)

@@ -6,7 +6,6 @@
 
 typedef struct	s_cli
 {
-	char		**cmd;
 	char		**input;
 	char		**output;
 }				t_cli;
@@ -28,7 +27,3 @@ char			*heredoc(char *src, t_builtin *b);
 
 #endif
 
-ls caca pipi << FIN >> LOL.TXT
-char ** = {ls, caca, pipi, NULL}
-char ** = {<<, fin}
-char ** = {>>, LOL.TXT}

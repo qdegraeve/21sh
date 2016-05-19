@@ -20,7 +20,7 @@ void	init_builtin(t_builtin *b, char *command)
 	b->path_e = -1;
 	b->home = -1;
 	b->error = 0;
-//	b->argv = get_argv(b, command);
+	b->argv = str_to_argv(command);
 }
 
 void	get_history(t_builtin *b)
@@ -35,7 +35,7 @@ void	get_history(t_builtin *b)
 		ft_bzero(&h, sizeof(t_history));
 	}
 	close(b->fd_history);
-	->fd_history = -1;
+	b->fd_history = -1;
 }
 
 void	loop_fork(t_builtin *b)
