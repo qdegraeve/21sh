@@ -27,3 +27,8 @@ void	exec_simple(t_cli cli, t_builtin *b);
 char			*heredoc(char *src, t_builtin *b);
 
 #endif
+
+ls caca pipi << FIN >> LOL.TXT
+char ** = {ls, caca, pipi, NULL}
+char ** = {<<, fin}
+char ** = {>>, LOL.TXT}
