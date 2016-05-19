@@ -65,6 +65,13 @@ int			add_all_io(t_cmds **root, char *str)
 
 static void	go_to_next_cmd(char *str, int *i, int *priority)
 {
+	if (*i == 0)
+	{
+		while (str[*i] && ft_isdigit(str[*i]) == 1)
+			*i += 1;
+		while (str[*i] && get_io(&str[*i]) != 3)
+			*i += 1;
+	}
 	while ((str[*i] && (*priority = get_io(&str[*i])) == 3)
 || command_complete(get_quote(), &str[*i]) == 0 || str[*i -1] == '\\')
 		*i += 1;

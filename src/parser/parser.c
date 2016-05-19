@@ -73,24 +73,23 @@ void	parser(t_cmds **root, t_builtin *b)
 	tmp = *root;
 	while (tmp != NULL)
 	{
-		b->argv = NULL;
 		my_cli.input = NULL;
 		my_cli.output = NULL;
 		replace_dollar(&tmp->cmd, b);
 		init_builtin(b, tmp->cmd);
 		clean_quote(b->argv);
-	//	ft_print_tab(my_cli.cmd);
+		//	ft_print_tab(my_cli.cmd);
 		if (tmp->input)
 		{
 			my_cli.input= str_to_argv(tmp->input);
 			clean_quote(my_cli.input);
-	//		ft_print_tab(my_cli.input);
+		//		ft_print_tab(my_cli.input);
 		}
 		if (tmp->output)
 		{
 			my_cli.output = str_to_argv(tmp->output);
 			clean_quote(my_cli.output);
-		//	ft_print_tab(my_cli.output);
+			//	ft_print_tab(my_cli.output);
 		}
 		get_command(b->argv[0], b);
 		if (b->path && tmp->pipe == 0)
