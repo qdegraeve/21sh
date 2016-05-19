@@ -69,25 +69,25 @@ static void clean_quote(char **line)
 void	parser(t_cmds **root)
 {
 	t_cmds *tmp;
-		t_cli	my_cli;
+	t_cli	my_cli;
 
 	tmp = *root;
 	while (tmp != NULL)
 	{
 		my_cli.cmd = str_to_argv(tmp->cmd);
 		clean_quote(my_cli.cmd);
-//		ft_print_tab(my_cli.cmd);
+		ft_print_tab(my_cli.cmd);
 		if (tmp->input)
 		{
 			my_cli.input= str_to_argv(tmp->input);
 			clean_quote(my_cli.input);
-//			ft_print_tab(my_cli.input);
+			ft_print_tab(my_cli.input);
 		}
 		if (tmp->output)
 		{
 			my_cli.output = str_to_argv(tmp->output);
 			clean_quote(my_cli.output);
-//		ft_print_tab(my_cli.output);
+		ft_print_tab(my_cli.output);
 		}
 		tmp = tmp->next;
 	}

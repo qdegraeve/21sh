@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 09:59:59 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/18 19:01:21 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/19 11:26:09 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ void	ft_lstdelone(t_list *lst, t_elem *alst, void (*del)(void *, size_t))
 			alst->prev->next = alst->next;
 		if ((alst)->next != NULL)
 			alst->next->prev = alst->prev;
+		lst->length--;
 	}
 	else if (lst->length == 1)
 	{
 		lst->head = NULL;
 		lst->tail = NULL;
+		lst->length--;
 		lst = NULL;
 	}
 	del((alst)->content, (alst)->content_size);
 	free(alst);
-	lst->length--;
-	lst->length--;
 	alst = NULL;
 }
