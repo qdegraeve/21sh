@@ -42,8 +42,9 @@ void	loop_fork(t_builtin *b)
 {
 	char	*file;
 	t_cmds	*root;
-	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+	mode_t	mode;
 
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 	b->env_cpy = NULL;
 	b->error = 0;
 	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
@@ -86,11 +87,8 @@ int		main(int ac, char **av, char **env)
 	t_builtin *b;
 
 	b = get_buil();
-	b->env = NULL;
-	b->paste = NULL;
 	if (ac != 1 || av[1])
 		return (0);
-	ft_bzero(b, sizeof(t_builtin));
 	if (env[0])
 		b->env = ft_tab_strcpy(env);
 	sh_level(b);

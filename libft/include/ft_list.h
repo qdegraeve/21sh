@@ -6,14 +6,14 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/02 14:15:14 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/18 18:42:43 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/20 11:01:26 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LIST_H
 # define FT_LIST_H
 
-# include	"libft.h"
+# include "libft.h"
 
 typedef struct		s_elem
 {

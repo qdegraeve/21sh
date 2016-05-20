@@ -1,14 +1,15 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "shell.h"
-#include "lexer.h"
+# include "shell.h"
+# include "lexer.h"
 
 typedef struct	s_cli
 {
 	char		**input;
 	char		**output;
 }				t_cli;
+
 /*
 ** PARSER
 */
@@ -18,7 +19,7 @@ char			**str_to_argv(char const *s);
 /*
 ** EXEC
 */
-void	exec_simple(t_cli cli, t_builtin *b);
+void			exec_simple(t_cli cli, t_builtin *b);
 
 /*
 ** Heredoc.c
@@ -26,9 +27,8 @@ void	exec_simple(t_cli cli, t_builtin *b);
 char			*heredoc(char *src, t_builtin *b);
 
 /*
-** Heredoc.c
+** Dollar_option.c
 */
 void			replace_dollar(char **str, t_builtin *b);
 
 #endif
-

@@ -1,12 +1,12 @@
 #include "parser.h"
 
-
 static int		ft_lenword(const char *s)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && (s[i] != ' ' || !command_ncomplete(get_quote(), (char*)s, i)))
+	while (s[i] && ((s[i] != ' ' && *s != '\t') ||
+				!command_ncomplete(get_quote(), (char*)s, i)))
 		i++;
 	return (i);
 }
@@ -22,9 +22,10 @@ static int		ft_countword(const char *s)
 	nb = 0;
 	while (s[i])
 	{
-		if (s[i] == ' ' && check && command_ncomplete(get_quote(), (char*)s, i))
+		if ((s[i] == ' ' || *s == '\t') && check &&
+				command_ncomplete(get_quote(), (char*)s, i))
 			check = 0;
-		else if (s[i] != ' ' && !check)
+		else if (s[i] != ' ' && *s != '\t' && !check)
 		{
 			nb++;
 			check++;
@@ -61,7 +62,7 @@ static void		ft_split(char **new, const char *s)
 			i++;
 		}
 		s += lenword;
-		while (*s == ' ')
+		while (*s == ' ' || *s == '\t')
 			s++;
 	}
 	new[i] = NULL;

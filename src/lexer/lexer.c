@@ -15,10 +15,10 @@ int			get_priority(char *str)
 t_quote		*get_quote(void)
 {
 	static t_quote q;
+
 	q.quote = 0;
 	q.bquote = 0;
 	q.bquote = 0;
-
 	return (&q);
 }
 
@@ -61,8 +61,6 @@ int			add_all_io(t_cmds **root, char *str)
 	return (0);
 }
 
-
-
 static void	go_to_next_cmd(char *str, int *i, int *priority)
 {
 	if (*i == 0)
@@ -72,8 +70,8 @@ static void	go_to_next_cmd(char *str, int *i, int *priority)
 		while (str[*i] && get_io(&str[*i]) != 3)
 			*i += 1;
 	}
-	while ((str[*i] && (*priority = get_io(&str[*i])) == 3)
-|| command_complete(get_quote(), &str[*i]) == 0 || str[*i -1] == '\\')
+	while ((str[*i] && (*priority = get_io(&str[*i])) == 3) ||
+			command_complete(get_quote(), &str[*i]) == 0 || str[*i - 1] == '\\')
 		*i += 1;
 	while (*priority < 0 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
 		*i -= 1;

@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void	init_env(t_env *e, char * src)
+void	init_env(t_env *e, char *src)
 {
 	e->curs_pos = 0;
 	e->curs_max = 0;

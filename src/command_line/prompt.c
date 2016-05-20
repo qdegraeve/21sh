@@ -27,32 +27,6 @@ void	prompt(int error)
 		ft_strdel(&path);
 }
 
-char	*quotes(char *line)
-{
-	int		i;
-	int		quote;
-
-	i = 0;
-	quote = 0;
-	while (line && line[i])
-	{
-		if (!quote && (line[i] == ' ' || line[i] == '\t'))
-			line[i] = 130;
-		if (!quote && line[i] == '"')
-		{
-			line[i] = 130;
-			quote++;
-		}
-		if (quote && line[i] == '"')
-		{
-			line[i] = 130;
-			quote--;
-		}
-		i++;
-	}
-	return (line);
-}
-
 char	*get_commands(t_builtin *b)
 {
 	char	*line;

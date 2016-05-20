@@ -30,11 +30,12 @@ int		get_prev_lfeed(t_env *e, char *str, int i)
 int		return_input(t_env *e, t_list *lst)
 {
 	t_history		*h;
-	char			*str = NULL;
+	char			*str;
 	int				cmp;
 
 	cmp = 0;
 	h = e->elem->content;
+	str = NULL;
 	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
 	if (e->src != NULL && ((ft_strcmp(e->src, str)) != 0))
 		cmp++;

@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 static int	is_quote(char *str, int index)
 {
 	if (index == 0)
@@ -19,7 +18,7 @@ static int	is_quote(char *str, int index)
 	return (0);
 }
 
-static char *clean(char *line)
+static char	*clean(char *line)
 {
 	char	*save;
 	int		i;
@@ -39,7 +38,7 @@ static char *clean(char *line)
 	return (save);
 }
 
-static void clean_quote(char **line)
+static void	clean_quote(char **line)
 {
 	int		i;
 	int		j;
@@ -67,22 +66,21 @@ static void clean_quote(char **line)
 	}
 }
 
-
-void	parser(t_cmds **root, t_builtin *b)
+void		parser(t_cmds **root, t_builtin *b)
 {
-	t_cmds *tmp;
+	t_cmds	*tmp;
 	t_cli	my_cli;
+
 	tmp = *root;
 	while (tmp != NULL)
 	{
-		my_cli.input = NULL;
-		my_cli.output = NULL;
+		ft_bzero(&my_cli, sizeof(t_cli));
 		replace_dollar(&tmp->cmd, b);
 		init_builtin(b, tmp->cmd);
 		clean_quote(b->argv);
 		if (tmp->input)
 		{
-			my_cli.input= str_to_argv(tmp->input);
+			my_cli.input = str_to_argv(tmp->input);
 			clean_quote(my_cli.input);
 		}
 		if (tmp->output)

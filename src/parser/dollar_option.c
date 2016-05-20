@@ -1,4 +1,4 @@
-#include	"shell.h"
+#include "shell.h"
 
 char	*ft_str_partsub(char *src, int start, int end, char *ins)
 {

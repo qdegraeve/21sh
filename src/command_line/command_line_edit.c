@@ -97,8 +97,8 @@ void		command_memory(t_env *e, int input, t_list *lst, t_elem **elem)
 	{
 		ft_putstr(str);
 		e->curs_max = ft_strlen(str);
-	if ((e->prompt_len + e->curs_max) % e->width == 0)
-		tputs(tgetstr("do", NULL), 0, ft_putchar2);
+		if ((e->prompt_len + e->curs_max) % e->width == 0)
+			tputs(tgetstr("do", NULL), 0, ft_putchar2);
 	}
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos = e->curs_max;

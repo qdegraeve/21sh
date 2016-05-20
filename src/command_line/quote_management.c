@@ -7,7 +7,7 @@ int		ft_is_quote(char c)
 	return (0);
 }
 
-int		command_complete(t_quote *q, char * str)
+int		command_complete(t_quote *q, char *str)
 {
 	int		i;
 
@@ -26,7 +26,7 @@ int		command_complete(t_quote *q, char * str)
 	return (1);
 }
 
-int		command_ncomplete(t_quote *q, char * str, int len)
+int		command_ncomplete(t_quote *q, char *str, int len)
 {
 	int		i;
 

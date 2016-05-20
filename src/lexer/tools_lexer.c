@@ -35,7 +35,7 @@ void	add_io(char *str, t_cmds **root, int fd)
 		last->output = str;
 }
 
-void debug_lexer(t_cmds **tmp) // fonction de debug a suprimer avec le rendu
+void	debug_lexer(t_cmds **tmp) // fonction de debug a suprimer avec le rendu
 {
 	t_cmds *root;
 
@@ -51,15 +51,15 @@ void debug_lexer(t_cmds **tmp) // fonction de debug a suprimer avec le rendu
 	}
 }
 
-void count(int *i, int *total, int counter)
+void	count(int *i, int *total, int counter)
 {
 	*i = *i + counter;
 	*total = *total + counter;
 }
 
-int get_io(char *str)
+int		get_io(char *str)
 {
-	 if (str && str[0] == '|')
+	if (str && str[0] == '|')
 		return (2);
 	else if (str && str[0] == ';')
 		return (1);
@@ -74,7 +74,7 @@ int get_io(char *str)
 	return (3);
 }
 
-int space_priority(char *str)
+int		space_priority(char *str)
 {
 	if (str && str[0] == '>' && str[1] == '>')
 		return (2);

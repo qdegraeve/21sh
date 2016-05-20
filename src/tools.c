@@ -6,13 +6,13 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 12:29:07 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/18 16:11:49 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/20 11:30:38 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	del_lst_char(void *content, size_t size)
+void		del_lst_char(void *content, size_t size)
 {
 	t_history	*h;
 
@@ -26,18 +26,21 @@ void	del_lst_char(void *content, size_t size)
 	content = NULL;
 }
 
-void	list_init(t_list *lst)
+void		list_init(t_list *lst)
 {
 	lst->head = NULL;
 	lst->tail = NULL;
 	lst->length = 0;
 }
 
-t_builtin *get_buil()
+t_builtin	*get_buil(void)
 {
-	static t_builtin *b = NULL;
+	static t_builtin	*b = NULL;
 
 	if (!b)
+	{
 		b = (t_builtin*)malloc(sizeof(t_builtin) + 1);
+		ft_bzero(b, sizeof(t_builtin));
+	}
 	return (b);
 }
