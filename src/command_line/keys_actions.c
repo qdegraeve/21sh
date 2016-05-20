@@ -73,6 +73,17 @@ void	go_to_position(t_env *e, char *str, int position)
 		tputs(tgoto(tgetstr("RI", NULL), 0, move), 0, ft_putchar2);
 }
 
+static void	keys_actions_2(t_env *e, int i, t_elem **elem, char *str)
+{
+	if (i == END || i == HOME)
+		move_cursor_line(e, i, str);
+	else if ((i == LEFT_OPT && e->curs_pos > 0) ||
+			(i == RIGHT_OPT && e->curs_pos < e->curs_max))
+		move_cursor_word(e, i, str);
+	else if (i == CUT_OPT | i == PASTE_OPT | i == COPY_OPT)
+		copy_paste_mod(e, i, elem);
+}
+
 void	keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 {
 	t_history		*h;
@@ -98,11 +109,6 @@ void	keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 	}
 	else if ((i == KUP && (*elem)->prev) || (i == KDOWN && (*elem)->next))
 		command_memory(e, i, lst, elem);
-	else if (i == END || i == HOME)
-		move_cursor_line(e, i, str);
-	else if ((i == LEFT_OPT && e->curs_pos > 0) ||
-			(i == RIGHT_OPT && e->curs_pos < e->curs_max))
-		move_cursor_word(e, i, str);
-	else if (i == CUT_OPT | i == PASTE_OPT | i == COPY_OPT)
-		copy_paste_mod(e, i, elem);
+	else
+		keys_actions_2(e, i, elem, str);
 }

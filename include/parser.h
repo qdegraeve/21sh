@@ -29,6 +29,6 @@ char			*heredoc(char *src, t_builtin *b);
 /*
 ** Dollar_option.c
 */
-void			replace_dollar(char **str, t_builtin *b);
+void			special_char(char **str, t_builtin *b);
 
 #endif

@@ -18,16 +18,32 @@ char	*ft_str_partsub(char *src, int start, int end, char *ins)
 	return (dest);
 }
 
-void	replace_dollar(char **str, t_builtin *b)
+static int		dollar_char(char **str, t_builtin *b, int i)
 {
-	int		i;
 	int		end;
 	char	*ins;
 	char	*tmp;
 
-	i = 0;
+	end = i;
 	ins = NULL;
 	tmp = NULL;
+	while ((*str)[end] && (*str)[end] != ' ' && (*str)[end] != '\t')
+		end++;
+	tmp = ft_strnew(end - i - 1);
+	tmp = ft_strncpy(tmp, (*str) + i + 1, end - i - 1);
+	ins = ft_getenv(ins, b->env);
+	*str = ft_str_partsub((*str), i, end, ins);
+	return (ft_strlen(ins));
+}
+
+void	special_char(char **str, t_builtin *b)
+{
+	int		i;
+	int		end;
+	char	*ins;
+
+	i = 0;
+	ins = NULL;
 	end = 0;
 	while (*str && (*str)[i])
 	{
@@ -35,21 +51,12 @@ void	replace_dollar(char **str, t_builtin *b)
 			i += 2;
 		else if ((*str)[i] == '~')
 		{
-			tmp = ft_getenv("HOME", b->env);
-			*str = ft_str_partsub((*str), i, i + 1, tmp);
-			i += ft_strlen(tmp);
+			ins = ft_getenv("HOME", b->env);
+			*str = ft_str_partsub((*str), i, i + 1, ins);
+			i += ft_strlen(ins);
 		}
 		else if ((*str)[i] == '$')
-		{
-			end = i;
-			while ((*str)[end] && (*str)[end] != ' ' && (*str)[end] != '\t')
-				end++;
-			ins = ft_strnew(end - i - 1);
-			ins = ft_strncpy(ins, (*str) + i + 1, end - i - 1);
-			tmp = ft_getenv(ins, b->env);
-			*str = ft_str_partsub((*str), i, end, tmp);
-			i += ft_strlen(tmp);
-		}
+			i = dollar_char(str, b, i);
 		else
 			i++;
 	}
