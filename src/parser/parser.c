@@ -7,12 +7,14 @@ static int	is_quote(char *str, int index)
 	{
 		if (str[0] == 34 || str[0] == 39 || str[0] == 96)
 			return (1);
+		// ici verifier str && dstr[0] == '/'
 	}
 	else
 	{
 		if ((str[index] == 34 || str[index] == 39 || str[index] == 96) &&
 				str[index - 1] != '\\')
 			return (1);
+		// ici verifier str && dstr[0] == '/'
 	}
 	return (0);
 }
