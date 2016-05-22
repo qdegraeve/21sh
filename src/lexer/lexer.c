@@ -30,7 +30,7 @@ static void	go_to_next_io(char *str, int *i, int *total, int *priority)
 	while ((str[*i] && ((*priority = get_io(&str[*i])) == 3)) ||
 			command_complete(get_quote(), &str[*i]) == 0 || str[*i - 1] == '\\')
 		count(i, total, 1);
-	while (*priority < 0 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
+	while (*priority < -2 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
 		count(i, total, -1);
 }
 
@@ -73,7 +73,7 @@ static void	go_to_next_cmd(char *str, int *i, int *priority)
 	while ((str[*i] && (*priority = get_io(&str[*i])) == 3) ||
 			command_complete(get_quote(), &str[*i]) == 0 || str[*i - 1] == '\\')
 		*i += 1;
-	while (*priority < 0 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
+	while (*priority < -2 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
 		*i -= 1;
 }
 

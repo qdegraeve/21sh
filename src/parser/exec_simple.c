@@ -1,50 +1,118 @@
 #include "shell.h"
 
+int		doc(char **input, t_builtin *b)
+{
+	char	*str;
+	int		fildes[2];
+
+	if (ft_strlen(input[0]) == 2 && input[0] == NULL)
+	{
+		ft_printf("Parse Error\n");
+		return (1);
+	}
+	else if (ft_strlen(input[0]) == 2 && input[1] != NULL)
+		str = input[1];
+	else
+		str  = (input[0] += 2);
+	pipe(fildes);
+	ft_putstr_fd(heredoc(str, b), STDIN_FILENO);
+	return (0);
+}
+
+int rfile(char **input)
+{
+	int		fd_input;
+	char	*file;
+
+	if (ft_strlen(input[0]) == 1 && input[1] == NULL)
+	{
+		ft_printf("Parse Error\n");
+		return (1);
+	}
+	else if (ft_strlen(input[0]) == 1 && input[1] != NULL)
+		file = input[1];
+	else
+		file = ++input[0];
+	fd_input = open(file, O_RDONLY);
+	if (fd_input < 0)
+	{
+		ft_printf("%s : No such file or directory\n", file);
+		return (1);
+	}
+	dup2(fd_input, STDIN_FILENO);
+	return (0);
+}
+
+int wfile(char **output)
+{
+	int		fd_output;
+	char	*file;
+
+	if (ft_strlen(output[0]) == 1 && output[1] == NULL)
+	{
+		ft_printf("Parse Error\n");
+		return (1);
+	}
+	else if (ft_strlen(output[0]) == 1 && output[1] != NULL)
+		file = output[1];
+	else
+		file = ++output[0];
+	fd_output = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd_output < 0)
+	{
+		ft_printf("%s : Error in attribution of file descriptor\n", file);
+		return (1);
+	}
+	dup2(fd_output, STDOUT_FILENO);
+	return (0);
+}
+
+int ape(char **output)
+{
+	int		fd_output;
+	char	*file;
+
+	if (ft_strlen(output[0]) == 2 && output[1] == NULL)
+	{
+		ft_printf("Parse Error\n");
+		return (1);
+	}
+	else if (ft_strlen(output[0]) == 2 && output[1] != NULL)
+		file = output[1];
+	else
+		file = (output[0] += 2);
+	fd_output = open(file, O_APPEND | O_WRONLY | O_CREAT, 0644);
+	if (fd_output < 0)
+	{
+		ft_printf("%s : Error in attribution of file descriptor\n", file);
+		return (1);
+	}
+	dup2(fd_output, STDOUT_FILENO);
+	return (0);
+}
+
 void	exec_simple(t_cli cli, t_builtin *b)
 {
 	pid_t	child;
-	int		fd_input;
-	int		fd_output;
 
 	child = fork();
-	if (child == -1)
-		ft_putstr("blocado");
-	else if (child == 0)
+	if (child == 0)
 	{
 		if (cli.input != NULL)
 		{
-			if (get_priority(cli.input[0]) == -2)
-				ft_putstr_fd(heredoc(cli.input[1], b), STDIN_FILENO);
-			else if (get_priority(cli.input[0]) == -1)
-			{
-				fd_input = open(cli.input[1], O_RDONLY);
-				if (fd_input < 0)
-				{
-					ft_printf("%s : No such file or directory\n", cli.input[1]);
-					return ;
-				}
-				dup2(fd_input, STDIN_FILENO);
-			}
+			if (get_priority(cli.input[0]) == -2 && doc(cli.input, b) == 1)
+				return ;
+			else if (get_priority(cli.input[0]) == -1 && rfile(cli.input) == 1)
+				return ;
 		}
 		else if (cli.output != NULL)
 		{
-			if (get_priority(cli.output[0]) == -3)
-			{
-				fd_output = open(cli.output[1], O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
-				if (fd_output < 0)
-					return ;
-				dup2(fd_output, STDOUT_FILENO);
-			}
-			else if (get_priority(cli.output[0]) == -4)
-			{
-				fd_output = open(cli.output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (fd_output < 0)
-					return ;
-				dup2(fd_output, STDOUT_FILENO);
-			}
+			if (get_priority(cli.output[0]) == -4 && wfile(cli.output) == 1)
+				return ;
+			else if (get_priority(cli.output[0]) == -3 && ape(cli.output) == 1)
+				return ;
 		}
 		execve(b->path, b->argv, NULL);
 	}
 	wait(NULL);
 }
-
