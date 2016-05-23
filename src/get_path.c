@@ -38,7 +38,7 @@ void	exec_exit(t_builtin *b)
 
 	elem = b->lst.head;
 	b->error = 0;
-	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
+	file = ft_strjoin(ft_getenv("HOME", b->env), "/.21sh_history");
 	if (b->env_cpy)
 		clear_tab(b->env_cpy);
 	if (b->env)
@@ -58,6 +58,7 @@ void	exec_exit(t_builtin *b)
 	ft_lstdel(&b->lst, del_lst_char);
 	close(b->fd_history);
 	term_reset();
+	free(get_env()->term);
 	exit(EXIT_SUCCESS);
 }
 

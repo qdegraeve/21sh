@@ -45,7 +45,7 @@ typedef struct		s_env
 	char			*src;
 	t_elem			*elem;
 	t_quote			q;
-	struct termios	term;
+	struct termios	*term;
 }					t_env;
 
 typedef struct		s_history

@@ -21,37 +21,37 @@ void	init_env(t_env *e, char *src)
 void	term_set(void)
 {
 	char			*name;
-	char			*bp;
-	struct termios	term;
 	struct winsize	win;
+	t_env			*e;
+	struct termios  term;
 
-	bp = NULL;
 	name = NULL;
-	if (!(name = ft_getenv("TERM", get_buil()->env)))
+	e = get_env();
+	if (!e->term)
 	{
-		ft_putendl_fd("21sh cannot work without TERM environment variable set", 2);
-		exit(EXIT_FAILURE);
+		e->term = malloc(sizeof(struct termios));
+		if (!(name = ft_getenv("TERM", get_buil()->env)))
+		{
+			ft_putendl_fd("21sh cannot work without TERM environment variable set", 2);
+			exit(EXIT_FAILURE);
+		}
+		tgetent(NULL, name);
+		tcgetattr(0, e->term);
 	}
-	tgetent(bp, name);
-	ft_strdel(&bp);
-	tcgetattr(0, &term);
+	term = *(e->term);
 	term.c_lflag &= ~(ECHO);
 	term.c_lflag &= ~(ICANON);
+	term.c_lflag |= (ISIG);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	tcsetattr(0, TCSADRAIN, &term);
+	tcsetattr(0, TCSANOW, &term);
 	ioctl(0, TIOCGWINSZ, &win);
 	get_env()->width = win.ws_col;
 }
 
 void	term_reset(void)
 {
-	struct termios	term;
-
-	tcgetattr(0, &term);
-	term.c_lflag &= (ECHO);
-	term.c_lflag &= (ICANON);
-	tcsetattr(0, TCSANOW, &term);
+	tcsetattr(0, TCSANOW, get_env()->term);
 }
 
 t_env	*get_env(void)
@@ -61,7 +61,7 @@ t_env	*get_env(void)
 	if (!e)
 	{
 		e = (t_env*)malloc(sizeof(t_env));
-		e->elem = NULL;
+		ft_bzero(e, sizeof(t_env));
 	}
 	return (e);
 }

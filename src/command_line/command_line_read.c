@@ -125,6 +125,7 @@ char	*get_input(t_builtin *b, int input)
 		read(0, buf, 7);
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
+		//ft_printf("input == %d\n", input);
 		ret = edit_line(e, input, &b->lst);
 	}
 }
