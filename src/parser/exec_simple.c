@@ -14,7 +14,7 @@ int		doc(char **input, t_builtin *b)
 		str = input[1];
 	else
 		str  = (input[0] += 2);
-	fd_input = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_input = open("/tmp/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_input < 0)
 	{
 		ft_putstr("Error with open\n");
