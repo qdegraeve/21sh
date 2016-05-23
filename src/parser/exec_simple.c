@@ -3,7 +3,7 @@
 int		doc(char **input, t_builtin *b)
 {
 	char	*str;
-	int		fildes[2];
+	int		fd_input;
 
 	if (ft_strlen(input[0]) == 2 && input[0] == NULL)
 	{
@@ -14,8 +14,14 @@ int		doc(char **input, t_builtin *b)
 		str = input[1];
 	else
 		str  = (input[0] += 2);
-	pipe(fildes);
-	ft_putstr_fd(heredoc(str, b), STDIN_FILENO);
+	fd_input = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd_input < 0)
+	{
+		ft_putstr("Error with open\n");
+		return (1);
+	}
+	ft_putstr_fd(heredoc(str, b), fd_input);
+	dup2(fd_input, STDIN_FILENO);
 	return (0);
 }
 
