@@ -44,7 +44,7 @@ static void	clean_quote(char **line)
 	char	*freeme;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		j = 0;
 		delete = 0;
@@ -75,6 +75,8 @@ void		parser(t_cmds **root, t_builtin *b)
 		ft_bzero(&my_cli, sizeof(t_cli));
 		special_char(&tmp->cmd, b);
 		init_builtin(b, tmp->cmd);
+		if (!b->argv)
+			return ;
 		clean_quote(b->argv);
 		if (tmp->input)
 		{

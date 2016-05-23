@@ -118,7 +118,8 @@ void	exec_simple(t_cli cli, t_builtin *b)
 			else if (get_priority(cli.output[0]) == -3 && ape(cli.output) == 1)
 				return ;
 		}
-		execve(b->path, b->argv, NULL);
+		execve(b->path, b->argv, b->env);
+		exit(EXIT_FAILURE);
 	}
 	wait(NULL);
 }
