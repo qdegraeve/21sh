@@ -47,7 +47,7 @@ void	loop_fork(t_builtin *b)
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 	b->env_cpy = NULL;
 	b->error = 0;
-	file = ft_strjoin(getpwuid(getuid())->pw_dir, "/.21sh_history");
+	file = ft_strjoin(ft_getenv("HOME", get_buil()->env), "/.21sh_history");
 	if ((b->fd_history = open(file, O_CREAT | O_RDWR, mode)) < 0)
 		ft_printf("fd == %d", b->fd_history);
 	ft_strdel(&file);

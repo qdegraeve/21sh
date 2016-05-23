@@ -69,7 +69,7 @@ void		modif_command(t_env *e, int input, t_elem *elem)
 	h = elem->content;
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
-	if (input > 31 && input < 127)
+	if ((input > 31 && input < 127))
 		h->command_edit = string_insert(e, h->command_edit, input, e->curs_pos);
 	else if (input == 127 || input == DEL)
 		h->command_edit = delete_char(e, input, h->command_edit);

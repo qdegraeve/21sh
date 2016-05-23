@@ -41,7 +41,7 @@ void	suspend(int sig)
 	{
 		term_reset();
 		signal(SIGTSTP, SIG_DFL);
-		away[0] = get_env()->term.c_cc[VSUSP];
+		away[0] = get_env()->term->c_cc[VSUSP];
 		away[1] = '\0';
 		ioctl(0, TIOCSTI, away);
 	}
@@ -53,9 +53,15 @@ void	restart(int sig)
 
 	e = get_env();
 	if (sig == SIGCONT)
-	{
-		signal(SIGTSTP, suspend);
 		term_set();
+}
+
+void	ctrl_c(int signal)
+{
+	if (signal == SIGINT)
+	{
+		ft_putchar('\n');
+		prompt(1);
 	}
 }
 
@@ -65,6 +71,7 @@ void	signal_catcher(void)
 
 //	i = 0;
 	signal(SIGWINCH, resize);
+	signal(SIGINT, ctrl_c);
 //	signal(SIGTSTP, suspend);
 //	signal(SIGCONT, restart);
 //	while (i < 32)
