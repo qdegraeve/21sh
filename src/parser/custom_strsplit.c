@@ -20,7 +20,7 @@ static int		ft_countword(const char *s)
 	i = 0;
 	check = 0;
 	nb = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if ((s[i] == ' ' || *s == '\t') && check &&
 				command_ncomplete(get_quote(), (char*)s, i))
@@ -74,9 +74,9 @@ char			**str_to_argv(char const *s)
 	int		nbword;
 
 	if (s == NULL)
-		return (ft_taballoc(0));
+		return (NULL);
 	nbword = ft_countword(s);
-	if (!(new = ft_taballoc(nbword)))
+	if (!nbword || !(new = ft_taballoc(nbword)))
 		return (NULL);
 	ft_split(new, s);
 	return (new);

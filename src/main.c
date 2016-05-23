@@ -54,15 +54,16 @@ void	loop_fork(t_builtin *b)
 	get_history(b);
 	while (42)
 	{
-		b->command = get_commands(b);
-		init_builtin(b, b->command);
-		root = NULL;
-		root = lexer(b->command);
-		debug_lexer(&root);
-		if (root)
-			parser(&root, b);
-		if (b->command)
-			ft_strdel(&b->command);
+		if ((b->command = get_commands(b)))
+		{
+			root = NULL;
+			root = lexer(b->command);
+			debug_lexer(&root);
+			if (root)
+				parser(&root, b);
+			if (b->command)
+				ft_strdel(&b->command);
+		}
 	}
 }
 

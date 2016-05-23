@@ -27,9 +27,9 @@ void	term_set(void)
 
 	bp = NULL;
 	name = NULL;
-	if (!(name = getenv("TERM")))
+	if (!(name = ft_getenv("TERM", get_buil()->env)))
 	{
-		ft_putendl_fd("ft_select cannot work within an empty environment", 2);
+		ft_putendl_fd("21sh cannot work without TERM environment variable set", 2);
 		exit(EXIT_FAILURE);
 	}
 	tgetent(bp, name);

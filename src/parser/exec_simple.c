@@ -3,7 +3,6 @@
 int		doc(char **input, t_builtin *b)
 {
 	char	*str;
-	int		fildes[2];
 
 	if (ft_strlen(input[0]) == 2 && input[0] == NULL)
 	{
@@ -14,8 +13,7 @@ int		doc(char **input, t_builtin *b)
 		str = input[1];
 	else
 		str  = (input[0] += 2);
-	pipe(fildes);
-	ft_putstr_fd(heredoc(str, b), STDIN_FILENO);
+	ft_putstr_fd(heredoc(str, b), 1);
 	return (0);
 }
 
@@ -112,7 +110,8 @@ void	exec_simple(t_cli cli, t_builtin *b)
 			else if (get_priority(cli.output[0]) == -3 && ape(cli.output) == 1)
 				return ;
 		}
-		execve(b->path, b->argv, NULL);
+		execve(b->path, b->argv, b->env);
+		exit(EXIT_FAILURE);
 	}
 	wait(NULL);
 }
