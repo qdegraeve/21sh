@@ -20,11 +20,19 @@ char			**str_to_argv(char const *s);
 ** EXEC
 */
 void			exec_simple(t_cli cli, t_builtin *b);
+t_cmds			*exec_pipe(t_cmds **root);
 
 /*
 ** Heredoc.c
 */
 char			*heredoc(char *src, t_builtin *b);
+/*
+** Redirection
+*/
+int				ape(char **output);
+int				wfile(char **output);
+int				rfile(char **input);
+int				doc(char **input, t_builtin *b);
 
 /*
 ** Dollar_option.c
