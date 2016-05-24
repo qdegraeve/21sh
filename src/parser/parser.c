@@ -35,7 +35,7 @@ static char	*clean(char *line)
 	return (save);
 }
 
-static void	clean_quote(char **line)
+void	clean_quote(char **line)
 {
 	int		i;
 
@@ -79,7 +79,6 @@ void		parser(t_cmds **root, t_builtin *b)
 			tmp = tmp->next;
 		}
 		else if (tmp->pipe == 1)
-			tmp = exec_pipe(&tmp, b);
-	DEBUG
+			tmp = exec_pipe(tmp, b);
 	}
 }

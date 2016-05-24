@@ -1,47 +1,42 @@
 #include "shell.h"
 
-static void run_pipe(t_cmds **root, t_builtin *b)
+static void run_pipe(t_cmds *tmp, t_builtin *b)
 {
 	int		fdes[2];
 	pid_t	child = -1;
-	t_cmds	*tmp;
 	pipe(fdes);
 	
-	tmp = *root;
 	child = fork();
-	DEBUG
-	if (child == -1)
+	if (child == 0)
 	{
-		ft_printf("Blocado\n");
+		dup2(fdes[1], STDOUT_FILENO);
 		close(fdes[0]);
-		close(fdes[1]);
-	}
-	else if (child == 0)
-	{
-	//	dup2(fdes[1], STDOUT_FILENO);
-	//	close(fdes[0]);
+		special_char(&tmp->cmd, b);
 		init_builtin(b, tmp->cmd);
+		clean_quote(b->argv);
+		get_command(b->argv[0], b);
 		execve(b->path, b->argv, b->env);
+		exit(EXIT_FAILURE);
 	}
-	DEBUG
+	dup2(fdes[0], STDIN_FILENO);
+	close(fdes[1]);
 	wait(NULL);
-//	dup2(fdes[0], STDIN_FILENO);
-//	close(fdes[1]);
-//	DEBUG
-//	tmp = tmp->next;
-//	init_builtin(b, tmp->cmd);
-//	execve(b->path, b->argv, b->env);
+	tmp = tmp->next;
+	special_char(&tmp->cmd, b);
+	init_builtin(b, tmp->cmd);
+	clean_quote(b->argv);
+	get_command(b->argv[0], b);
+	execve(b->path, b->argv, b->env);
+	exit(EXIT_FAILURE);
 }
 
-t_cmds		*exec_pipe(t_cmds **root, t_builtin *b)
+t_cmds		*exec_pipe(t_cmds *tmp, t_builtin *b)
 {
-	pid_t child = -1;
-	
+	pid_t child;
+
 	child = fork();
-	if (child == -1)
-		ft_printf("Blocado\n");
-	else if (child == 0)
-		run_pipe(root, b);
+	if (child == 0)
+		run_pipe(tmp, b);
 	wait(NULL);
-	return (((*root)->next)->next);
+	return ((tmp->next)->next);
 }

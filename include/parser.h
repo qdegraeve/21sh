@@ -15,12 +15,13 @@ typedef struct	s_cli
 */
 void			parser(t_cmds **root, t_builtin *b);
 char			**str_to_argv(char const *s);
+void			clean_quote(char **line);
 
 /*
 ** EXEC
 */
 void			exec_simple(t_cli cli, t_builtin *b);
-t_cmds		*exec_pipe(t_cmds **root, t_builtin *b);
+t_cmds			*exec_pipe(t_cmds *tmp, t_builtin *b);
 
 /*
 ** Heredoc.c
