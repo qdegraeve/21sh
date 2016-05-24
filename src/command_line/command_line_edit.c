@@ -74,6 +74,7 @@ void		modif_command(t_env *e, int input, t_elem *elem)
 	else if (input == 127 || input == DEL)
 		h->command_edit = delete_char(e, input, h->command_edit);
 	display_command(e, input, h->command_edit);
+	e->tmp = h->command_edit;
 }
 
 void		command_memory(t_env *e, int input, t_list *lst, t_elem **elem)

@@ -104,7 +104,6 @@ char	*get_input(t_builtin *b, int input)
 	char	buf[8];
 	t_env	*e;
 
-	term_set();
 	ret = -1;
 	e = get_env();
 	if (input == 10)
@@ -114,12 +113,10 @@ char	*get_input(t_builtin *b, int input)
 		ft_bzero(buf, 8);
 		if (input == 10)
 		{
+			tputs(tgetstr("rc", NULL), 0, ft_putchar2);
 			ft_putchar_fd('\n', get_env()->fd);
 			if (ret == 0)
-			{
-				term_reset();
 				return (((t_history*)b->lst.tail->content)->command);
-			}
 			else
 				quote_prompt(get_env());
 		}

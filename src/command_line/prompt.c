@@ -34,7 +34,9 @@ char	*get_commands(t_builtin *b)
 	line = NULL;
 	init_env(get_env(), NULL);
 	b->error ? prompt(1) : prompt(0);
+	term_set();
 	line = ft_strdup(get_input(b, 0));
+	term_reset();
 	return (line);
 }
 

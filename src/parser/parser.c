@@ -23,6 +23,7 @@ static char	*clean(char *line)
 				if (i == 0 || (i > 0 && line[i - 1] != 92))
 					ft_quote(q, line[i]);
 				save = ft_strncat(save, line + i - j + 1, j - (j > 0 ? 1 : 0));
+				i += line[i] == 92 ? 1 : 0;
 				j = 0;
 			}
 			else if (!line[i + 1])
