@@ -49,6 +49,7 @@ static void	paste(t_env *e, char **str, t_builtin *b)
 	dest[e->curs_max] = '\0';
 	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
 	ft_putstr(*str);
+	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
 	e->curs_pos += ft_strlen(b->paste);
 	go_to_position(e, *str, e->curs_pos);
 }

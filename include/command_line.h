@@ -43,6 +43,7 @@ typedef struct		s_env
 	int				up;
 	int				fd;
 	char			*src;
+	char			*tmp;
 	t_elem			*elem;
 	t_quote			q;
 	struct termios	*term;
