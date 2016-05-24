@@ -1,65 +1,48 @@
 #include "shell.h"
 
-static int	is_quote(char *str, int i)
-{
-	if (i == 0)
-	{
-		if (str[0] == 34 || str[0] == 39 || str[0] == 96)
-			return (1);
-		// ici verifier str && dstr[0] == '/'
-	}
-	else
-	{
-		if ((str[i] == 34 || str[i] == 39 || str[i] == 96) &&
-				str[i - 1] != '\\')
-			return (1);
-		// ici verifier str && dstr[0] == '/'
-	}
-	return (0);
-}
-
 static char	*clean(char *line)
 {
 	char	*save;
 	int		i;
+	int		j;
+	t_quote	*q;
 
 	save = ft_strnew(ft_strlen(line));
+	q = get_quote();
 	i = 0;
+	j = 0;
 	while (line && line[i])
 	{
-		while (line[i] && is_quote(line, i) == 0)
-			i++;
-		if (!(i == 0 && is_quote(line, i) == 1))
-			ft_strncat(save, line, i);
-		line = &line[i + 1];
+		if (ft_is_quote(line[i]) || !line[i + 1] || line[i] == 92)
+		{
+			if (q->quote || q->bquote || q->dquote)
+				if (i > 0 && line[i - 1] != 92)
+					ft_quote(q, line[i]);
+			if (line[i] == 92 || (ft_is_quote(line[i]) && !q->quote && !q->bquote && !q->dquote))
+			{
+				if (i > 0 && line[i - 1] != 92)
+					ft_quote(q, line[i]);
+				save = ft_strncat(save, line + i - j + 1, j - (j > 0 ? 1 : 0));
+				j = 0;
+			}
+			else if (!line[i + 1])
+				save = ft_strncat(save, line + i - j, j + 1);
+		}
+		i++;
+		j++;
 	}
+	ft_strdel(&line);
 	return (save);
 }
 
 static void	clean_quote(char **line)
 {
 	int		i;
-	int		j;
-	int		delete;
-	char	*freeme;
 
 	i = 0;
 	while (line && line[i])
 	{
-		j = 0;
-		delete = 0;
-		while (line[i][j])
-		{
-			if (is_quote(line[i], j) == 1)
-				delete++;
-			j++;
-		}
-		if (delete > 0)
-		{
-			freeme = line[i];
-			line[i] = clean(line[i]);
-			free(freeme);
-		}
+		line[i] = clean(line[i]);
 		i++;
 	}
 }

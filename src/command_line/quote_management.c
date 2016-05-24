@@ -2,7 +2,7 @@
 
 int		ft_is_quote(char c)
 {
-	if (c == 34 || c == 39 || c == 92 || c == 96)
+	if (c == 34 || c == 39 || c == 96)
 		return (1);
 	return (0);
 }
