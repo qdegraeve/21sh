@@ -55,25 +55,30 @@ void		parser(t_cmds **root, t_builtin *b)
 	tmp = *root;
 	while (tmp != NULL)
 	{
-		ft_bzero(&my_cli, sizeof(t_cli));
-		special_char(&tmp->cmd, b);
-		init_builtin(b, tmp->cmd);
-		if (!b->argv)
-			return ;
-		clean_quote(b->argv);
-		if (tmp->input)
+		if (tmp->pipe == 0)
 		{
-			my_cli.input = str_to_argv(tmp->input);
-			clean_quote(my_cli.input);
+			ft_bzero(&my_cli, sizeof(t_cli));
+			special_char(&tmp->cmd, b);
+			init_builtin(b, tmp->cmd);
+			if (!b->argv)
+				return ;
+			clean_quote(b->argv);
+			if (tmp->input)
+			{
+				my_cli.input = str_to_argv(tmp->input);
+				clean_quote(my_cli.input);
+			}
+			if (tmp->output)
+			{
+				my_cli.output = str_to_argv(tmp->output);
+				clean_quote(my_cli.output);
+			}
+			get_command(b->argv[0], b);
+			if (b->path)
+				exec_simple(my_cli, b);
+			tmp = tmp->next;
 		}
-		if (tmp->output)
-		{
-			my_cli.output = str_to_argv(tmp->output);
-			clean_quote(my_cli.output);
-		}
-		get_command(b->argv[0], b);
-		if (b->path && tmp->pipe == 0)
-			exec_simple(my_cli, b);
-		tmp = tmp->next;
+		else if (tmp->pipe == 1)
+			tmp = exec_pipe(&tmp);
 	}
 }
