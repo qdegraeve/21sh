@@ -107,6 +107,8 @@ char	*get_input(t_builtin *b, int input)
 	term_set();
 	ret = -1;
 	e = get_env();
+	if (input == 10)
+		tputs(tgetstr("up", NULL), 0, ft_putchar2);
 	while (42)
 	{
 		ft_bzero(buf, 8);

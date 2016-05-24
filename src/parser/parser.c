@@ -20,7 +20,7 @@ static char	*clean(char *line)
 					ft_quote(q, line[i]);
 			if (line[i] == 92 || (ft_is_quote(line[i]) && !q->quote && !q->bquote && !q->dquote))
 			{
-				if (i > 0 && line[i - 1] != 92)
+				if (i == 0 || (i > 0 && line[i - 1] != 92))
 					ft_quote(q, line[i]);
 				save = ft_strncat(save, line + i - j + 1, j - (j > 0 ? 1 : 0));
 				j = 0;
