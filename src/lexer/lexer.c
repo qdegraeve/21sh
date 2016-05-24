@@ -33,6 +33,15 @@ static void	go_to_next_io(char *str, int *i, int *total, int *priority)
 	while (*priority < -2 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
 		count(i, total, -1);
 }
+static void add_pipetolist(t_cmds **root)
+{
+	t_cmds *tmp;
+
+	tmp = *root;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->pipe = 1;
+}
 
 int			add_all_io(t_cmds **root, char *str)
 {
@@ -52,6 +61,7 @@ int			add_all_io(t_cmds **root, char *str)
 		priority2 <= -3 ? add_io(tmp, root, 2) : add_io(tmp, root, 1);
 		if (str[i] == '\0' || str[i + 1] == '\0')
 			return (total);
+		priority == 2 ? add_pipetolist(root) : 0;
 		if (priority < 0)
 			str = &str[i];
 		else

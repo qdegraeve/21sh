@@ -47,6 +47,8 @@ void	debug_lexer(t_cmds **tmp) // fonction de debug a suprimer avec le rendu
 			ft_printf("\tINPUT = %s\n", root->input);
 		if (root->output != NULL)
 			ft_printf("\toutput = %s\n", root->output);
+		if (root->pipe == 1)
+			ft_printf("\tIS PIPED \n");
 		root = root->next;
 	}
 }

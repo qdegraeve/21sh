@@ -1,11 +1,25 @@
 #include "shell.h"
 
+static char *clean_h(char *heredoc, char *compare)
+{
+	int		i;
+
+	i = ft_strlen(heredoc);
+	if (ft_strcmp(heredoc, compare) == 0)
+			return (NULL);
+	while (i > 0 && heredoc[i] != '\n')
+		i--;
+	heredoc[i] = '\n';
+	heredoc[i + 1] = '\0';
+	return (heredoc);
+}
+
 int		doc(char **input, t_builtin *b)
 {
 	char	*str;
 	int		fd_input;
 
-	if (ft_strlen(input[0]) == 2 && input[0] == NULL)
+	if (ft_strlen(input[0]) == 2 && input[1] == NULL)
 	{
 		ft_printf("Parse Error\n");
 		return (1);
@@ -14,13 +28,15 @@ int		doc(char **input, t_builtin *b)
 		str = input[1];
 	else
 		str  = (input[0] += 2);
-	fd_input = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_input = open("/tmp/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_input < 0)
 	{
 		ft_putstr("Error with open\n");
 		return (1);
 	}
-	ft_putstr_fd(heredoc(str, b), fd_input);
+	ft_putstr_fd(clean_h(heredoc(str, b), str), fd_input);
+	close(fd_input);
+	fd_input = open("/tmp/.heredoc", O_RDONLY);
 	dup2(fd_input, STDIN_FILENO);
 	return (0);
 }
@@ -107,16 +123,16 @@ void	exec_simple(t_cli cli, t_builtin *b)
 		if (cli.input != NULL)
 		{
 			if (get_priority(cli.input[0]) == -2 && doc(cli.input, b) == 1)
-				return ;
+				exit(EXIT_FAILURE);
 			else if (get_priority(cli.input[0]) == -1 && rfile(cli.input) == 1)
-				return ;
+				exit(EXIT_FAILURE);
 		}
 		else if (cli.output != NULL)
 		{
 			if (get_priority(cli.output[0]) == -4 && wfile(cli.output) == 1)
-				return ;
+				exit(EXIT_FAILURE);
 			else if (get_priority(cli.output[0]) == -3 && ape(cli.output) == 1)
-				return ;
+				exit(EXIT_FAILURE);
 		}
 		execve(b->path, b->argv, b->env);
 		exit(EXIT_FAILURE);
