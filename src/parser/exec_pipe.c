@@ -4,8 +4,9 @@ static void run_pipe(t_cmds *tmp, t_builtin *b)
 {
 	int		fdes[2];
 	pid_t	child = -1;
+	t_cli	cmd;
+
 	pipe(fdes);
-	
 	child = fork();
 	if (child == 0)
 	{
@@ -16,7 +17,6 @@ static void run_pipe(t_cmds *tmp, t_builtin *b)
 		clean_quote(b->argv);
 		get_command(b->argv[0], b);
 		execve(b->path, b->argv, b->env);
-		exit(EXIT_FAILURE);
 	}
 	dup2(fdes[0], STDIN_FILENO);
 	close(fdes[1]);
@@ -26,8 +26,16 @@ static void run_pipe(t_cmds *tmp, t_builtin *b)
 	init_builtin(b, tmp->cmd);
 	clean_quote(b->argv);
 	get_command(b->argv[0], b);
+	if (tmp->output)
+	{
+		cmd.output = str_to_argv(tmp->output);
+		clean_quote(cmd.output);
+		if (get_priority(cmd.output[0]) == -4 && wfile(cmd.output) == 1)
+			exit(EXIT_FAILURE);
+		else if (get_priority(cmd.output[0]) == -3 && ape(cmd.output) == 1)
+			exit(EXIT_FAILURE);
+	}
 	execve(b->path, b->argv, b->env);
-	exit(EXIT_FAILURE);
 }
 
 t_cmds		*exec_pipe(t_cmds *tmp, t_builtin *b)
