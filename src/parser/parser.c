@@ -79,6 +79,7 @@ void		parser(t_cmds **root, t_builtin *b)
 			tmp = tmp->next;
 		}
 		else if (tmp->pipe == 1)
-			tmp = exec_pipe(&tmp);
+			tmp = exec_pipe(&tmp, b);
+	DEBUG
 	}
 }

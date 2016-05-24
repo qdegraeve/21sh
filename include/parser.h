@@ -20,7 +20,7 @@ char			**str_to_argv(char const *s);
 ** EXEC
 */
 void			exec_simple(t_cli cli, t_builtin *b);
-t_cmds			*exec_pipe(t_cmds **root);
+t_cmds		*exec_pipe(t_cmds **root, t_builtin *b);
 
 /*
 ** Heredoc.c
