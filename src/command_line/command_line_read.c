@@ -31,10 +31,11 @@ int		pipe_end(t_env *e, char *str)
 {
 	int		len;
 
-	len = e->curs_max - 1;
+	len = ft_strlen(str) - 1;
+	e->pipe = 0;
 	if (!str)
 		return (0);
-	while (len > 0 && (str[len] == ' ' || str[len] == '\t'))
+	while (len > 0 && (str[len] == ' ' || str[len] == '\t' || str[len] == '\n'))
 		len--;
 	if (str[len] == '|')
 	{

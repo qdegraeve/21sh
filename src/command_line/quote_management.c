@@ -78,7 +78,7 @@ void	quote_prompt(t_env *e)
 	if (e->pipe)
 	{
 		ft_putstr_fd("pipe", e->fd);
-		e->prompt_len += 5;
+		e->prompt_len += 4;
 	}
 	ft_putstr_fd("> ", e->fd);
 	e->prompt_len += 2;
