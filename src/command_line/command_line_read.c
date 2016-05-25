@@ -34,7 +34,7 @@ int		pipe_end(t_env *e, char *str)
 	len = e->curs_max - 1;
 	if (!str)
 		return (0);
-	while (len > 0 && str[len] == ' ' && str[len] == '\t')
+	while (len > 0 && (str[len] == ' ' || str[len] == '\t'))
 		len--;
 	if (str[len] == '|')
 	{
