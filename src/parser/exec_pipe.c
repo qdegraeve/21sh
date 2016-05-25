@@ -56,17 +56,12 @@ static void pipe_manager(t_cmds *tmp, t_builtin *b, int nb)
 	while (i <= nb)
 	{
 		pipe(fdes[i]);
-		perror("ueue");
 		child = fork();
-		perror("ueue");
 		if (child == 0)
 		{
 		pipe_handler(tmp, b, fdes[i], i, nb);
-		perror("ueue");
 		dup2(fdes[i][0], STDIN_FILENO);
-		perror("ueue");
 		close(fdes[i][1]);
-		perror("ueue");
 		wait(NULL);
 			tmp = tmp->next;
 			special_char(&tmp->cmd, b);
@@ -83,8 +78,9 @@ static void pipe_manager(t_cmds *tmp, t_builtin *b, int nb)
 	//				exit(EXIT_FAILURE);
 	//		}
 			execve(b->path, b->argv, b->env);
-			perror("ueue d");
 		}
+			close(fdes[i][1]);
+			//close(fdes[i][0]);
 			wait(NULL);
 			exit(EXIT_FAILURE);
 	}
