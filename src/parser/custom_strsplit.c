@@ -5,7 +5,7 @@ static int		ft_lenword(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] && ((s[i] != ' ' && *s != '\t') ||
+	while (s[i] && ((s[i] != ' ' && *s != '\t' && *s != '\n') ||
 				!command_ncomplete(get_quote(), (char*)s, i)))
 		i++;
 	return (i);
@@ -22,7 +22,7 @@ static int		ft_countword(const char *s)
 	nb = 0;
 	while (s && s[i])
 	{
-		if ((s[i] == ' ' || *s == '\t') && check &&
+		if ((s[i] == ' ' || *s == '\t' || *s == '\n') && check &&
 				command_ncomplete(get_quote(), (char*)s, i))
 			check = 0;
 		else if (s[i] != ' ' && *s != '\t' && !check)
@@ -62,7 +62,7 @@ static void		ft_split(char **new, const char *s)
 			i++;
 		}
 		s += lenword;
-		while (*s == ' ' || *s == '\t')
+		while (*s == ' ' || *s == '\t' || *s == '\n')
 			s++;
 	}
 	new[i] = NULL;
