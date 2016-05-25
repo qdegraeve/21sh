@@ -1,12 +1,36 @@
 #include "shell.h"
 
-static void run_pipe(t_cmds *tmp, t_builtin *b)
+static t_cmds *send_cmds(t_cmds *tmp, int nb)
 {
-	int		fdes[2];
-	pid_t	child = -1;
-	t_cli	cmd;
+	int		i;
 
-	pipe(fdes);
+	i = 0;
+	while (i < nb)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (tmp);
+}
+
+static int count_pipe(t_cmds *tmp)
+{
+	int		i;
+
+	i = 0;
+	while (tmp && tmp->pipe == 1)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i + 1);
+}
+
+#include <stdio.h>
+static void pipe_handler(t_cmds *tmp, t_builtin *b, int fdes[2], int i, int nb)
+{
+	pid_t	child = -1;
+
 	child = fork();
 	if (child == 0)
 	{
@@ -19,37 +43,58 @@ static void run_pipe(t_cmds *tmp, t_builtin *b)
 		execve(b->path, b->argv, b->env);
 		exit(EXIT_FAILURE);
 	}
-	dup2(fdes[0], STDIN_FILENO);
-	close(fdes[1]);
-	wait(NULL);
-	tmp = tmp->next;
-	if (tmp)
+}
+
+static void pipe_manager(t_cmds *tmp, t_builtin *b, int nb)
+{
+	int		i;
+	pid_t	child = -1;
+	int		fdes[nb][2];
+	t_cli	cmd;
+
+	i = 0;
+	while (i <= nb)
 	{
-		special_char(&tmp->cmd, b);
-		init_builtin(b, tmp->cmd);
-		clean_quote(b->argv);
-		get_command(b->argv[0], b);
-		if (tmp->output)
+		pipe(fdes[i]);
+		perror("ueue");
+		child = fork();
+		perror("ueue");
+		if (child == 0)
 		{
-			cmd.output = str_to_argv(tmp->output);
-			clean_quote(cmd.output);
-			if (get_priority(cmd.output[0]) == -4 && wfile(cmd.output) == 1)
-				exit(EXIT_FAILURE);
-			else if (get_priority(cmd.output[0]) == -3 && ape(cmd.output) == 1)
-				exit(EXIT_FAILURE);
+		pipe_handler(tmp, b, fdes[i], i, nb);
+		perror("ueue");
+		dup2(fdes[i][0], STDIN_FILENO);
+		perror("ueue");
+		close(fdes[i][1]);
+		perror("ueue");
+		wait(NULL);
+			tmp = tmp->next;
+			special_char(&tmp->cmd, b);
+			init_builtin(b, tmp->cmd);
+			clean_quote(b->argv);
+			get_command(b->argv[0], b);
+	//		if (tmp->output)
+	///		{
+	//			cmd.output = str_to_argv(tmp->output);
+	//			clean_quote(cmd.output);
+	///			if (get_priority(cmd.output[0]) == -4 && wfile(cmd.output) == 1)
+	//				exit(EXIT_FAILURE);
+	//			else if (get_priority(cmd.output[0]) == -3 && ape(cmd.output) == 1)
+	//				exit(EXIT_FAILURE);
+	//		}
+			execve(b->path, b->argv, b->env);
+			perror("ueue d");
 		}
-		execve(b->path, b->argv, b->env);
+			wait(NULL);
+			exit(EXIT_FAILURE);
 	}
-		exit(EXIT_FAILURE);
 }
 
 t_cmds		*exec_pipe(t_cmds *tmp, t_builtin *b)
 {
-	pid_t child;
+	int			nbpipe;
 
-	child = fork();
-	if (child == 0)
-		run_pipe(tmp, b);
-	wait(NULL);
-	return ((tmp->next)->next);
+	nbpipe = count_pipe(tmp);
+	pipe_manager(tmp, b, nbpipe);
+	return (send_cmds(tmp, nbpipe));
 }
