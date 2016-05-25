@@ -38,12 +38,12 @@ typedef struct		s_env
 	int				width;
 	int				length;
 	char			on;
+	char			pipe;
 	int				line;
 	int				col;
 	int				up;
 	int				fd;
 	char			*src;
-	char			*tmp;
 	t_elem			*elem;
 	t_quote			q;
 	struct termios	*term;

@@ -75,6 +75,11 @@ void	quote_prompt(t_env *e)
 		ft_putstr_fd("bquote", e->fd);
 		e->prompt_len += e->q.dquote ? 7 : 6;
 	}
+	if (e->pipe)
+	{
+		ft_putstr_fd("pipe", e->fd);
+		e->prompt_len += 5;
+	}
 	ft_putstr_fd("> ", e->fd);
 	e->prompt_len += 2;
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);

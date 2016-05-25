@@ -31,7 +31,8 @@ void	get_history(t_builtin *b)
 	ft_bzero(&h, sizeof(t_history));
 	while (get_next_line(b->fd_history, &h.command) > 0)
 	{
-		ft_lstadd_last(&b->lst, &h, sizeof(t_history));
+		if (h.command[0])
+			ft_lstadd_last(&b->lst, &h, sizeof(t_history));
 		ft_bzero(&h, sizeof(t_history));
 	}
 	close(b->fd_history);

@@ -27,6 +27,23 @@ int		get_prev_lfeed(t_env *e, char *str, int i)
 	return (len);
 }
 
+int		pipe_end(t_env *e, char *str)
+{
+	int		len;
+
+	len = e->curs_max - 1;
+	if (!str)
+		return (0);
+	while (len > 0 && str[len] == ' ' && str[len] == '\t')
+		len--;
+	if (str[len] == '|')
+	{
+		e->pipe = 1;
+		return (1);
+	}
+	return (0);
+}
+
 int		return_input(t_env *e, t_list *lst)
 {
 	t_history		*h;
@@ -42,7 +59,8 @@ int		return_input(t_env *e, t_list *lst)
 	list_to_string(lst, &e->elem);
 	h = e->elem->content;
 	if (cmp || (e->src == NULL && (!command_complete(&e->q, h->command) ||
-			(h->command && h->command[ft_strlen(h->command) - 1] == 92))))
+			(h->command && h->command[ft_strlen(h->command) - 1] == 92))) ||
+			pipe_end(e, h->command) == 1)
 	{
 		h->command = ft_cjoin(h->command, ft_strdup("\n"));
 		h->command_edit = ft_strnew(0);
