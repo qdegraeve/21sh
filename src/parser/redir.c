@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:31 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:31 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/30 21:37:50 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int			rfile(char **input)
 	int		fd_input;
 	char	*file;
 
+	if (is_agregator(input[0]) == 1)
+		return (2);
 	if (ft_strlen(input[0]) == 1 && input[1] == NULL)
 	{
 		ft_printf("Parse Error\n");
@@ -66,7 +68,7 @@ int			rfile(char **input)
 	else if (ft_strlen(input[0]) == 1 && input[1] != NULL)
 		file = input[1];
 	else
-		file = ++input[0];
+		file = go_to_file(input[0], 1);
 	fd_input = open(file, O_RDONLY);
 	if (fd_input < 0)
 	{

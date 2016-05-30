@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:34 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:34 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/30 21:37:49 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			ft_is_agregator(char *str)
 	{
 		while (ft_isdigit(str[i]) == 1)
 			i++;
-		if (str[i] && str[i] == '>' && str[i + 1] == '&')
+		if (str[i] && (str[i] == '>' || str[i] == '<') && str[i + 1] == '&')
 		{
 			str = &str[i + 2];
 			i = 0;
@@ -74,7 +74,7 @@ int			is_agregator(char *str)
 	{
 		while (ft_isdigit(str[i]) == 1)
 			i++;
-		if (str[i] && str[i] == '>' && str[i + 1] == '&')
+		if (str[i] && (str[i] == '>' || str[i] == '<') && str[i + 1] == '&')
 		{
 			input = ft_atoi(ft_strncpy(ft_strnew(i), str, i));
 			str = &str[i + 2];
