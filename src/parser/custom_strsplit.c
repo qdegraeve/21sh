@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:34 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:34 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/30 20:23:21 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ static int		ft_countword(const char *s)
 	{
 		if ((s[i] == ' ' || s[i] == '\t' || s[i] == '\n') && check && s[i - 1]
 				!= 92 && command_ncomplete(get_quote(), (char*)s, i))
-		{
 			check = 0;
-		}
-		else if (s[i] != ' ' && *s != '\t' && *s != '\n' && !check)
+		else if (s[i] != ' ' && s[i] != '\t' && s[i] != '\n' && check == 0)
 		{
 			nb++;
 			check++;

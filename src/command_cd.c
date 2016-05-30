@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:30 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:30 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/30 20:03:25 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,20 @@ void	cd_home(t_builtin *b, char *path)
 	char		*pwd;
 
 	pwd = NULL;
+	DEBUG
 	pwd = getcwd(pwd, 255);
+	DEBUG
 	if (path)
 	{
 		if (chdir(path) == 0)
 		{
 			set_env_one(b, ft_cjoin(ft_strdup("OLDPWD="), pwd), 7);
-			set_env_one(b, ft_cjoin(ft_strdup("PWD="), getcwd(path, 255)), 4);
+			set_env_one(b, ft_cjoin(ft_strdup("PWD="), getcwd(NULL, 255)), 4);
+			ft_strdel(&path);
 		}
 		else
 		{
+			DEBUG
 			ft_putstr_fd("cd: not a directory: ", 2);
 			ft_putendl_fd(path, 2);
 			ft_strdel(&pwd);
@@ -68,6 +72,7 @@ void	cd_path(t_builtin *b)
 		path = ft_cjoin(getcwd(pwd, 255), ft_strdup("/"));
 		path = ft_cjoin(path, ft_strdup(b->argv[0]));
 	}
+	ft_printf("path == %s\n", path);
 	cd_home(b, path);
 }
 
