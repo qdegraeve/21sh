@@ -6,45 +6,11 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:36 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:36 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/05/30 16:38:11 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-/*void		debug_lexer(t_cmds **tmp)
-**{
-**	t_cmds	*root;
-**	t_io	*io;
-**
-**	root = *tmp;
-**	while (root != NULL)
-**	{
-**		ft_printf("CMDS = %s\n", root->cmd);
-**		if (root->input != NULL)
-**		{
-**			io = root->input;
-**			while (io)
-**			{
-**				ft_printf("\tINPUT = %s\n", io->io);
-**				io = io->next;
-**			}
-**		}
-**		if (root->output != NULL)
-**		{
-**			io = root->output;
-**			while (io)
-**			{
-**				ft_printf("\toutput = %s\n", io->io);
-**				io = io->next;
-**			}
-**		}
-**		if (root->pipe == 1)
-**			ft_printf("\tIS PIPED \n");
-**		root = root->next;
-**	}
-**}
-*/
 
 static void	del_io(t_io *delme)
 {
