@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:35 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/31 16:49:35 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/06/02 13:19:11 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,22 @@ static void	go_to_next_io(char *str, int *i, int *total, int *priority)
 		count(i, total, -1);
 }
 
-static void	add_pipetolist(t_cmds **root)
+static void add_pipetolist(t_cmds **root, int i)
 {
 	t_cmds *tmp;
 
 	tmp = *root;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	tmp->pipe = 1;
+	if (i == 2 || i == 4 || i == 5)
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		if (i == 2)
+			tmp->pipe = 1;
+		else if (i == 4)
+			tmp->OR = 1;
+		else if (i == 5)
+			tmp->AND = 1;
+	}
 }
 
 int			add_all_io(t_cmds **root, char *str)
@@ -52,7 +60,7 @@ int			add_all_io(t_cmds **root, char *str)
 		priority2 <= -3 ? add_io(tmp, root, 2) : add_io(tmp, root, 1);
 		if (str[i] == '\0' || str[i + 1] == '\0')
 			return (total);
-		priority == 2 ? add_pipetolist(root) : 0;
+		add_pipetolist(root, priority);
 		if (priority < 0)
 			str = &str[i];
 		else
@@ -93,12 +101,12 @@ t_cmds		*lexer(char *str)
 	{
 		go_to_next_cmd(str, &i, &priority);
 		tmp = ft_strncpy(ft_strnew(i), str, i);
-		add_cmds(tmp, (priority == 2 ? 1 : 0), &root);
-		if (priority == 1 || priority == 2 || priority == 3)
+		add_cmds(tmp, priority, &root);
+		if (priority > 0)
 		{
 			if (str[i] == '\0' || str[i + 1] == '\0')
 				return (root);
-			str = &str[i + 1];
+			str = &str[i + (priority >= 4 ? 2 : 1)];
 		}
 		else
 			str = &str[i + add_all_io(&root, &str[i])];

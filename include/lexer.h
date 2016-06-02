@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:47 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:47 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/06/02 12:33:01 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct		s_cmds
 {
 	char			*cmd;
 	int				pipe;
+	int				AND;
+	int				OR;
 	t_io			*input;
 	t_io			*output;
 	char			**tab_i;

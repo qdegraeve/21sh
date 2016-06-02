@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:29 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/31 16:44:32 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/06/02 12:55:40 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,40 @@ void	get_history(t_builtin *b)
 	close(b->fd_history);
 }
 
+static void debug_lexer(t_cmds **root)
+{
+	t_cmds *tmp;
+	t_io	*io;
+
+	tmp = *root;
+	while (tmp)
+	{
+		ft_printf("CMDS : %s\n", tmp->cmd);
+		if (tmp->tab_i)
+		{
+			io = tmp->input;
+			while (io->next)
+				io = io->next;
+			ft_printf("INPUT : %s\n", io->io);
+		}
+		if (tmp->tab_o)
+		{
+			io = tmp->output;
+			while (io->next)
+				io = io->next;
+			ft_printf("OUTPUT : %s\n", io->io);
+		}
+		if (tmp->pipe)
+			ft_printf("IS PIPED\n");
+		if (tmp->AND)
+			ft_printf("IS AND\n");
+		if (tmp->OR)
+			ft_printf("IS OR\n");
+		ft_putstr("\n");
+		tmp = tmp->next;
+	}
+}
+
 void	loop_fork(t_builtin *b)
 {
 	char	*file;
@@ -69,6 +103,8 @@ void	loop_fork(t_builtin *b)
 		{
 			root = NULL;
 			root = lexer(b->command);
+			if (root)
+				debug_lexer(&root);
 			if (root)
 				parser(&root, b);
 			if (b->command)

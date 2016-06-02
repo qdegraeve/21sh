@@ -6,13 +6,13 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:36 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 21:55:32 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/06/02 13:19:10 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	add_cmds(char *str, int pipe, t_cmds **root)
+void	add_cmds(char *str, int i, t_cmds **root)
 {
 	t_cmds *tmp;
 	t_cmds *new;
@@ -21,7 +21,12 @@ void	add_cmds(char *str, int pipe, t_cmds **root)
 	tmp = (t_cmds*)malloc(sizeof(t_cmds));
 	ft_bzero(tmp, sizeof(t_cmds));
 	tmp->cmd = str;
-	tmp->pipe = pipe;
+	if (i == 2)
+		tmp->pipe = 1;
+	else if (i == 4)
+		tmp->OR = 1;
+	else if (i == 5)
+		tmp->AND = 1;
 	if (!new)
 		*root = tmp;
 	else
@@ -68,7 +73,11 @@ void	count(int *i, int *total, int counter)
 
 int		get_io(char *str)
 {
-	if (str && str[0] == '|')
+	if (str && str[0] == '|' && str[1] == '|')
+		return (4);
+	else if (str && str[0] == '&' && str[1] == '&')
+		return (5);
+	else if (str && str[0] == '|')
 		return (2);
 	else if (str && str[0] == ';')
 		return (1);
@@ -85,7 +94,11 @@ int		get_io(char *str)
 
 int		space_priority(char *str)
 {
-	if (str && str[0] == '>' && str[1] == '>')
+//	if (str && str[0] == '|' && str[1] == '|')
+//		return (1);
+//	else if (str && str[0] == '&' && str[1] == '&')
+//		return (1);
+	 if (str && str[0] == '>' && str[1] == '>')
 		return (2);
 	else if (str && str[0] == '>')
 		return (1);
