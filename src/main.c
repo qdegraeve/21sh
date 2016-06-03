@@ -51,14 +51,20 @@ static void debug_lexer(t_cmds **root)
 		{
 			io = tmp->input;
 			while (io->next)
+			{
+				ft_printf("\tINPUT : %s\n", io->io);
 				io = io->next;
+			}
 			ft_printf("\tINPUT : %s\n", io->io);
 		}
 		if (tmp->output)
 		{
 			io = tmp->output;
 			while (io->next)
+			{
+				ft_printf("\tOUTPUT : %s\n", io->io);
 				io = io->next;
+			}
 			ft_printf("\tOUTPUT : %s\n", io->io);
 		}
 		if (tmp->pipe)
