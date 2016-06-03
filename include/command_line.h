@@ -42,6 +42,7 @@ typedef struct		s_env
 	char			on;
 	char			pipe;
 	char			cmdor;
+	char			cmdand;
 	char			edit;
 	int				line;
 	int				col;

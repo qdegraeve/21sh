@@ -10,6 +10,9 @@ void	init_env(t_env *e, char *src)
 	e->col = 0;
 	e->up = 0;
 	e->fd = 0;
+	e->pipe = 0;
+	e->cmdand = 0;
+	e->cmdor = 0;
 	e->q.quote = 0;
 	e->q.bquote = 0;
 	e->q.dquote = 0;

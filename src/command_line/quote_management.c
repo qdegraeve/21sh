@@ -78,6 +78,11 @@ void	quote_prompt(t_env *e)
 		e->pipe ? ft_putstr("pipe") : ft_putstr("cmdor");
 		e->prompt_len += e->pipe ? 4 : 5;
 	}
+	if (e->cmdand)
+	{
+		ft_putstr("cmdand");
+		e->prompt_len += 6;
+	}
 	ft_putstr("> ");
 	e->prompt_len += 2;
 	tputs(tgetstr("sc", NULL), 0, ft_putchar2);

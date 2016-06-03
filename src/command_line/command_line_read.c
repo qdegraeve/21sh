@@ -33,6 +33,8 @@ static int	pipe_end(t_env *e, char *str)
 
 	len = ft_strlen(str) - 1;
 	e->pipe = 0;
+	e->cmdand = 0;
+	e->cmdor = 0;
 	if (!str)
 		return (0);
 	while (len > 0 && (str[len] == ' ' || str[len] == '\t' || str[len] == '\n'))
@@ -43,6 +45,11 @@ static int	pipe_end(t_env *e, char *str)
 			e->cmdor = 1;
 		else
 			e->pipe = 1;
+		return (1);
+	}
+	else if (str[len] == '&' && len > 0 && str[len - 1] == '&')
+	{
+		e->cmdand = 1;
 		return (1);
 	}
 	return (0);

@@ -90,7 +90,7 @@ void		keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 	if ((i > 31 && i < 127) || (i == 127 && e->curs_pos != 0) ||
 			(i == DEL && e->curs_pos < e->curs_max))
 		modif_command(e, i, *elem);
-	else if (i == 4)
+	else if (i == 4 && ((t_history*)lst->tail->content)->command == NULL)
 	{
 		if (h->command_edit && h->command_edit[0] == '\0')
 			exec_exit(get_buil());
