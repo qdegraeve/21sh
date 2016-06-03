@@ -62,6 +62,6 @@ int			get_priority(char *str)
 
 char		*exeption(char *str)
 {
-
+	str++;
 	return (NULL);
 }

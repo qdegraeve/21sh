@@ -35,7 +35,9 @@ void	exec_exit(t_builtin *b)
 {
 	t_elem	*elem;
 	char	*file;
+	int		out;
 
+	out = 0;
 	elem = b->lst.head;
 	file = ft_strjoin(ft_getenv("HOME", b->env), "/.21sh_history");
 	if (b->env_cpy)
@@ -45,7 +47,11 @@ void	exec_exit(t_builtin *b)
 	if (b->path)
 		ft_strdel(&b->path);
 	if (b->argv)
+	{
+		if (b->argv[0])
+			out = ft_atoi(b->argv[0]);
 		clear_tab(b->argv);
+	}
 	if ((b->fd_history = open(file, O_RDWR | O_APPEND)) >= 0)
 		while (elem)
 		{
@@ -57,7 +63,7 @@ void	exec_exit(t_builtin *b)
 	close(b->fd_history);
 	term_reset();
 	ft_lstdel(&b->lst, del_lst_char);
-	exit(42);
+	exit(out);
 }
 
 void	get_command(char *command, t_builtin *b)
