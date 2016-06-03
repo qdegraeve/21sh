@@ -52,7 +52,7 @@ int			add_all_io(t_cmds **root, char *str)
 		if (priority < 0)
 			str = &str[i];
 		else
-			return (total + 1);
+			return (total + (priority >= 4 ? 2 : 1));
 		i = 0;
 	}
 	return (0);
