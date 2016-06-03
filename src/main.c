@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/30 16:32:29 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/06/02 12:55:40 by nahmed-m         ###   ########.fr       */
+/*   Updated: 2016/06/03 18:20:10 by nahmed-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,21 @@ static void debug_lexer(t_cmds **root)
 			io = tmp->input;
 			while (io->next)
 				io = io->next;
-			ft_printf("INPUT : %s\n", io->io);
+			ft_printf("\tINPUT : %s\n", io->io);
 		}
 		if (tmp->tab_o)
 		{
 			io = tmp->output;
 			while (io->next)
 				io = io->next;
-			ft_printf("OUTPUT : %s\n", io->io);
+			ft_printf("\tOUTPUT : %s\n", io->io);
 		}
 		if (tmp->pipe)
-			ft_printf("IS PIPED\n");
+			ft_printf("\tIS PIPED\n");
 		if (tmp->AND)
-			ft_printf("IS AND\n");
+			ft_printf("\tIS AND\n");
 		if (tmp->OR)
-			ft_printf("IS OR\n");
-		ft_putstr("\n");
+			ft_printf("\tIS OR\n");
 		tmp = tmp->next;
 	}
 }
