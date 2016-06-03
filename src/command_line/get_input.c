@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_input.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/30 16:32:37 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:37 by qdegraev         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 char	*get_input(t_builtin *b, int input)
@@ -18,8 +6,8 @@ char	*get_input(t_builtin *b, int input)
 	char	buf[8];
 	t_env	*e;
 
-	ret = -1;
 	e = get_env();
+	ret = -1;
 	if (input == 10)
 		tputs(tgetstr("up", NULL), 0, ft_putchar2);
 	while (42)
