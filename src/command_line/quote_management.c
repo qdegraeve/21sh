@@ -73,10 +73,10 @@ void	quote_prompt(t_env *e)
 		ft_putstr("bquote");
 		e->prompt_len += e->q.dquote ? 7 : 6;
 	}
-	if (e->pipe)
+	if (e->pipe || e->cmdor)
 	{
-		ft_putstr("pipe");
-		e->prompt_len += 4;
+		e->pipe ? ft_putstr("pipe") : ft_putstr("cmdor");
+		e->prompt_len += e->pipe ? 4 : 5;
 	}
 	ft_putstr("> ");
 	e->prompt_len += 2;
