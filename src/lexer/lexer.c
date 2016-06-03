@@ -85,6 +85,13 @@ t_cmds		*lexer(char *str)
 	priority = 0;
 	i = 0;
 	root = NULL;
+	while (get_priority(str) < 0)
+	{
+		while (ft_iswhitespace(*str) == 1)
+			str = &str[1];
+		add_cmds(exeption(str), 0, &root);
+		str = &str[add_all_io(&root, str)];
+	}
 	while (str && str[i])
 	{
 		go_to_next_cmd(str, &i, &priority);
