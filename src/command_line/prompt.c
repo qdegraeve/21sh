@@ -1,23 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/30 16:32:39 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:39 by qdegraev         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 char	*get_pwd_prompt(char *path)
 {
 	int		i;
 
+	if (!path)
+		path = ft_strdup("Middle of nowhere");
 	i = ft_strlen(path);
-	while (path[i] != '/')
+	while (i >= 0 && path[i] != '/')
 		i--;
 	get_env()->prompt_len = ft_strlen(path + i + 1) + 5;
 	return (path + i + 1);

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/30 16:32:41 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/05/30 16:32:41 by qdegraev         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 void	resize(int sig)
@@ -38,11 +26,21 @@ void	resize(int sig)
 
 void	ctrl_c(int signal)
 {
+	t_env	*e;
+
 	if (signal == SIGINT)
 	{
 		ft_putchar('\n');
 		if (get_env()->edit)
+		{
+			e = get_env();
+			ft_lstdelone(&get_buil()->lst, get_buil()->lst.tail, del_lst_char);
+			e->elem = get_buil()->lst.tail->next;
+			term_reset();
+			init_env(e, NULL);
 			prompt(1);
+			term_set();
+		}
 		else
 			get_buil()->error = 1;
 	}
