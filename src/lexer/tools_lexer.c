@@ -82,11 +82,7 @@ int		get_io(char *str)
 
 int		space_priority(char *str)
 {
-//	if (str && str[0] == '|' && str[1] == '|')
-//		return (1);
-//	else if (str && str[0] == '&' && str[1] == '&')
-//		return (1);
-	 if (str && str[0] == '>' && str[1] == '>')
+	if (str && str[0] == '>' && str[1] == '>')
 		return (2);
 	else if (str && str[0] == '>')
 		return (1);

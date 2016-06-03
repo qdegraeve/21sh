@@ -47,14 +47,14 @@ static void debug_lexer(t_cmds **root)
 	while (tmp)
 	{
 		ft_printf("CMDS : %s\n", tmp->cmd);
-		if (tmp->tab_i)
+		if (tmp->input)
 		{
 			io = tmp->input;
 			while (io->next)
 				io = io->next;
 			ft_printf("\tINPUT : %s\n", io->io);
 		}
-		if (tmp->tab_o)
+		if (tmp->output)
 		{
 			io = tmp->output;
 			while (io->next)
