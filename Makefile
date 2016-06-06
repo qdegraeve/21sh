@@ -55,6 +55,7 @@ SRC =  env.c \
 	redir.c \
 	get_input.c \
 	agregator.c \
+	no_tty.c \
 
 OBJ = $(SRC:.c=.o)
 

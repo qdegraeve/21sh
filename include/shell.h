@@ -49,6 +49,11 @@ void				sig_handler(int sig);
 void				init_builtin(t_builtin *b, char *command);
 
 /*
+**		no_tty
+*/
+void				no_tty(t_builtin *b);
+
+/*
 **		prompt
 */
 char				*get_pwd_prompt(char *path);
