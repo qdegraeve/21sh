@@ -59,9 +59,3 @@ int			get_priority(char *str)
 		i++;
 	return (priority);
 }
-
-char		*exeption(char *str)
-{
-	str++;
-	return (NULL);
-}
