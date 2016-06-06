@@ -109,5 +109,5 @@ char		*go_to_file(char *str, int nb)
 		i++;
 	else if (nb == 2)
 		i += 2;
-	return (ft_strcpy(ft_strnew(i), &str[i]));
+	return (ft_strcpy(ft_strnew(i), str + i));
 }

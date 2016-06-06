@@ -18,6 +18,8 @@ void	init_env(t_env *e, char *src)
 	e->q.dquote = 0;
 	e->prompt_len = 0;
 	e->width = 0;
+	e->li_left = 0;
+	e->height = 0;
 	e->src = src;
 	e->edit = 1;
 }
@@ -38,6 +40,7 @@ void	term_set(void)
 	tcsetattr(0, TCSANOW, &term);
 	ioctl(0, TIOCGWINSZ, &win);
 	get_env()->width = win.ws_col;
+	get_env()->height = win.ws_row;
 }
 
 void	term_reset(void)

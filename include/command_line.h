@@ -38,6 +38,8 @@ typedef struct		s_env
 	int				curs_line;
 	int				prompt_len;
 	int				width;
+	int				height;
+	int				li_left;
 	int				length;
 	char			on;
 	char			pipe;
@@ -69,6 +71,11 @@ t_env				*get_env();
 void				term_set(void);
 void				term_reset(void);
 int					ft_putchar2(int c);
+
+/*
+**		term_control.c
+*/
+void				get_curs_pos(t_env *e);
 
 /*
 **		get_input.c

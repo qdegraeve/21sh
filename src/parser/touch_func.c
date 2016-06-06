@@ -40,7 +40,8 @@ static int	touch_erase(char **file)
 	int		fd;
 
 	fd = -1;
-	if (ft_strlen(file[0]) == 1 && file[1] == NULL)
+	ft_print_tab(file);
+	if (file && ft_strlen(file[0]) == 1 && file[1] == NULL)
 		return (1);
 	else if (file[1] != NULL)
 		path = file[1];
@@ -77,5 +78,6 @@ void		touch_file(char *str)
 		return ;
 	else if (get_priority(file[0]) == -3 && juste_touch(file) == 1)
 		return ;
-	free(file);
+	if (file)
+		free(file);
 }

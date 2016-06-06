@@ -38,45 +38,6 @@ void	get_history(t_builtin *b)
 	close(b->fd_history);
 }
 
-static void debug_lexer(t_cmds **root)
-{
-	t_cmds *tmp;
-	t_io	*io;
-
-	tmp = *root;
-	while (tmp)
-	{
-		ft_printf("CMDS : %s\n", tmp->cmd);
-		if (tmp->input)
-		{
-			io = tmp->input;
-			while (io->next)
-			{
-				ft_printf("\tINPUT : %s\n", io->io);
-				io = io->next;
-			}
-			ft_printf("\tINPUT : %s\n", io->io);
-		}
-		if (tmp->output)
-		{
-			io = tmp->output;
-			while (io->next)
-			{
-				ft_printf("\tOUTPUT : %s\n", io->io);
-				io = io->next;
-			}
-			ft_printf("\tOUTPUT : %s\n", io->io);
-		}
-		if (tmp->pipe)
-			ft_printf("\tIS PIPED\n");
-		if (tmp->AND)
-			ft_printf("\tIS AND\n");
-		if (tmp->OR)
-			ft_printf("\tIS OR\n");
-		tmp = tmp->next;
-	}
-}
-
 void	loop_fork(t_builtin *b)
 {
 	char	*file;
@@ -96,8 +57,6 @@ void	loop_fork(t_builtin *b)
 		{
 			root = NULL;
 			root = lexer(b->command);
-			if (root)
-				debug_lexer(&root);
 			if (root)
 				parser(&root, b);
 			if (b->command)

@@ -6,7 +6,7 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/06 12:10:49 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/06/06 12:25:34 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/06/06 15:58:23 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ void		no_tty(t_builtin *b)
 {
 	char	*line;
 	t_cmds	*root;
-	int		i;
+	int		j;
 
-	i = 0;
+	j = -1;
 	while (get_next_line(STDIN_FILENO, &line) == 1)
 	{
+		while (line[++j])
+			if (line[j] < 0 || line[j] > 127)
+			{
+				ft_printf("unexpected token in command line\n");
+				exec_exit(b);
+			}
 		root = NULL;
 		root = lexer(line);
 		if (root)
@@ -29,7 +35,6 @@ void		no_tty(t_builtin *b)
 			ft_strdel(&line);
 		if (root)
 			del_lex_io(&root);
-		i++;
 	}
 	exec_exit(b);
 }

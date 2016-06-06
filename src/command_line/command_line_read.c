@@ -30,28 +30,28 @@ int			get_prev_lfeed(t_env *e, char *str, int i)
 static int	pipe_end(t_env *e, char *str)
 {
 	int		len;
+	int		complete;
 
 	len = ft_strlen(str) - 1;
 	e->pipe = 0;
 	e->cmdand = 0;
 	e->cmdor = 0;
+	complete = command_complete(get_quote(), str);
 	if (!str)
 		return (0);
 	while (len > 0 && (str[len] == ' ' || str[len] == '\t' || str[len] == '\n'))
 		len--;
-	if (str[len] == '|')
+	if (str[len] == '|' && complete)
 	{
 		if (len > 0 && str[len - 1] == '|')
 			e->cmdor = 1;
 		else
 			e->pipe = 1;
-		return (1);
 	}
-	else if (str[len] == '&' && len > 0 && str[len - 1] == '&')
-	{
+	else if (str[len] == '&' && len > 0 && str[len - 1] == '&' && complete)
 		e->cmdand = 1;
+	if (e->pipe || e->cmdand || e->cmdor)
 		return (1);
-	}
 	return (0);
 }
 
@@ -70,7 +70,7 @@ int			return_input(t_env *e, t_list *lst)
 	list_to_string(lst, &e->elem);
 	h = e->elem->content;
 	if (cmp || (e->src == NULL && (!command_complete(&e->q, h->command) ||
-					(h->command && h->command[ft_strlen(h->command) - 1] == 92))) ||
+			(h->command && h->command[ft_strlen(h->command) - 1] == 92))) ||
 			pipe_end(e, h->command) == 1)
 	{
 		h->command = ft_cjoin(h->command, ft_strdup("\n"));

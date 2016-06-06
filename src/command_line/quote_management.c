@@ -66,22 +66,17 @@ void	quote_prompt(t_env *e)
 			ft_putstr("dquote");
 		e->prompt_len += e->q.dquote ? 6 : 5;
 	}
-	if (e->q.bquote)
+	if (e->q.bquote || e->cmdand)
 	{
 		if (e->q.dquote)
 			ft_putstr(" ");
-		ft_putstr("bquote");
+		e->q.bquote ? ft_putstr("bquote") : ft_putstr("cmdand");
 		e->prompt_len += e->q.dquote ? 7 : 6;
 	}
 	if (e->pipe || e->cmdor)
 	{
 		e->pipe ? ft_putstr("pipe") : ft_putstr("cmdor");
 		e->prompt_len += e->pipe ? 4 : 5;
-	}
-	if (e->cmdand)
-	{
-		ft_putstr("cmdand");
-		e->prompt_len += 6;
 	}
 	ft_putstr("> ");
 	e->prompt_len += 2;

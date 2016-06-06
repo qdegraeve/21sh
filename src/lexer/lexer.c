@@ -12,7 +12,7 @@ static void	go_to_next_io(char *str, int *i, int *total, int *priority)
 		count(i, total, -1);
 }
 
-static void add_pipetolist(t_cmds **root, int i)
+static void	add_pipetolist(t_cmds **root, int i)
 {
 	t_cmds *tmp;
 
@@ -72,7 +72,6 @@ static void	go_to_next_cmd(char *str, int *i, int *priority)
 		*i += 1;
 	while (*priority < 0 && *i > 0 && ft_isdigit(str[*i - 1]) == 1)
 		*i -= 1;
-	
 }
 
 t_cmds		*lexer(char *str)
