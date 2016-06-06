@@ -31,7 +31,6 @@ int					space_priority(char *str);
 int					get_io(char *str);
 void				count(int *i, int *total, int counter);
 void				del_lex_io(t_cmds **root);
-char				*exeption(char *str);
 
 /*
 ** LEXER
