@@ -135,6 +135,9 @@ int		main(int ac, char **av, char **env)
 		b->env = ft_tab_strcpy(env);
 	sh_level(b);
 	signal_catcher();
-	loop_fork(b);
+	if (!isatty(STDIN_FILENO))
+		no_tty(b);
+	else
+		loop_fork(b);
 	return (0);
 }
