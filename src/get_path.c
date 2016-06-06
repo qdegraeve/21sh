@@ -39,13 +39,13 @@ void	exec_exit(t_builtin *b)
 	elem = b->lst.head;
 	file = ft_strjoin(ft_getenv("HOME", b->env), "/.21sh_history");
 	if (b->env_cpy)
-		clear_tab(b->env_cpy);
+		clear_tab(&b->env_cpy);
 	if (b->env)
-		clear_tab(b->env);
+		clear_tab(&b->env);
 	if (b->path)
 		ft_strdel(&b->path);
 	if (b->argv)
-		clear_tab(b->argv);
+		clear_tab(&b->argv);
 	if ((b->fd_history = open(file, O_RDWR | O_APPEND)) >= 0)
 		while (elem)
 		{
@@ -85,10 +85,10 @@ void	no_path(t_builtin *b, char *command, char **test)
 		if (access(command, X_OK) == 0)
 		{
 			b->path = ft_strdup(command);
-			clear_tab(test);
+			clear_tab(&test);
 			return ;
 		}
-	clear_tab(test);
+	clear_tab(&test);
 	b->error = 1;
 	ft_putstr_fd("21sh: command not found: ", 2);
 	ft_putendl_fd(command, 2);
@@ -113,7 +113,7 @@ void	get_path(char *command, t_builtin *b)
 		if (access(path, X_OK) == 0)
 		{
 			b->path = path;
-			clear_tab(test);
+			clear_tab(&test);
 			return ;
 		}
 		else

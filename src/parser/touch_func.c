@@ -40,7 +40,6 @@ static int	touch_erase(char **file)
 	int		fd;
 
 	fd = -1;
-	ft_print_tab(file);
 	if (file && ft_strlen(file[0]) == 1 && file[1] == NULL)
 		return (1);
 	else if (file[1] != NULL)

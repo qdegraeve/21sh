@@ -94,7 +94,7 @@ void				end_select(int sig);
 **		array_funcions.c
 */
 char				**ft_tab_strcpy(char **to_copy);
-void				clear_tab(char **array);
+void				clear_tab(char ***array);
 char				**ft_tab_remove(char **array, int line);
 char				**ft_tab_add(char **array, char *var);
 void				ft_print_tab(char **array);

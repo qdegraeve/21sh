@@ -38,21 +38,21 @@ char	**ft_tab_strcpy(char **to_copy)
 	return (copy);
 }
 
-void	clear_tab(char **array)
+void	clear_tab(char ***array)
 {
 	int		i;
 
 	i = 0;
 	if (!array)
 		return ;
-	while (array[i] && array[i][0])
+	while ((*array)[i] && (*array)[i][0])
 	{
-		ft_strdel(&array[i]);
+		ft_strdel(&(*array)[i]);
 		i++;
 	}
-	if (array)
-		free(array);
-	array = NULL;
+	if (*array)
+		free(*array);
+	*array = NULL;
 }
 
 char	**ft_tab_remove(char **array, int line)

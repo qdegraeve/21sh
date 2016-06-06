@@ -7,6 +7,8 @@ char	*ft_getenv(char *var, char **env)
 	char	*tmp;
 
 	i = 0;
+	if (env == NULL)
+		return (NULL);
 	tmp = ft_strjoin(var, "=");
 	len = ft_strlen(tmp);
 	while (env && env[i])

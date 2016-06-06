@@ -24,7 +24,7 @@ void	set_env_options(t_builtin *b)
 	if (!b->env_i)
 	{
 		if (b->env_cpy)
-			clear_tab(b->env_cpy);
+			clear_tab(&b->env_cpy);
 		b->env_cpy = ft_tab_strcpy(b->env);
 	}
 	else

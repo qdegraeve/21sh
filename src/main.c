@@ -5,14 +5,14 @@ void	init_builtin(t_builtin *b, char *command)
 {
 	if (b->env_cpy)
 	{
-		clear_tab(b->env);
+		clear_tab(&b->env);
 		b->env = b->env_cpy;
 		b->env_cpy = NULL;
 	}
 	if (b->path)
 		ft_strdel(&b->path);
 	if (b->argv)
-		clear_tab(b->argv);
+		clear_tab(&b->argv);
 	b->env_i = 0;
 	b->env_p = 0;
 	b->env_u = 0;
