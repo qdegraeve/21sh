@@ -33,6 +33,8 @@ void	get_history(t_builtin *b)
 	{
 		if (h.command[0])
 			ft_lstadd_last(&b->lst, &h, sizeof(t_history));
+		else
+			ft_strdel(&h.command);
 		ft_bzero(&h, sizeof(t_history));
 	}
 	close(b->fd_history);

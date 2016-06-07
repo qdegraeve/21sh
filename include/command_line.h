@@ -20,6 +20,7 @@
 # include "shell.h"
 # include <termios.h>
 # include <term.h>
+# include <termcap.h>
 
 typedef struct s_builtin	t_builtin;
 typedef struct s_list		t_list;
@@ -38,19 +39,22 @@ typedef struct		s_env
 	int				curs_line;
 	int				prompt_len;
 	int				width;
-	int				height;
-	int				li_left;
-	int				length;
 	char			on;
 	char			pipe;
 	char			cmdor;
 	char			cmdand;
 	char			edit;
-	int				line;
-	int				col;
-	int				up;
 	int				fd;
 	char			*src;
+	char			*up;
+	char			*down;
+	char			*le;
+	char			*ri;
+	char			*cd;
+	char			*sc;
+	char			*rc;
+	char			*down_one;
+	char			*cr;
 	t_elem			*elem;
 	t_quote			q;
 	struct termios	term;
@@ -70,6 +74,10 @@ void				init_env(t_env *e, char *src);
 t_env				*get_env();
 void				term_set(void);
 void				term_reset(void);
+
+/*
+**		tools_cmd_line.c
+*/
 int					ft_putchar2(int c);
 
 /*

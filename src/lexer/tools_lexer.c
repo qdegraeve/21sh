@@ -12,9 +12,9 @@ void	add_cmds(char *str, int i, t_cmds **root)
 	if (i == 2)
 		tmp->pipe = 1;
 	else if (i == 4)
-		tmp->OR = 1;
+		tmp->test2 = 1;
 	else if (i == 5)
-		tmp->AND = 1;
+		tmp->test1 = 1;
 	if (!new)
 		*root = tmp;
 	else

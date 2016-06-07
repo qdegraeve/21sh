@@ -37,7 +37,7 @@ char	*get_commands(t_builtin *b)
 	init_env(get_env(), NULL);
 	b->error ? prompt(1) : prompt(0);
 	term_set();
-	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
+	tputs(get_env()->cd, 0, ft_putchar2);
 	line = ft_strdup(get_input(b, 0));
 	term_reset();
 	get_env()->edit = 0;

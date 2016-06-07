@@ -9,16 +9,13 @@ void		move_cursor_line(t_env *e, int input, char *str)
 	move = 0;
 	if (input == HOME && e->curs_pos)
 	{
-		tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
-		if ((move = calc_line(e, str, e->curs_pos)))
-			tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
-		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
+		go_to_position(e, str, 0);
 		e->curs_pos = 0;
 	}
 	else if (input == END && e->curs_max - e->curs_pos > 0)
 	{
-		tputs(tgetstr("rc", NULL), 0, ft_putchar2);
-		tputs(tgetstr("sc", NULL), 0, ft_putchar2);
+		tputs(e->rc, 0, ft_putchar2);
+		tputs(e->sc, 0, ft_putchar2);
 		e->curs_pos = e->curs_max;
 	}
 }
@@ -38,10 +35,10 @@ static void	move_cursor_word_right(t_env *e, char *str)
 				e->curs_pos == e->curs_max)
 		{
 			if ((move = calc_line(e, str, e->curs_pos)))
-				tputs(tgoto(tgetstr("DO", NULL), 0, move), 0, ft_putchar2);
+				tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 			if ((move = calc_row(e, str, e->curs_pos)))
 			{
-				tputs(tgoto(tgetstr("RI", NULL), 0, move - e->prompt_len), 0,
+				tputs(tgoto(e->ri, 0, move - e->prompt_len), 0,
 						ft_putchar2);
 			}
 			break ;
@@ -68,9 +65,9 @@ static void	move_cursor_word_left(t_env *e, char *str)
 			if (e->curs_pos != 0)
 				e->curs_pos++;
 			if ((move = calc_line(e, str, e->curs_pos)))
-				tputs(tgoto(tgetstr("DO", NULL), 0, move), 0, ft_putchar2);
+				tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 			if ((move = calc_row(e, str, e->curs_pos)))
-				tputs(tgoto(tgetstr("RI", NULL), 0, move), 0, ft_putchar2);
+				tputs(tgoto(e->ri, 0, move), 0, ft_putchar2);
 			go_to_position(e, str, e->curs_pos);
 			break ;
 		}

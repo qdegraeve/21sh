@@ -1,14 +1,9 @@
 #include "shell.h"
 
-void	init_env(t_env *e, char *src)
+void		init_env(t_env *e, char *src)
 {
 	e->curs_pos = 0;
 	e->curs_max = 0;
-	e->length = 0;
-	e->on = 0;
-	e->line = 0;
-	e->col = 0;
-	e->up = 0;
 	e->fd = 0;
 	e->pipe = 0;
 	e->cmdand = 0;
@@ -18,13 +13,11 @@ void	init_env(t_env *e, char *src)
 	e->q.dquote = 0;
 	e->prompt_len = 0;
 	e->width = 0;
-	e->li_left = 0;
-	e->height = 0;
 	e->src = src;
 	e->edit = 1;
 }
 
-void	term_set(void)
+void		term_set(void)
 {
 	struct winsize	win;
 	t_env			*e;
@@ -40,18 +33,31 @@ void	term_set(void)
 	tcsetattr(0, TCSANOW, &term);
 	ioctl(0, TIOCGWINSZ, &win);
 	get_env()->width = win.ws_col;
-	get_env()->height = win.ws_row;
 }
 
-void	term_reset(void)
+void		term_reset(void)
 {
 	tcsetattr(0, TCSANOW, &get_env()->term);
 }
 
-t_env	*get_env(void)
+static void	init_tgetstr(t_env *e)
+{
+	e->up = tgetstr("UP", NULL);
+	e->down = tgetstr("DO", NULL);
+	e->ri = tgetstr("RI", NULL);
+	e->le = tgetstr("LE", NULL);
+	e->cd = tgetstr("cd", NULL);
+	e->sc = tgetstr("sc", NULL);
+	e->rc = tgetstr("rc", NULL);
+	e->cr = tgetstr("cr", NULL);
+	e->down_one = tgetstr("down_one", NULL);
+}
+
+t_env		*get_env(void)
 {
 	static t_env	*e = NULL;
 	char			*name;
+	char			*temp;
 
 	name = NULL;
 	if (!e)
@@ -61,13 +67,12 @@ t_env	*get_env(void)
 		if (!(name = ft_getenv("TERM", get_buil()->env)))
 			exit(EXIT_FAILURE);
 		tgetent(NULL, name);
+		temp = tgetstr("pc", NULL);
+		PC = temp ? *temp : 0;
+		BC = tgetstr("le", NULL);
+		UP = tgetstr("up", NULL);
+		init_tgetstr(e);
 		tcgetattr(0, &e->term);
 	}
 	return (e);
-}
-
-int		ft_putchar2(int c)
-{
-	ft_putchar_fd(c, get_env()->fd);
-	return (0);
 }

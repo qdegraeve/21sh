@@ -17,8 +17,8 @@ void	parse_pos(t_env *e, char *str)
 
 void	get_curs_pos(t_env *e)
 {
-	int fd_input;
-	char *buf;
+	int		fd_input;
+	char	*buf;
 
 	buf = NULL;
 	fd_input = open("/tmp/.parse", O_RDWR | O_CREAT | O_TRUNC, 0644);

@@ -8,7 +8,7 @@ int			calc_row(t_env *e, char *str, int pos)
 
 	i = 0;
 	ret = 0;
-	while (i < pos && i < e->curs_max && str[i] != '\n')
+	while (i < pos && str[i] && str[i] != '\n')
 		i++;
 	ret += (i + e->prompt_len) % e->width;
 	while (i < pos && str[i])
@@ -35,7 +35,7 @@ int			calc_line(t_env *e, char *str, int pos)
 	i = 0;
 	j = 0;
 	ret = 0;
-	while (i < pos && i < e->curs_max && str[i] != '\n')
+	while (i < pos && str[i] && str[i] != '\n')
 		i++;
 	ret += (i + e->prompt_len) / e->width;
 	while (i < pos && i < e->curs_max)
@@ -58,15 +58,15 @@ void		go_to_position(t_env *e, char *str, int position)
 	int		move;
 
 	move = 0;
-	tputs(tgoto(tgetstr("LE", NULL), 0, e->width), 0, ft_putchar2);
+	tputs(e->cr, 0, ft_putchar2);
 	if ((move = calc_line(e, str, e->curs_pos)))
-		tputs(tgoto(tgetstr("UP", NULL), 0, move), 0, ft_putchar2);
+		tputs(tgoto(e->up, 0, move), 0, ft_putchar2);
 	if (!position)
-		tputs(tgoto(tgetstr("RI", NULL), 0, e->prompt_len), 0, ft_putchar2);
+		tputs(tgoto(e->ri, 0, e->prompt_len), 0, ft_putchar2);
 	if (position && (move = calc_line(e, str, position)))
-		tputs(tgoto(tgetstr("DO", NULL), 0, move), 0, ft_putchar2);
+		tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 	if (position && (move = calc_row(e, str, position)))
-		tputs(tgoto(tgetstr("RI", NULL), 0, move), 0, ft_putchar2);
+		tputs(tgoto(e->ri, 0, move), 0, ft_putchar2);
 }
 
 static void	keys_actions_2(t_env *e, int i, t_elem **elem, char *str)

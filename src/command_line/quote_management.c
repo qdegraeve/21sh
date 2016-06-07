@@ -80,5 +80,5 @@ void	quote_prompt(t_env *e)
 	}
 	ft_putstr("> ");
 	e->prompt_len += 2;
-	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
+	tputs(e->sc, 0, ft_putchar2);
 }

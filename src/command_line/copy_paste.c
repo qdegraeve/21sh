@@ -16,7 +16,7 @@ static void	cut(t_env *e, char **str, t_builtin *b)
 		ft_strdel(&*str);
 		*str = dest;
 		e->curs_max = e->curs_pos;
-		tputs(tgetstr("cd", NULL), 0, ft_putchar2);
+		tputs(e->cd, 0, ft_putchar2);
 		ft_putstr(*str);
 	}
 }
@@ -47,9 +47,9 @@ static void	paste(t_env *e, char **str, t_builtin *b)
 	ft_strdel(str);
 	*str = dest;
 	dest[e->curs_max] = '\0';
-	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
+	tputs(e->cd, 0, ft_putchar2);
 	ft_putstr(*str);
-	tputs(tgetstr("sc", NULL), 0, ft_putchar2);
+	tputs(e->sc, 0, ft_putchar2);
 	e->curs_pos += ft_strlen(b->paste);
 	go_to_position(e, *str, e->curs_pos);
 }

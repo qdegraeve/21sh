@@ -13,8 +13,8 @@ typedef struct		s_cmds
 {
 	char			*cmd;
 	int				pipe;
-	int				AND;
-	int				OR;
+	int				test1;
+	int				test2;
 	t_io			*input;
 	t_io			*output;
 	char			**tab_i;

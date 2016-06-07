@@ -123,6 +123,6 @@ void		list_to_string(t_list *lst, t_elem **elem)
 		ft_strdel(&h->command_edit);
 	h->command_edit = NULL;
 	if (((t_history*)lst->tail->content)->command)
-		h->to_save = 1;
+		((t_history*)lst->tail->content)->to_save = 1;
 	*elem = lst->tail;
 }
