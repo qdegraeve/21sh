@@ -50,7 +50,7 @@ void	cd_path(t_builtin *b)
 	path = NULL;
 	if (b->argv[0][0] == '/')
 		path = ft_strdup(b->argv[0]);
-	else if (b->argv[0][0] == '-')
+	else if (b->argv[0][0] == '-' && !b->argv[0][1])
 		path = cd_oldpwd(b);
 	else
 	{

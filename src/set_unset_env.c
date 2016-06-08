@@ -42,6 +42,8 @@ void	exec_setenv(t_builtin *b)
 	int		j;
 
 	j = 0;
+	if (!b->argv[0])
+		ft_print_tab(b->env);
 	new = NULL;
 	while (b->argv[0] && (j = search_str('=', b->argv[0])) >= 0)
 	{
@@ -55,6 +57,7 @@ void	unset_env_one(char *remove, t_builtin *b)
 	int		j;
 
 	j = 0;
+	remove = ft_cjoin(remove, ft_strdup("="));
 	while (b->env && b->env[j])
 	{
 		if (ft_strncmp(remove, b->env[j], ft_strlen(remove)) == 0)

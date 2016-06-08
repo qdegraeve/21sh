@@ -39,21 +39,29 @@ static int	dollar_char(char **str, t_builtin *b, int i)
 void		special_char(char **str, t_builtin *b)
 {
 	int		i;
+	int		tilde;
 	int		end;
 	char	*ins;
 
 	i = 0;
+	tilde = 0;
 	ins = NULL;
 	end = 0;
 	while (*str && (*str)[i])
 	{
 		if ((*str)[i] == 92)
 			i += 2;
-		else if ((*str)[i] == '~')
+		else if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] == '~')
+		{
+			tilde++;
+			i++;
+		}
+		else if ((*str)[i] == '~' && tilde  == 0)
 		{
 			ins = ft_getenv("HOME", b->env);
 			*str = ft_str_partsub((*str), i, i + 1, ins);
 			i += ft_strlen(ins);
+			tilde++;
 		}
 		else if ((*str)[i] == '$')
 			i = dollar_char(str, b, i);
