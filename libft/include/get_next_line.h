@@ -9,7 +9,7 @@
 
 # include "libft.h"
 
-# define BUF_SIZE 8
+# define BUF_SIZE 32
 
 int		get_next_line(int const fd, char **line);
 char	*clear_tmp(char *tmp, int k);

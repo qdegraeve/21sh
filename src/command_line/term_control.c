@@ -13,6 +13,7 @@ void		init_env(t_env *e, char *src)
 	e->q.dquote = 0;
 	e->prompt_len = 0;
 	e->width = 0;
+	e->sel = -1;
 	e->src = src;
 	e->edit = 1;
 }

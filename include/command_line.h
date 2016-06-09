@@ -11,6 +11,7 @@
 # define DEL		2117294875
 # define LEFT_OPT	1146821403
 # define RIGHT_OPT	1130044187
+# define SEL_OPT	-24893
 # define COPY_OPT	-22845
 # define PASTE_OPT	-6715422
 # define CUT_OPT	-7894814
@@ -39,7 +40,7 @@ typedef struct		s_env
 	int				curs_line;
 	int				prompt_len;
 	int				width;
-	char			on;
+	int				sel;
 	char			pipe;
 	char			cmdor;
 	char			cmdand;
@@ -81,9 +82,9 @@ void				term_reset(void);
 int					ft_putchar2(int c);
 
 /*
-**		term_control.c
+**		select_mod.c
 */
-void				get_curs_pos(t_env *e);
+void				select_mod(t_env *e, int input, t_elem **elem);
 
 /*
 **		get_input.c
@@ -115,6 +116,7 @@ void				move_cursor_word(t_env *e, int input, char *str);
 **		Copy_paste.c
 */
 void				copy_paste_mod(t_env *e, int input, t_elem **elem);
+void				cut(t_env *e, char **str, t_builtin *b);
 
 /*
 **		tools.c

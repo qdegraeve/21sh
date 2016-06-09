@@ -1,6 +1,33 @@
 #include "shell.h"
 
-static void	cut(t_env *e, char **str, t_builtin *b)
+void		copy_cut_sel(t_env *e, char **str, t_builtin *b, int input)
+{
+	char	*dest;
+	int		diff;
+
+	dest = NULL;
+	e->curs_pos = e->curs_pos + 1 - (e->sel > 0 ? e->sel : 0);
+	diff = ft_abs(e->sel);
+	if (b->paste)
+		ft_strdel(&b->paste);
+	b->paste = ft_strncpy(ft_strnew(ft_abs(e->sel)), *str + e->curs_pos, diff);
+	if (input == CUT_OPT)
+	{
+	dest = ft_strnew(e->curs_max - diff);
+	dest = ft_strncat(dest, *str, e->curs_pos);
+	dest = ft_strncat(dest, *str + e->curs_pos + diff, e->curs_max - (e->curs_pos + diff));
+	ft_strdel(&*str);
+	*str = dest;
+	e->curs_max -= diff;
+	e->curs_pos = e->curs_pos;
+	}
+	go_to_position(e, *str, 0);
+	tputs(e->cd, 0, ft_putchar2);
+	ft_putstr(*str);
+	go_to_position(e, *str, e->curs_pos);
+}
+
+void		cut(t_env *e, char **str, t_builtin *b)
 {
 	char	*dest;
 
@@ -13,8 +40,6 @@ static void	cut(t_env *e, char **str, t_builtin *b)
 		b->paste = ft_strdup(*str + e->curs_pos);
 		go_to_position(e, *str, 0);
 		dest = ft_strncat(dest, *str, e->curs_pos);
-		ft_strdel(&*str);
-		*str = dest;
 		e->curs_max = e->curs_pos;
 		tputs(e->cd, 0, ft_putchar2);
 		ft_putstr(*str);
@@ -65,7 +90,9 @@ void		copy_paste_mod(t_env *e, int input, t_elem **elem)
 	{
 		if (!h->command_edit)
 			h->command_edit = ft_strdup(h->command);
-		if (input == CUT_OPT)
+		if (e->sel)
+			copy_cut_sel(e, &h->command_edit, get_buil(), input);
+		else if (input == CUT_OPT)
 			cut(e, &h->command_edit, get_buil());
 		else if (input == COPY_OPT)
 			copy(e, h->command_edit, get_buil());

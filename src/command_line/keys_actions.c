@@ -87,7 +87,9 @@ void		keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 
 	h = (*elem)->content;
 	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
-	if ((i > 31 && i < 127) || (i == 127 && e->curs_pos != 0) ||
+	if (e->sel || i == SEL_OPT)
+		select_mod(e, i, elem);
+	else if ((i > 31 && i < 127) || (i == 127 && e->curs_pos != 0) ||
 			(i == DEL && e->curs_pos < e->curs_max))
 		modif_command(e, i, *elem);
 	else if (i == 4 && ((t_history*)lst->tail->content)->command == NULL)

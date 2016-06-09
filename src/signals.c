@@ -15,11 +15,11 @@ void	resize(int sig)
 	if (sig == SIGWINCH)
 	{
 		go_to_position(e, str, 0);
-		tputs(tgetstr("cd", NULL), 0, ft_putchar2);
+		tputs(e->cd, 0, ft_putchar2);
 		ioctl(0, TIOCGWINSZ, &win);
 		e->width = win.ws_col;
 		ft_putstr(str);
-		tputs(tgetstr("sc", NULL), 0, ft_putchar2);
+		tputs(e->sc, 0, ft_putchar2);
 		go_to_position(e, str, e->curs_pos);
 	}
 }

@@ -32,7 +32,7 @@ void	cd_home(t_builtin *b, char *path)
 		else
 		{
 			ft_putstr_fd("cd: not a directory: ", 2);
-			ft_putendl_fd(path, 2);
+			ft_putendl_fd(b->argv[0], 2);
 			ft_strdel(&pwd);
 			ft_strdel(&path);
 			b->error = 1;
