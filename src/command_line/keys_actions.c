@@ -78,6 +78,8 @@ static void	keys_actions_2(t_env *e, int i, t_elem **elem, char *str)
 		move_cursor_word(e, i, str);
 	else if (i == CUT_OPT | i == PASTE_OPT | i == COPY_OPT)
 		copy_paste_mod(e, i, elem);
+	else if (i == TAB)
+		ft_dynamic_completion(e, *elem);
 }
 
 void		keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)

@@ -6,6 +6,7 @@
 # define KLEFT		4479771
 # define KRIGHT		4414235
 # define ESC		27
+# define TAB		9
 # define HOME		4741915
 # define END		4610843
 # define DEL		2117294875
@@ -22,6 +23,7 @@
 # include <termios.h>
 # include <term.h>
 # include <termcap.h>
+# include <dirent.h>
 
 typedef struct s_builtin	t_builtin;
 typedef struct s_list		t_list;
@@ -41,6 +43,7 @@ typedef struct		s_env
 	int				prompt_len;
 	int				width;
 	int				sel;
+	char			dyn;
 	char			pipe;
 	char			cmdor;
 	char			cmdand;
@@ -105,6 +108,8 @@ int					edit_line(t_env *e, int input, t_list *lst);
 void				modif_command(t_env *e, int input, t_elem *elem);
 void				command_memory(t_env *e, int input, t_list *lst,
 		t_elem **elem);
+char				*string_insert(t_env *e, char **src, char ins, int pos);
+char				*delete_char(t_env *e, int input, char **src);
 
 /*
 **		Move cursor
@@ -142,5 +147,12 @@ int					calc_row(t_env *e, char *str, int pos);
 void				go_to_position(t_env *e, char *str, int position);
 void				keys_actions(t_env *e, int input, t_list *lst,
 		t_elem **elem);
+
+/*
+**		dynamic_completion.c
+*/
+void				ft_dynamic_completion(t_env *e, t_elem *elem);
+void				ft_replace_filename(t_env *e, char *path, char *file, char **str);
+void				ft_restore_cursor_position(t_env *e, char *command, int line);
 
 #endif

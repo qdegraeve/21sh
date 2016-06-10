@@ -9,6 +9,7 @@ void		no_tty(t_builtin *b)
 
 	line = NULL;
 	i = 0;
+	signal(SIGINT, SIG_DFL);
 	while (get_next_line(STDIN_FILENO, &line) == 1 && i < 1000)
 	{
 		j = -1;

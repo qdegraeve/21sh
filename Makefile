@@ -58,6 +58,8 @@ SRC =  env.c \
 	no_tty.c \
 	tools_cmd_line.c \
 	select_mod.c \
+	dynamic_completion.c \
+	dynamic_completion_1.c \
 
 OBJ = $(SRC:.c=.o)
 

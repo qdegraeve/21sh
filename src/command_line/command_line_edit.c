@@ -1,43 +1,43 @@
 #include "shell.h"
 
-static char	*string_insert(t_env *e, char *src, char ins, int pos)
+char		*string_insert(t_env *e, char **src, char ins, int pos)
 {
 	char		*dest;
 	char		letter[2];
 	int			len;
 
-	go_to_position(e, src, 0);
+	go_to_position(e, *src, 0);
 	tputs(e->cd, 0, ft_putchar2);
 	letter[0] = ins;
 	letter[1] = '\0';
-	len = ft_strlen(src);
+	len = ft_strlen(*src);
 	dest = ft_strnew(len + 1);
-	dest = ft_strncpy(dest, src, pos);
+	dest = ft_strncpy(dest, *src, pos);
 	dest = ft_strcat(dest, letter);
 	if (pos < len)
-		dest = ft_strcat(dest, src + pos);
+		dest = ft_strcat(dest, *src + pos);
 	dest[len + 1] = '\0';
-	if (src)
-		ft_strdel(&src);
+	if (*src)
+		ft_strdel(src);
 	return (dest);
 }
 
-static char	*delete_char(t_env *e, int input, char *src)
+char		*delete_char(t_env *e, int input, char **src)
 {
 	char		*dest;
 	int			len;
 
-	go_to_position(e, src, 0);
+	go_to_position(e, *src, 0);
 	tputs(e->cd, 0, ft_putchar2);
 	dest = NULL;
-	len = ft_strlen(src) - 1;
+	len = ft_strlen(*src) - 1;
 	dest = ft_strnew(len);
-	dest = ft_strncpy(dest, src, input == 127 ? e->curs_pos - 1 : e->curs_pos);
-	dest = ft_strcat(dest, input == 127 ? src + e->curs_pos :
-			src + e->curs_pos + 1);
+	dest = ft_strncpy(dest, *src, input == 127 ? e->curs_pos - 1 : e->curs_pos);
+	dest = ft_strcat(dest, input == 127 ? *src + e->curs_pos :
+			*src + e->curs_pos + 1);
 	dest[len] = '\0';
-	if (src)
-		ft_strdel(&src);
+	if (*src)
+		ft_strdel(src);
 	return (dest);
 }
 
@@ -71,9 +71,9 @@ void		modif_command(t_env *e, int input, t_elem *elem)
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
 	if ((input > 31 && input < 127))
-		h->command_edit = string_insert(e, h->command_edit, input, e->curs_pos);
+		h->command_edit = string_insert(e, &h->command_edit, input, e->curs_pos);
 	else if (input == 127 || input == DEL)
-		h->command_edit = delete_char(e, input, h->command_edit);
+		h->command_edit = delete_char(e, input, &h->command_edit);
 	display_command(e, input, h->command_edit);
 }
 
