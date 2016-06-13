@@ -5,7 +5,7 @@ NAME = 21sh
 
 CC = clang
 
-VPATH = src:src/command_line:src/lexer:src/parser
+VPATH = src:src/command_line:src/lexer:src/parser:src/select
 INCLUDES = include/
 
 ifdef FLAGS
@@ -60,6 +60,13 @@ SRC =  env.c \
 	select_mod.c \
 	dynamic_completion.c \
 	dynamic_completion_1.c \
+	hash.c \
+	ft_select.c \
+	display.c \
+	signals_select.c \
+	actions.c \
+	keys.c \
+	tools_select.c \
 
 OBJ = $(SRC:.c=.o)
 

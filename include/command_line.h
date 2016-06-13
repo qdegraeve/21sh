@@ -48,6 +48,7 @@ typedef struct		s_env
 	char			cmdor;
 	char			cmdand;
 	char			edit;
+	char			cmd;
 	int				fd;
 	char			*src;
 	char			*up;
@@ -59,6 +60,9 @@ typedef struct		s_env
 	char			*rc;
 	char			*down_one;
 	char			*cr;
+	char			**choices;
+	char			*complete;
+	char			*path;
 	t_elem			*elem;
 	t_quote			q;
 	struct termios	term;
@@ -152,7 +156,7 @@ void				keys_actions(t_env *e, int input, t_list *lst,
 **		dynamic_completion.c
 */
 void				ft_dynamic_completion(t_env *e, t_elem *elem);
-void				ft_replace_filename(t_env *e, char *path, char *file, char **str);
+void				ft_replace_filename(t_env *e, char *path, char **str);
 void				ft_restore_cursor_position(t_env *e, char *command, int line);
 
 #endif

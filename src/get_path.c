@@ -104,7 +104,7 @@ void	get_path(char *command, t_builtin *b)
 	path = NULL;
 	test = NULL;
 	if (b->env[0])
-		test = ft_strsplit(b->env[b->path_e] + 5, ':');
+		test = ft_strsplit(ft_getenv("PATH", b->env), ':');
 	i = 0;
 	while (test && test[i])
 	{

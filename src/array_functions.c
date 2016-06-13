@@ -43,7 +43,7 @@ void	clear_tab(char ***array)
 	int		i;
 
 	i = 0;
-	if (!array)
+	if (!(*array))
 		return ;
 	while ((*array)[i] && (*array)[i][0])
 	{

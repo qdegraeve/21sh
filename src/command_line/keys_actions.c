@@ -80,6 +80,8 @@ static void	keys_actions_2(t_env *e, int i, t_elem **elem, char *str)
 		copy_paste_mod(e, i, elem);
 	else if (i == TAB)
 		ft_dynamic_completion(e, *elem);
+	else
+		return ;
 }
 
 void		keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)

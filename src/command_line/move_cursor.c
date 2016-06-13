@@ -37,10 +37,9 @@ static void	move_cursor_word_right(t_env *e, char *str)
 			if ((move = calc_line(e, str, e->curs_pos)))
 				tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 			if ((move = calc_row(e, str, e->curs_pos)))
-			{
 				tputs(tgoto(e->ri, 0, move - e->prompt_len), 0,
 						ft_putchar2);
-			}
+			go_to_position(e, str, e->curs_pos);
 			break ;
 		}
 		e->curs_pos++;

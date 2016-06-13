@@ -36,31 +36,43 @@ char	*ft_extract_path(char *to_complete)
 	return (path);
 }
 
-char	*ft_return_last_element(char *command)
+char	*ft_return_last_element(t_env *e, char *command)
 {
 	int		element;
 	int		tmp;
 	char	*ret;
-	char	**split;
+	int		pos;
 
+	pos = e->curs_pos;
 	element = 0;
 	tmp = 0;
-	split = ft_strsplit(command, ' ');
-	while (split[element + 1] != NULL)
+	ret = NULL;
+	while (pos-- > 0)
+	{
 		element++;
-	ret = ft_strnew(tmp = ft_strlen(split[element]));
-	ft_strcpy(ret, split[element]);
-	ret[tmp]= '\0';
-	clear_tab(&split);
+		if (command[pos] == ' ' || command[pos] == '|' || command[pos] == '&'
+				|| command[pos] == ';' || pos == 0)
+		{
+			ret = ft_strnew(element);
+			ret = ft_strncpy(ret, command + pos + (pos ? 1 : 0), element);
+			ret[element]= '\0';
+			if (command[pos] == ' ')
+				e->cmd++;
+			break;
+		}
+	}
+	//ft_printf("element == %d, ret == %s, pos == %d\n", element, ret, pos);
 	return (ret);
 }
 
-int		ft_list_corresponding_files(t_env *e, char *path, char *file, char **str)
+int		ft_corresponding_files(t_env *e, char *path, char *file)
 {
 	int				match;
 	DIR				*repository;
 	struct dirent	*content;
+	char			*tmp;
 
+	tmp = NULL;
 	match = 0;
 	repository = path == NULL ? opendir(".") : opendir(path);
 	if (repository == NULL)
@@ -69,18 +81,67 @@ int		ft_list_corresponding_files(t_env *e, char *path, char *file, char **str)
 		if (ft_strnstr(content->d_name, file, ft_strlen(file)) != NULL)
 		{
 			match++;
-			ft_putchar('\n');
-			ft_putstr(content->d_name);
+			tmp = triple_join(tmp, " ", content->d_name, 1);
 		}
+	closedir(repository);
+	e->choices = ft_strsplit(tmp, ' ');
+	ft_strdel(&tmp);
+	return (match);
+}
+
+int		ft_corresponding_cmd(t_env *e, char *file)
+{
+	int				match;
+	int				i;
+	t_builtin		*b = NULL;
+	char			*tmp;
+
+	b = get_buil();
+	match = 0;
+	i = 0;
+	tmp = NULL;
+	while (b->cmd_hash[i])
+	{
+		if (ft_strncmp(b->cmd_hash[i], file, ft_strlen(file)) == 0)
+		{
+			match++;
+			tmp = triple_join(tmp, " ", b->cmd_hash[i], 1);
+		}
+		i++;
+	}
+	e->choices = ft_strsplit(tmp, ' ');
+	ft_strdel(&tmp);
+	return (match);
+}
+
+int		ft_list_corresponding_files(t_env *e, char *path, char *file, char **str)
+{
+	int				match;
+
+	match = 0;
+	if (e->cmd)
+		match = ft_corresponding_files(e, path, file);
+	else
+		match = ft_corresponding_cmd(e, file);
 	if (match == 0)
 	{
 		ft_putstr_fd("\nNo match found.", 2);
 		tputs(tgoto(tgetstr("up", NULL), 0, 0), 1, ft_putchar2);
 	}
-	ft_putchar('\n');
-	closedir(repository);
+	if (match > 1)
+	{
+		tputs(e->rc, 0, ft_putchar2);
+		ft_putchar('\n');
+		term_reset();
+		ft_select(e->choices);
+		term_set();
+		ft_putstr(*str);
+		tputs(e->sc, 0, ft_putchar2);
+		go_to_position(e, *str, e->curs_pos);
+	}
 	if (match == 1)
-		ft_replace_filename(e, path, file, str);
+		e->complete = ft_strdup(e->choices[0]);
+	ft_replace_filename(e, path, str);
 	return (match);
 }
 
@@ -88,8 +149,8 @@ void	ft_restore_cursor_position(t_env *e, char *command, int line)
 {
 	int		column;
 	column = ft_strlen(command) + e->prompt_len;
-	tputs(tgoto(e->up, 0, line + 1), 1, ft_putchar2);
-	tputs(tgoto(e->ri, 0, column), 1, ft_putchar2);
+	tputs(tgoto(e->up, 0, line + 1), 0, ft_putchar2);
+	tputs(tgoto(e->ri, 0, column), 0, ft_putchar2);
 }
 
 void	ft_dynamic_completion(t_env *e, t_elem *elem)
@@ -100,16 +161,20 @@ void	ft_dynamic_completion(t_env *e, t_elem *elem)
 	char	*to_complete;
 	t_history		*h;
 
+	e->cmd = 0;
 	h = elem->content;
 	if (!h->command_edit)
 		h->command_edit = ft_strdup(h->command);
 	tputs(e->cd, 1, ft_putchar2);
-	to_complete = ft_return_last_element(h->command_edit);
+	to_complete = ft_return_last_element(e, h->command_edit);
 	path = ft_extract_path(to_complete);
 	file = ft_extract_file(to_complete);
 	line = ft_list_corresponding_files(e, path, file, &h->command_edit);
-	if (line != 1 && line > -1)
-		ft_restore_cursor_position(e, h->command_edit, line);
+	if (to_complete)
+		ft_strdel(&to_complete);
+	if (e->choices)
+		clear_tab(&e->choices);
+	if (e->complete)
+		ft_strdel(&e->complete);
 	free(path);
-	free(to_complete);
 }

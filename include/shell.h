@@ -5,6 +5,7 @@
 # include "../libft/include/libft.h"
 # include "../libft/include/get_next_line.h"
 # include "command_line.h"
+# include "ft_select.h"
 # include <unistd.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -19,6 +20,7 @@ typedef struct		s_builtin
 {
 	char			**env;
 	char			**env_cpy;
+	char			**cmd_hash;
 	char			*command;
 	char			**argv;
 	char			*path;
@@ -122,5 +124,11 @@ void				exec_setenv(t_builtin *b);
 void				exec_unsetenv(t_builtin *b);
 void				set_env_one(t_builtin *b, char *add, int j);
 void				unset_env_one(char *remove, t_builtin *b);
+
+/*
+**		hash
+*/
+void				get_list_cmd(t_builtin *b);
+char				*triple_join(char *front, char *middle, char *back, char del);
 
 #endif

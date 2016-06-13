@@ -94,6 +94,7 @@ int		main(int ac, char **av, char **env)
 		return (0);
 	if (env[0])
 		b->env = ft_tab_strcpy(env);
+	get_list_cmd(b);
 	sh_level(b);
 	signal_catcher();
 	if (!isatty(STDIN_FILENO))

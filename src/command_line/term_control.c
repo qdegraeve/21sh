@@ -17,6 +17,8 @@ void		init_env(t_env *e, char *src)
 	e->src = src;
 	e->edit = 1;
 	e->dyn = 0;
+	e->complete = NULL;
+	e->choices = NULL;
 }
 
 void		term_set(void)

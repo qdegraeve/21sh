@@ -2,14 +2,17 @@
 
 static void ft_highlight_char(t_env *e, char *str, int input)
 {
-	if ((e->sel > 1 && input == KRIGHT) || (e->sel < 0 && input == KLEFT) || !e->sel)
-		tputs(tgetstr("mr", NULL), 1, ft_putchar2);
-	tputs(tgetstr("dc", NULL), 1, ft_putchar2);
-	tputs(tgetstr("im", NULL), 1, ft_putchar2);
-	ft_putchar(str[e->curs_pos]);
-	tputs(tgoto(tgetstr("le", NULL), 0, 0), 1, ft_putchar2);
-	tputs(tgetstr("ei", NULL), 1, ft_putchar2);
-	tputs(tgetstr("me", NULL), 1, ft_putchar2);
+	if (str[e->curs_pos] != '\n')
+	{
+		if ((e->sel > 1 && input == KRIGHT) || (e->sel < 0 && input == KLEFT) || !e->sel)
+			tputs(tgetstr("mr", NULL), 1, ft_putchar2);
+		tputs(tgetstr("dc", NULL), 1, ft_putchar2);
+		tputs(tgetstr("im", NULL), 1, ft_putchar2);
+		ft_putchar(str[e->curs_pos]);
+		tputs(tgoto(tgetstr("le", NULL), 0, 0), 1, ft_putchar2);
+		tputs(tgetstr("ei", NULL), 1, ft_putchar2);
+		tputs(tgetstr("me", NULL), 1, ft_putchar2);
+	}
 }
 
 void		select_mod(t_env *e, int input, t_elem **elem)
