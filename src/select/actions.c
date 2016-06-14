@@ -47,7 +47,10 @@ int		selected(t_env_select *e, int input)
 		{
 			if (((t_choice*)elem->content)->sel == 1)
 			{
-				get_env()->complete = triple_join(get_env()->complete, " ", ((t_choice*)elem->content)->arg, 1);
+				if (get_env()->complete)
+					get_env()->complete = triple_join(get_env()->complete, " ", ((t_choice*)elem->content)->arg, 1);
+				else
+					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
 			}
 			elem = elem->next;
 			i++;

@@ -71,7 +71,7 @@ int			ask_for_select(t_env_select *e, int i)
 	ft_putstr(" lines)?");
 	read(0, buf, 1);
 	buf[1] = '\0';
-	if (buf[0] == 'y' || buf[0] == 'Y')
+	if (buf[0] == 'y' || buf[0] == 'Y' || buf[0] == TAB)
 		return (0);
 	return(1);
 }

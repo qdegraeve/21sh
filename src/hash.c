@@ -9,11 +9,11 @@ char	*triple_join(char *front, char *middle, char *back, char del)
 	len = ft_strlen(front) + ft_strlen(middle) + ft_strlen(back);
 	dest = ft_strnew(len);
 	if (front)
-	dest = ft_strcpy(dest, front);
+		dest = ft_strcpy(dest, front);
 	if (middle)
-	dest = ft_strcat(dest, middle);
+		dest = ft_strcat(dest, middle);
 	if (back)
-	dest = ft_strcat(dest, back);
+		dest = ft_strcat(dest, back);
 	if (del && front)
 		ft_strdel(&front);
 	return (dest);

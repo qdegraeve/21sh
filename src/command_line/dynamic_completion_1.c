@@ -55,8 +55,11 @@ void	ft_replace_filename(t_env *e, char *path, char **str)
 {
 	tputs(tgetstr("up", NULL), 0, ft_putchar2);
 	go_to_position(e, *str, 0);
-	*str = ft_remove_old_filename(e, str);
-	*str = ft_add_new_path(e, path, e->complete, str);
+	if (e->complete)
+	{
+		*str = ft_remove_old_filename(e, str);
+		*str = ft_add_new_path(e, path, e->complete, str);
+	}
 	tputs(e->cd, 1, ft_putchar2);
 	ft_putstr(*str);
 	tputs(e->sc, 1, ft_putchar2);
