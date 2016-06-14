@@ -30,7 +30,7 @@ void			term_reset_select(struct termios term)
 	tcsetattr(0, TCSANOW, &term);
 }
 
-t_env_select	*argv_copy(char **av, int ac)
+t_env_select	*argv_copy(char **av, int ac, char cmd)
 {
 	t_env_select	*e;
 	t_choice		c;
@@ -40,7 +40,7 @@ t_env_select	*argv_copy(char **av, int ac)
 	e = NULL;
 	c.sel = 0;
 	e = get_env_select();
-	env_init_select(e);
+	env_init_select(e, cmd);
 	liste_init(&e->lst);
 	while (i < ac)
 	{
@@ -76,7 +76,7 @@ int			ask_for_select(t_env_select *e, int i)
 	return(1);
 }
 
-int			ft_select(char **list)
+int			ft_select(char **list, char cmd)
 {
 	t_env_select	*e;
 	int				i;
@@ -86,7 +86,7 @@ int			ft_select(char **list)
 	too_much = 0;
 	while (list && list[i])
 		i++;
-	e = argv_copy(list, i);
+	e = argv_copy(list, i, cmd);
 	if (i > 20)
 		too_much = ask_for_select(e, i);
 	if (!too_much)

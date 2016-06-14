@@ -49,7 +49,6 @@ char	*ft_return_last_element(t_env *e, char *command)
 	ret = NULL;
 	while (pos-- > 0)
 	{
-		element++;
 		if (command[pos] == ' ' || command[pos] == '|' || command[pos] == '&'
 				|| command[pos] == ';' || pos == 0)
 		{
@@ -60,8 +59,8 @@ char	*ft_return_last_element(t_env *e, char *command)
 				e->cmd++;
 			break;
 		}
+		element++;
 	}
-	//ft_printf("element == %d, ret == %s, pos == %d\n", element, ret, pos);
 	return (ret);
 }
 
@@ -69,6 +68,7 @@ int		ft_corresponding_files(t_env *e, char *path, char *file)
 {
 	int				match;
 	DIR				*repository;
+	DIR				*tmp2;
 	struct dirent	*content;
 	char			*tmp;
 
@@ -82,6 +82,11 @@ int		ft_corresponding_files(t_env *e, char *path, char *file)
 		{
 			match++;
 			tmp = triple_join(tmp, " ", content->d_name, 1);
+			if ((tmp2 = opendir(triple_join(path, (path ? "/" : NULL), content->d_name, 0))) != NULL)
+			{
+				tmp = ft_cjoin(tmp, ft_strdup("/"));
+				closedir(tmp2);
+			}
 		}
 	closedir(repository);
 	e->choices = ft_strsplit(tmp, ' ');
@@ -127,13 +132,14 @@ int		ft_list_corresponding_files(t_env *e, char *path, char *file, char **str)
 	{
 		ft_putstr_fd("\nNo match found.", 2);
 		tputs(tgoto(tgetstr("up", NULL), 0, 0), 1, ft_putchar2);
+		return (match);
 	}
+	tputs(e->rc, 0, ft_putchar2);
+	ft_putchar('\n');
 	if (match > 1)
 	{
-		tputs(e->rc, 0, ft_putchar2);
-		ft_putchar('\n');
 		term_reset();
-		ft_select(e->choices);
+		ft_select(e->choices, e->cmd ? 0 : 1);
 		term_set();
 		ft_putstr(*str);
 		tputs(e->sc, 0, ft_putchar2);
@@ -170,6 +176,7 @@ void	ft_dynamic_completion(t_env *e, t_elem *elem)
 	path = ft_extract_path(to_complete);
 	file = ft_extract_file(to_complete);
 	line = ft_list_corresponding_files(e, path, file, &h->command_edit);
+	//ft_printf("\ncomplete == [%s], file == [%s], path == [%s]\n", to_complete, file, path);
 	if (to_complete)
 		ft_strdel(&to_complete);
 	if (e->choices)

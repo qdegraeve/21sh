@@ -11,11 +11,9 @@ int		keys_action_select(t_env_select *e, int input)
 		e->on = (e->on + e->lst.length - e->line) % e->lst.length;
 	else if (input == KRIGHT || input == TAB)
 		e->on = (e->on + e->line) % e->lst.length;
-	else if (input == 32)
+	else if (input == 32 && !e->cmd)
 		chose_one(e);
-	else if (input == 127)
-		remove_one(e);
-	else if (input == ESC || input == 10)
+	else if (input == ESC || input == 10 || (input > 32 && input < 127))
 	{
 		selected(e, input);
 		return (1);

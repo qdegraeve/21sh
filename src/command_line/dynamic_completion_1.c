@@ -19,31 +19,43 @@ char	*ft_remove_old_filename(t_env *e, char **str)
 	dest = ft_strnew(e->curs_max - (tmp - e->curs_pos >= 0) + 1);
 	dest = ft_strncpy(dest, *str, e->curs_pos + 1);
 	if (tmp < e->curs_max)
-		dest = ft_strcat(dest, *str + tmp);
-	e->curs_max = e->curs_max - (tmp - e->curs_pos >= 0);
+		dest = ft_strcat(dest, *str + tmp + 1);
+	e->curs_max = ft_strlen(*str);
 	if (*str)
 		ft_strdel(str);
 	return (dest);
 }
 
-char	*ft_add_new_path(t_env *e, char *path, char *file, char **str)
+char	*ft_add_new_path(t_env *e, char *path, char **file, char **str)
 {
 	int		len;
 	char	*dest;
+	int		i;
+	int		len_path;
 
-	len = ft_strlen(path) + ft_strlen(file) + e->curs_max;
-	dest = ft_strnew(len + 1);
+	i = 0;
+	len = 0;
+	if (path && path[ft_strlen(path) - 1] != '/')
+		path = ft_strjoin(path, "/");
+	len_path = ft_strlen(path);
+	while (file && file[i])
+		len += (len_path + ft_strlen(file[i++]) + (len ? 1 : 0));
+	len += e->curs_pos + 1;
+	dest = ft_strnew(len);
+	len_path = i;
 	if (e->curs_pos >= 0)
 		dest = ft_strncpy(dest, *str, e->curs_pos + 1);
-	dest = ft_strcat(dest, path);
-	if (path && path[ft_strlen(path) - 1] != '/')
+	i = 0;
+	while (file && file[i])
 	{
-		dest = ft_strcat(dest, "/");
-		len++;
+		dest = ft_strcat(dest, path);
+		dest = ft_strcat(dest, file[i]);
+		i++;
+		dest = i != len_path ? ft_strcat(dest, " ") : dest;
 	}
-	dest = ft_strcat(dest, file);
 	if (e->curs_pos < e->curs_max && e->curs_pos >= 0)
-		dest = ft_strcat(dest, *str + e->curs_pos);
+		dest = ft_strcat(dest, *str + e->curs_pos + 1);
+	//ft_printf("\npos == [%d] -- max == [%d]\nstr == [%s]\nstr + pos == [%s]\n", e->curs_pos, e->curs_max, *str, *str + e->curs_pos);
 	e->curs_pos += (len - e->curs_max);
 	e->curs_max = len;
 	if (*str)
@@ -58,7 +70,7 @@ void	ft_replace_filename(t_env *e, char *path, char **str)
 	if (e->complete)
 	{
 		*str = ft_remove_old_filename(e, str);
-		*str = ft_add_new_path(e, path, e->complete, str);
+		*str = ft_add_new_path(e, path, ft_strsplit(e->complete, ' '), str);
 	}
 	tputs(e->cd, 1, ft_putchar2);
 	ft_putstr(*str);

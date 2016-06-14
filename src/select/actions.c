@@ -43,20 +43,22 @@ int		selected(t_env_select *e, int input)
 	if (input == 10)
 	{
 		elem = e->lst.head;
-		while (i < e->lst.length - 1)
+		while (i < e->lst.length)
 		{
-			if (((t_choice*)elem->content)->sel == 1)
+			if (!e->cmd && ((t_choice*)elem->content)->sel == 1)
 			{
 				if (get_env()->complete)
 					get_env()->complete = triple_join(get_env()->complete, " ", ((t_choice*)elem->content)->arg, 1);
 				else
 					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
 			}
+			else if (e->cmd && i == e->on)
+					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
 			elem = elem->next;
 			i++;
 		}
 	}
-	term_reset_select(e->term);
 	ft_lstdel(&e->lst, del_choice);
+	term_reset_select(e->term);
 	return (1);
 }

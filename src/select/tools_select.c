@@ -8,7 +8,7 @@ void	liste_init(t_list *lst)
 	lst->length = 0;
 }
 
-void	env_init_select(t_env_select *e)
+void	env_init_select(t_env_select *e, char cmd)
 {
 	e->length = 0;
 	e->up = 0;
@@ -17,6 +17,7 @@ void	env_init_select(t_env_select *e)
 	e->col = 0;
 	e->fd = 0;
 	e->line_nbr = 0;
+	e->cmd = cmd;
 }
 
 void	del_choice(void *c, size_t content_size)

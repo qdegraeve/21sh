@@ -7,14 +7,14 @@ void		copy_cut_sel(t_env *e, char **str, t_builtin *b, int input)
 
 	dest = NULL;
 	e->curs_pos = e->curs_pos + 1 - (e->sel > 0 ? e->sel : 0);
-	diff = ft_abs(e->sel);
+	diff = e->sel ? ft_abs(e->sel) : e->curs_max - e->curs_pos + 1;
 	if (b->paste)
 		ft_strdel(&b->paste);
-	b->paste = ft_strncpy(ft_strnew(ft_abs(e->sel)), *str + e->curs_pos, diff);
+	b->paste = ft_strncpy(ft_strnew(diff), *str + e->curs_pos - 1, diff);
 	if (input == CUT_OPT)
 	{
 	dest = ft_strnew(e->curs_max - diff);
-	dest = ft_strncat(dest, *str, e->curs_pos);
+	dest = ft_strncat(dest, *str, e->curs_pos - 1);
 	dest = ft_strncat(dest, *str + e->curs_pos + diff, e->curs_max - (e->curs_pos + diff));
 	ft_strdel(&*str);
 	*str = dest;
@@ -90,10 +90,11 @@ void		copy_paste_mod(t_env *e, int input, t_elem **elem)
 	{
 		if (!h->command_edit)
 			h->command_edit = ft_strdup(h->command);
-		if (e->sel)
+		//if (e->sel)
+		if (input == CUT_OPT)
 			copy_cut_sel(e, &h->command_edit, get_buil(), input);
-		else if (input == CUT_OPT)
-			cut(e, &h->command_edit, get_buil());
+		//else if (input == CUT_OPT)
+		//	cut(e, &h->command_edit, get_buil());
 		else if (input == COPY_OPT)
 			copy(e, h->command_edit, get_buil());
 		else if (input == PASTE_OPT)

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_select.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/19 11:41:04 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/06/14 13:18:21 by qdegraev         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef FT_SELECT_H
 
@@ -18,6 +7,7 @@
 
 typedef struct	s_env_select
 {
+	char		cmd;
 	int			length;
 	char		on;
 	int			line;
@@ -41,7 +31,7 @@ typedef struct	s_choice
 void			term_set_select();
 void			term_reset_select(struct termios term);
 void			del_choice(void *c, size_t content_size);
-int				ft_select(char **argv);
+int				ft_select(char **argv, char cmd);
 
 /*
 **		display.c
@@ -73,7 +63,7 @@ int				selected(t_env_select *e, int input);
 **		tools.c
 */
 void			liste_init(t_list *lst);
-void			env_init_select(t_env_select *e);
+void			env_init_select(t_env_select *e, char cmd);
 void			del_choice(void *c, size_t content_size);
 
 #endif
