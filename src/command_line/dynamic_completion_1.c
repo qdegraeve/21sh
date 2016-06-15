@@ -40,7 +40,7 @@ char	*ft_add_new_path(t_env *e, char *path, char **file, char **str)
 	len_path = ft_strlen(path);
 	while (file && file[i])
 		len += (len_path + ft_strlen(file[i++]) + (len ? 1 : 0));
-	len += e->curs_pos + 1;
+	len += e->curs_max;
 	dest = ft_strnew(len);
 	len_path = i;
 	if (e->curs_pos >= 0)
@@ -55,7 +55,7 @@ char	*ft_add_new_path(t_env *e, char *path, char **file, char **str)
 	}
 	if (e->curs_pos < e->curs_max && e->curs_pos >= 0)
 		dest = ft_strcat(dest, *str + e->curs_pos + 1);
-	//ft_printf("\npos == [%d] -- max == [%d]\nstr == [%s]\nstr + pos == [%s]\n", e->curs_pos, e->curs_max, *str, *str + e->curs_pos);
+//	ft_printf("\npos == [%d] -- max == [%d] -- len == [%d]\nstr == [%s]\nstr + pos == [%s]\n", e->curs_pos, e->curs_max, len, *str, *str + e->curs_pos);
 	e->curs_pos += (len - e->curs_max);
 	e->curs_max = len;
 	if (*str)
