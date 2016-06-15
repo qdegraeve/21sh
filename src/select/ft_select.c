@@ -21,6 +21,7 @@ void			term_set_select()
 	tcsetattr(0, TCSANOW, &term);
 	ioctl(0, TIOCGWINSZ, &win);
 	e->col = win.ws_col;
+	e->row = win.ws_row;
 	tputs(tgetstr("vi", NULL), 0, ft_putchar2);
 }
 
@@ -64,15 +65,20 @@ int			ask_for_select(t_env_select *e, int i)
 	e->line_nbr = (i / (e->col / e->length));
 	if (i % (e->col / e->length) != 0)
 		e->line_nbr++;
-	ft_putstr("21sh: do you wish to see all ");
-	ft_putnbr(i);
-	ft_putstr(" possibilities (");
-	ft_putnbr(e->line_nbr);
-	ft_putstr(" lines)?");
-	read(0, buf, 1);
-	buf[1] = '\0';
-	if (buf[0] == 'y' || buf[0] == 'Y' || buf[0] == TAB)
-		return (0);
+	if (e->line_nbr < e->row)
+	{
+		ft_putstr("21sh: do you wish to see all ");
+		ft_putnbr(i);
+		ft_putstr(" possibilities (");
+		ft_putnbr(e->line_nbr);
+		ft_putstr(" lines)?");
+		read(0, buf, 1);
+		buf[1] = '\0';
+		if (buf[0] == 'y' || buf[0] == 'Y' || buf[0] == TAB)
+			return (0);
+	}
+	else
+		ft_printf("not enough lines on screen to show all possibilities (%d)", i);
 	return(1);
 }
 

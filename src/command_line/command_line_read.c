@@ -63,8 +63,8 @@ int			return_input(t_env *e, t_list *lst)
 
 	cmp = 0;
 	h = e->elem->content;
-	str = NULL;
 	str = ft_strlen(h->command_edit) > 0 ? h->command_edit : h->command;
+	go_to_position(e, str, e->curs_max);
 	if (e->src != NULL && ((ft_strcmp(e->src, str)) != 0))
 		cmp++;
 	list_to_string(lst, &e->elem);

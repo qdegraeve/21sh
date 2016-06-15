@@ -35,11 +35,12 @@ int		selected(t_env_select *e, int input)
 {
 	int		i;
 	int		j;
+	int		del;
 	t_elem	*elem;
 
 	i = 0;
 	j = 0;
-	initial_position(e, get_env()->prompt_len);
+	del = 0;
 	if (input == 10)
 	{
 		elem = e->lst.head;
@@ -51,13 +52,15 @@ int		selected(t_env_select *e, int input)
 					get_env()->complete = triple_join(get_env()->complete, " ", ((t_choice*)elem->content)->arg, 1);
 				else
 					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
+				del++;
 			}
-			else if (e->cmd && i == e->on)
+			else if (e->cmd && i == e->on && ++del)
 					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
 			elem = elem->next;
 			i++;
 		}
 	}
+	initial_position(e, get_env()->prompt_len, del);
 	ft_lstdel(&e->lst, del_choice);
 	term_reset_select(e->term);
 	return (1);

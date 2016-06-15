@@ -59,6 +59,7 @@ typedef struct		s_env
 	char			*sc;
 	char			*rc;
 	char			*down_one;
+	char			*up_one;
 	char			*cr;
 	char			**choices;
 	char			*complete;

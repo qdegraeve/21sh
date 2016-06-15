@@ -15,7 +15,7 @@ char	*get_input(t_builtin *b, int input)
 		ft_bzero(buf, 8);
 		if (input == 10)
 		{
-			tputs(e->rc, 0, ft_putchar2);
+		//	tputs(e->rc, 0, ft_putchar2);
 			ft_putchar('\n');
 			if (ret == 0)
 				return (((t_history*)b->lst.tail->content)->command);

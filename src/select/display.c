@@ -19,7 +19,7 @@ int		col_display(t_env_select *e, int i)
 	return (i);
 }
 
-void	initial_position(t_env_select *e, int col)
+void	initial_position(t_env_select *e, int col, int del)
 {
 	t_env		*env;
 
@@ -29,7 +29,8 @@ void	initial_position(t_env_select *e, int col)
 		tputs(tgoto(env->up, 0, e->up), 0, ft_putchar2);
 	if (col)
 		tputs(tgoto(env->ri, 0, col), 0, ft_putchar2);
-	tputs(tgetstr("cd", NULL), 0, ft_putchar2);
+	if (del)
+		tputs(env->cd, 0, ft_putchar2);
 	e->up = 0;
 }
 
@@ -79,7 +80,7 @@ void	display_choices(t_env_select *e)
 	int		k;
 	t_elem	*elem;
 
-	initial_position(e, 0);
+	initial_position(e, 0, 1);
 	k = define_print_disp(e);
 	elem = e->lst.head;
 	i = 0;

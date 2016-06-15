@@ -20,7 +20,7 @@ char	*ft_remove_old_filename(t_env *e, char **str)
 	dest = ft_strncpy(dest, *str, e->curs_pos + 1);
 	if (tmp < e->curs_max)
 		dest = ft_strcat(dest, *str + tmp + 1);
-	e->curs_max = ft_strlen(*str);
+	e->curs_max = ft_strlen(dest);
 	if (*str)
 		ft_strdel(str);
 	return (dest);
@@ -40,6 +40,7 @@ char	*ft_add_new_path(t_env *e, char *path, char **file, char **str)
 	len_path = ft_strlen(path);
 	while (file && file[i])
 		len += (len_path + ft_strlen(file[i++]) + (len ? 1 : 0));
+//	ft_printf("i == %d -- len == %d -- len_path == %d -- max == %d\n", i, len, len_path, e->curs_max);
 	len += e->curs_max;
 	dest = ft_strnew(len);
 	len_path = i;
@@ -65,16 +66,25 @@ char	*ft_add_new_path(t_env *e, char *path, char **file, char **str)
 
 void	ft_replace_filename(t_env *e, char *path, char **str)
 {
-	tputs(tgetstr("up", NULL), 0, ft_putchar2);
-	go_to_position(e, *str, 0);
+	int		tmp;
+
+	tmp = 0;
+	tputs(e->up_one, 0, ft_putchar2);
+	if (e->curs_pos > 0)
+		go_to_position(e, *str, 0);
 	if (e->complete)
 	{
 		*str = ft_remove_old_filename(e, str);
-		*str = ft_add_new_path(e, path, ft_strsplit(e->complete, ' '), str);
+		e->choices = ft_strsplit(e->complete, ' ');
+		*str = ft_add_new_path(e, path, e->choices, str);
+		if (e->choices)
+			clear_tab(&e->choices);
 	}
-	tputs(e->cd, 1, ft_putchar2);
 	ft_putstr(*str);
-	tputs(e->sc, 1, ft_putchar2);
-	e->curs_max = ft_strlen(*str);
+	tputs(e->sc, 0, ft_putchar2);
+	tmp = e->curs_pos + 1;
 	e->curs_pos = e->curs_max;
+	if (e->curs_pos)
+		go_to_position(e, *str, tmp);
+	e->curs_pos = (e->curs_pos) ? tmp : tmp - 1;
 }

@@ -17,6 +17,7 @@ void		init_env(t_env *e, char *src)
 	e->src = src;
 	e->edit = 1;
 	e->dyn = 0;
+	e->cmd = 0;
 	e->complete = NULL;
 	e->choices = NULL;
 }
@@ -54,7 +55,8 @@ static void	init_tgetstr(t_env *e)
 	e->sc = tgetstr("sc", NULL);
 	e->rc = tgetstr("rc", NULL);
 	e->cr = tgetstr("cr", NULL);
-	e->down_one = tgetstr("down_one", NULL);
+	e->down_one = tgetstr("hd", NULL);
+	e->up_one = tgetstr("up", NULL);
 }
 
 t_env		*get_env(void)

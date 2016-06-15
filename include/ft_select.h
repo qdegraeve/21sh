@@ -13,6 +13,7 @@ typedef struct	s_env_select
 	int			line;
 	int			line_nbr;
 	int			col;
+	int			row;
 	t_list		lst;
 	int			up;
 	int			fd;
@@ -38,7 +39,7 @@ int				ft_select(char **argv, char cmd);
 */
 void			display_choices(t_env_select *e);
 void			move(t_env_select *e);
-void			initial_position(t_env_select *e, int col);
+void			initial_position(t_env_select *e, int col, int del);
 
 /*
 **		signals_select.c

@@ -38,8 +38,6 @@ char	*ft_extract_path(char *to_complete)
 
 int		is_cmd(char *command, int pos)
 {
-	if (pos == -1)
-		return (1);
 	while (pos >= 0)
 	{
 		if ((command[pos] == '|' || command[pos] == '&' || command[pos] == ';'
@@ -50,6 +48,8 @@ int		is_cmd(char *command, int pos)
 		else
 			break ;
 	}
+	if (pos == -1)
+		return (1);
 	return (0);
 }
 
@@ -94,7 +94,7 @@ int		is_cmd(char *command, int pos)
 		if (repository == NULL)
 			return (-1);
 		while ((content = readdir(repository)) != NULL)
-			if (ft_strnstr(content->d_name, file, ft_strlen(file)) != NULL)
+			if (content->d_name[0] != '.' && !ft_strncmp(content->d_name, file, ft_strlen(file)))
 			{
 				match++;
 				tmp = triple_join(tmp, " ", content->d_name, 1);
@@ -135,69 +135,71 @@ int		is_cmd(char *command, int pos)
 		return (match);
 	}
 
-	int		ft_list_corresponding_files(t_env *e, char *path, char *file, char **str)
-	{
-		int				match;
+int		ft_list_corresponding_files(t_env *e, char *path, char *file, char **str)
+{
+	int				match;
+	int				move;
 
-		match = 0;
-		if (e->cmd)
-			match = ft_corresponding_cmd(e, file);
-		else
-			match = ft_corresponding_files(e, path, file);
-		if (match == 0)
-		{
-			ft_putstr_fd("\nNo match found.", 2);
-			tputs(tgoto(tgetstr("up", NULL), 0, 0), 1, ft_putchar2);
-			return (match);
-		}
-		tputs(e->rc, 0, ft_putchar2);
-		ft_putchar('\n');
-		if (match > 1)
-		{
-			term_reset();
-			ft_select(e->choices, e->cmd ? 1 : 0);
-			term_set();
-			ft_putstr(*str);
-			tputs(e->sc, 0, ft_putchar2);
-			go_to_position(e, *str, e->curs_pos);
-		}
-		if (match == 1)
-			e->complete = ft_strdup(e->choices[0]);
-		ft_replace_filename(e, path, str);
+	match = 0;
+	move = 0;
+	if (e->cmd)
+		match = ft_corresponding_cmd(e, file);
+	else
+		match = ft_corresponding_files(e, path, file);
+	if (match == 0)
+	{
+		ft_putstr_fd("\nNo match found.", 2);
+		tputs(e->up_one, 0, ft_putchar2);
+		tputs(e->cr, 0, ft_putchar2);
+		if ((move = calc_row(e, *str, e->curs_max)))
+			tputs(tgoto(e->ri, 0, move), 0, ft_putchar2);
 		return (match);
 	}
-
-	void	ft_restore_cursor_position(t_env *e, char *command, int line)
+	ft_putchar('\n');
+	if (match > 1)
 	{
-		int		column;
-		column = ft_strlen(command) + e->prompt_len;
-		tputs(tgoto(e->up, 0, line + 1), 0, ft_putchar2);
-		tputs(tgoto(e->ri, 0, column), 0, ft_putchar2);
-	}
-
-	void	ft_dynamic_completion(t_env *e, t_elem *elem)
-	{
-		int		line;
-		char	*path;
-		char	*file;
-		char	*to_complete;
-		t_history		*h;
-
-		e->cmd = 0;
-		h = elem->content;
-		if (!h->command_edit)
-			h->command_edit = ft_strdup(h->command);
-		tputs(e->cd, 1, ft_putchar2);
-		to_complete = ft_return_last_element(e, h->command_edit);
-		path = ft_extract_path(to_complete);
-		file = ft_extract_file(to_complete);
-		line = ft_list_corresponding_files(e, path, file, &h->command_edit);
-	//	ft_printf("\ncomplete == [%s], file == [%s], path == [%s]\n", to_complete, file, path);
-		if (to_complete)
-			ft_strdel(&to_complete);
+		term_reset();
+		ft_select(e->choices, e->cmd ? 1 : 0);
+		term_set();
 		if (e->choices)
 			clear_tab(&e->choices);
-		if (e->complete)
-			ft_strdel(&e->complete);
-		free(path);
 	}
+	if (match == 1)
+		e->complete = ft_strdup(e->choices[0]);
+	ft_replace_filename(e, path, str);
+	return (match);
+}
+
+void	ft_restore_cursor_position(t_env *e, char *command, int line)
+{
+	int		column;
+	column = ft_strlen(command) + e->prompt_len;
+	tputs(tgoto(e->up, 0, line + 1), 0, ft_putchar2);
+	tputs(tgoto(e->ri, 0, column), 0, ft_putchar2);
+}
+
+void	ft_dynamic_completion(t_env *e, t_elem *elem)
+{
+	int		line;
+	char	*path;
+	char	*file;
+	char	*to_complete;
+	t_history		*h;
+
+	e->cmd = 0;
+	h = elem->content;
+	if (!h->command_edit)
+		h->command_edit = ft_strdup(h->command);
+	tputs(e->cd, 1, ft_putchar2);
+	to_complete = ft_return_last_element(e, h->command_edit);
+	path = ft_extract_path(to_complete);
+	file = ft_extract_file(to_complete);
+	line = ft_list_corresponding_files(e, path, file, &h->command_edit);
+	//	ft_printf("\ncomplete == [%s], file == [%s], path == [%s]\n", to_complete, file, path);
+	if (to_complete)
+		ft_strdel(&to_complete);
+	if (e->complete)
+		ft_strdel(&e->complete);
+	if (path)
+		ft_strdel(&path);
+}

@@ -35,7 +35,9 @@ void	exec_exit(t_builtin *b)
 {
 	t_elem	*elem;
 	char	*file;
+	int		i;
 
+	i = 1;
 	elem = b->lst.head;
 	file = ft_strjoin(ft_getenv("HOME", b->env), "/.21sh_history");
 	if (b->env_cpy)
@@ -47,13 +49,25 @@ void	exec_exit(t_builtin *b)
 	if (b->argv)
 		clear_tab(&b->argv);
 	if ((b->fd_history = open(file, O_RDWR | O_APPEND)) >= 0)
+	{
+		ft_putstr("saving inputs in history file :");
+			ft_printf("%4d", 0);
+			ft_putstr(" commands");
 		while (elem)
 		{
 			if (((t_history*)elem->content)->to_save)
+			{
+			tputs(tgoto(get_env()->le, 0, 13), 0, ft_putchar2);
+			tputs(get_env()->cd, 0, ft_putchar2);
+			ft_printf("%4d", i);
+			ft_putstr(" commands");
 				ft_putendl_fd(((t_history*)elem->content)->command,
 						b->fd_history);
+			i++;
+			}
 			elem = elem->next;
 		}
+	}
 	close(b->fd_history);
 	term_reset();
 	ft_lstdel(&b->lst, del_lst_char);
