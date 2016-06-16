@@ -37,7 +37,7 @@ t_env_select	*argv_copy(char **av, int ac, char cmd)
 	t_choice		c;
 	int				i;
 
-	i = 1;
+	i = 0;
 	e = NULL;
 	c.sel = 0;
 	e = get_env_select();

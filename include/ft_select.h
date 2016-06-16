@@ -17,6 +17,7 @@ typedef struct	s_env_select
 	t_list		lst;
 	int			up;
 	int			fd;
+	int			yes;
 	struct termios term;
 }				t_env_select;
 

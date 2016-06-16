@@ -12,6 +12,7 @@ void	chose_one(t_env_select *e)
 		elem = elem->next;
 	((t_choice*)elem->content)->sel = (((t_choice*)elem->content)->sel + 1) % 2;
 	e->on = (e->on + 1) % e->lst.length;
+	e->yes += ((t_choice*)elem->content)->sel ? 1 : -1;
 }
 
 void	remove_one(t_env_select *e)
@@ -54,7 +55,7 @@ int		selected(t_env_select *e, int input)
 					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
 				del++;
 			}
-			else if (e->cmd && i == e->on && ++del)
+			else if ((!e->yes || e->cmd) && i == e->on && ++del)
 					get_env()->complete = ft_strdup(((t_choice*)elem->content)->arg);
 			elem = elem->next;
 			i++;

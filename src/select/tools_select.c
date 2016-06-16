@@ -18,6 +18,7 @@ void	env_init_select(t_env_select *e, char cmd)
 	e->row = 0;
 	e->fd = 0;
 	e->line_nbr = 0;
+	e->yes = 0;
 	e->cmd = cmd;
 }
 
