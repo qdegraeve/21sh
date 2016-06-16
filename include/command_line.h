@@ -117,6 +117,12 @@ char				*string_insert(t_env *e, char **src, char ins, int pos);
 char				*delete_char(t_env *e, int input, char **src);
 
 /*
+**		Move up/down
+*/
+void				move_down(t_env *e, char *str);
+void				move_up(t_env *e, char *str);
+
+/*
 **		Move cursor
 */
 void				move_cursor_line(t_env *e, int input, char *str);
@@ -147,7 +153,7 @@ void				quote_prompt(t_env *e);
 /*
 **		keys_actions.c
 */
-int					calc_line(t_env *e, char *str, int pos);
+int					calc_line(t_env *e, char *str, int pos, int i);
 int					calc_row(t_env *e, char *str, int pos);
 void				go_to_position(t_env *e, char *str, int position);
 void				keys_actions(t_env *e, int input, t_list *lst,

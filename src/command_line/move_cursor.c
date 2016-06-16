@@ -34,7 +34,7 @@ static void	move_cursor_word_right(t_env *e, char *str)
 		if (ft_iswhitespace(str[e->curs_pos]) != blank ||
 				e->curs_pos == e->curs_max)
 		{
-			if ((move = calc_line(e, str, e->curs_pos)))
+			if ((move = calc_line(e, str, e->curs_pos, 0)))
 				tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 			if ((move = calc_row(e, str, e->curs_pos)))
 				tputs(tgoto(e->ri, 0, move - e->prompt_len), 0,
@@ -63,7 +63,7 @@ static void	move_cursor_word_left(t_env *e, char *str)
 		{
 			if (e->curs_pos != 0)
 				e->curs_pos++;
-			if ((move = calc_line(e, str, e->curs_pos)))
+			if ((move = calc_line(e, str, e->curs_pos, 0)))
 				tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 			if ((move = calc_row(e, str, e->curs_pos)))
 				tputs(tgoto(e->ri, 0, move), 0, ft_putchar2);

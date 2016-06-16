@@ -67,6 +67,7 @@ SRC =  env.c \
 	actions.c \
 	keys.c \
 	tools_select.c \
+	move_up_down.c \
 
 OBJ = $(SRC:.c=.o)
 

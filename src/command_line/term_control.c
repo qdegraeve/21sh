@@ -55,7 +55,7 @@ static void	init_tgetstr(t_env *e)
 	e->sc = tgetstr("sc", NULL);
 	e->rc = tgetstr("rc", NULL);
 	e->cr = tgetstr("cr", NULL);
-	e->down_one = tgetstr("hd", NULL);
+	e->down_one = tgetstr("do", NULL);
 	e->up_one = tgetstr("up", NULL);
 }
 

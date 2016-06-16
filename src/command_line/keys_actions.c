@@ -26,13 +26,11 @@ int			calc_row(t_env *e, char *str, int pos)
 	return (ret);
 }
 
-int			calc_line(t_env *e, char *str, int pos)
+int			calc_line(t_env *e, char *str, int pos, int i)
 {
-	int		i;
 	int		j;
 	int		ret;
 
-	i = 0;
 	j = 0;
 	ret = 0;
 	while (i < pos && str[i] && str[i] != '\n')
@@ -59,11 +57,11 @@ void		go_to_position(t_env *e, char *str, int position)
 
 	move = 0;
 	tputs(e->cr, 0, ft_putchar2);
-	if ((move = calc_line(e, str, e->curs_pos)))
+	if ((move = calc_line(e, str, e->curs_pos, 0)))
 		tputs(tgoto(e->up, 0, move), 0, ft_putchar2);
 	if (!position)
 		tputs(tgoto(e->ri, 0, e->prompt_len), 0, ft_putchar2);
-	if (position && (move = calc_line(e, str, position)))
+	if (position && (move = calc_line(e, str, position, 0)))
 		tputs(tgoto(e->down, 0, move), 0, ft_putchar2);
 	if (position && (move = calc_row(e, str, position)))
 		tputs(tgoto(e->ri, 0, move), 0, ft_putchar2);
@@ -80,6 +78,10 @@ static void	keys_actions_2(t_env *e, int i, t_elem **elem, char *str)
 		copy_paste_mod(e, i, elem);
 	else if (i == TAB)
 		ft_dynamic_completion(e, *elem);
+	else if (i == LINE_UP)
+		move_up(e, str);
+	else if (i == LINE_DO)
+		move_down(e, str);
 	else
 		return ;
 }
