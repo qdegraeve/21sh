@@ -13,13 +13,14 @@ void		copy_cut_sel(t_env *e, char **str, t_builtin *b, int input)
 	b->paste = ft_strncpy(ft_strnew(diff), *str + e->curs_pos - 1, diff);
 	if (input == CUT_OPT)
 	{
-	dest = ft_strnew(e->curs_max - diff);
-	dest = ft_strncat(dest, *str, e->curs_pos - 1);
-	dest = ft_strncat(dest, *str + e->curs_pos + diff, e->curs_max - (e->curs_pos + diff));
-	ft_strdel(&*str);
-	*str = dest;
-	e->curs_max -= diff;
-	e->curs_pos = e->curs_pos;
+		dest = ft_strnew(e->curs_max - diff);
+		dest = ft_strncat(dest, *str, e->curs_pos - 1);
+		dest = ft_strncat(dest, *str + e->curs_pos + diff, e->curs_max -
+				(e->curs_pos + diff));
+		ft_strdel(&*str);
+		*str = dest;
+		e->curs_max -= diff;
+		e->curs_pos = e->curs_pos;
 	}
 	go_to_position(e, *str, 0);
 	tputs(e->cd, 0, ft_putchar2);

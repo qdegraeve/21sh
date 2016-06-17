@@ -86,5 +86,5 @@ void	ft_replace_filename(t_env *e, char *path, char **str)
 	e->curs_pos = e->curs_max;
 	if (e->curs_pos)
 		go_to_position(e, *str, tmp);
-	e->curs_pos = (e->curs_pos) ? tmp : tmp - 1;
+	e->curs_pos = (e->curs_pos && e->complete) ? tmp : tmp - 1;
 }

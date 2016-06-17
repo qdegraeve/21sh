@@ -51,19 +51,19 @@ void	exec_exit(t_builtin *b)
 	if ((b->fd_history = open(file, O_RDWR | O_APPEND)) >= 0)
 	{
 		ft_putstr("saving inputs in history file :");
-			ft_printf("%4d", 0);
-			ft_putstr(" commands");
+		ft_printf("%4d", 0);
+		ft_putstr(" commands");
 		while (elem)
 		{
 			if (((t_history*)elem->content)->to_save)
 			{
-			tputs(tgoto(get_env()->le, 0, 13), 0, ft_putchar2);
-			tputs(get_env()->cd, 0, ft_putchar2);
-			ft_printf("%4d", i);
-			ft_putstr(" commands");
+				tputs(tgoto(get_env()->le, 0, 13), 0, ft_putchar2);
+				tputs(get_env()->cd, 0, ft_putchar2);
+				ft_printf("%4d", i);
+				ft_putstr(" commands");
 				ft_putendl_fd(((t_history*)elem->content)->command,
 						b->fd_history);
-			i++;
+				i++;
 			}
 			elem = elem->next;
 		}
