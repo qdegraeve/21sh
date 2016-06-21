@@ -28,7 +28,6 @@ void	set_env_one(t_builtin *b, char *add, int j)
 			ft_strdel(&b->env[i]);
 			b->env[i] = add;
 			b->argv = ft_tab_remove(b->argv, 0);
-//			exec_setenv(b);
 			return ;
 		}
 		i++;

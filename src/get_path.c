@@ -48,6 +48,8 @@ void	exec_exit(t_builtin *b)
 		ft_strdel(&b->path);
 	if (b->argv)
 		clear_tab(&b->argv);
+	if (b->cmd_hash)
+		clear_tab(&b->cmd_hash);
 	if ((b->fd_history = open(file, O_RDWR | O_APPEND)) >= 0)
 	{
 		ft_putstr("saving inputs in history file :");
@@ -68,8 +70,9 @@ void	exec_exit(t_builtin *b)
 			elem = elem->next;
 		}
 	}
+	ft_strdel(&file);
 	close(b->fd_history);
-	term_reset();
+	//term_reset();
 	ft_lstdel(&b->lst, del_lst_char);
 	exit(EXIT_SUCCESS);
 }

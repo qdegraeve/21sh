@@ -15,7 +15,6 @@ char	*get_input(t_builtin *b, int input)
 		ft_bzero(buf, 8);
 		if (input == 10)
 		{
-		//	tputs(e->rc, 0, ft_putchar2);
 			ft_putchar('\n');
 			if (ret == 0)
 				return (((t_history*)b->lst.tail->content)->command);
@@ -26,6 +25,5 @@ char	*get_input(t_builtin *b, int input)
 		buf[7] = '\0';
 		input = (buf[3] << 24) + (buf[2] << 16) + (buf[1] << 8) + buf[0];
 		ret = edit_line(e, input, &b->lst);
-		//ft_printf("key == %d\n", input);
 	}
 }

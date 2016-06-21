@@ -19,17 +19,30 @@ char	*triple_join(char *front, char *middle, char *back, char del)
 	return (dest);
 }
 
+void	get_list_cmd2(DIR **repository, char **tmp, char *test)
+{
+	struct dirent	*content;
+	char			*path;
+
+	path = NULL;
+	while ((content = readdir(*repository)) != NULL)
+	{
+		path = triple_join(test, "/", content->d_name, 0);
+		if (content->d_name[0] != '.' && access(path, X_OK) == 0)
+			*tmp = triple_join(*tmp, " ", content->d_name, 1);
+		ft_strdel(&path);
+	}
+	closedir(*repository);
+}
+
 void	get_list_cmd(t_builtin *b)
 {
 	DIR				*repository;
-	struct dirent	*content;
 	char			**test;
-	char			*path;
-	char			*tmp;;
+	char			*tmp;
 	int				i;
 
 	test = NULL;
-	path = NULL;
 	tmp = NULL;
 	if (b->env[0])
 		test = ft_strsplit(ft_getenv("PATH", get_buil()->env), ':');
@@ -37,20 +50,9 @@ void	get_list_cmd(t_builtin *b)
 	while (test && test[i])
 	{
 		repository = opendir(test[i]);
-		if (repository == NULL)
-			i++;
-		else
-		{
-			while ((content = readdir(repository)) != NULL)
-			{
-				path = triple_join(test[i], "/", content->d_name, 0);
-				if (access(path, X_OK) == 0)
-					tmp = triple_join(tmp, " ", content->d_name, 1);
-				ft_strdel(&path);
-			}
-			i++;
-			closedir(repository);
-		}
+		if (repository != NULL)
+			get_list_cmd2(&repository, &tmp, test[i]);
+		i++;
 	}
 	b->cmd_hash = ft_strsplit(tmp, ' ');
 	ft_strdel(&tmp);

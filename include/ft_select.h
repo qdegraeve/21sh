@@ -32,7 +32,6 @@ typedef struct	s_choice
 */
 void			term_set_select();
 void			term_reset_select(struct termios term);
-void			del_choice(void *c, size_t content_size);
 int				ft_select(char **argv, char cmd);
 
 /*
@@ -66,6 +65,6 @@ int				selected(t_env_select *e, int input);
 */
 void			liste_init(t_list *lst);
 void			env_init_select(t_env_select *e, char cmd);
-void			del_choice(void *c, size_t content_size);
+void			del_choice(void *ne.hc, size_t content_size);
 
 #endif

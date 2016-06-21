@@ -60,6 +60,7 @@ SRC =  env.c \
 	select_mod.c \
 	dynamic_completion.c \
 	dynamic_completion_1.c \
+	dynamic_completion_2.c \
 	hash.c \
 	ft_select.c \
 	display.c \

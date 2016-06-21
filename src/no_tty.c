@@ -1,5 +1,14 @@
 #include "shell.h"
 
+static void	no_tty2(t_builtin *b, char c)
+{
+	if (c < 0 || c > 127)
+	{
+		ft_putendl("unexpected token in command line\n");
+		exec_exit(b);
+	}
+}
+
 void		no_tty(t_builtin *b)
 {
 	char	*line;
@@ -14,18 +23,14 @@ void		no_tty(t_builtin *b)
 	{
 		j = -1;
 		while (line && line[++j])
-			if (line[j] < 0 || line[j] > 127)
-			{
-				ft_printf("unexpected token in command line\n");
-				exec_exit(b);
-			}
-		root = lexer(line);
-		if (root)
+			no_tty2(b, line[j]);
+		if ((root = lexer(line)))
+		{
 			parser(&root, b);
+			del_lex_io(&root);
+		}
 		if (line)
 			ft_strdel(&line);
-		if (root)
-			del_lex_io(&root);
 		i++;
 	}
 	exec_exit(b);

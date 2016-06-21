@@ -1,7 +1,6 @@
-
 #include "ft_select.h"
 
-void			term_set_select()
+void			term_set_select(void)
 {
 	char			*name;
 	struct winsize	win;
@@ -57,7 +56,7 @@ t_env_select	*argv_copy(char **av, int ac, char cmd)
 	return (e);
 }
 
-int			ask_for_select(t_env_select *e, int i)
+int				ask_for_select(t_env_select *e, int i)
 {
 	char	buf[2];
 
@@ -78,11 +77,12 @@ int			ask_for_select(t_env_select *e, int i)
 			return (0);
 	}
 	else
-		ft_printf("not enough lines on screen to show all possibilities (%d)", i);
-	return(1);
+		ft_printf("not enough lines on screen to show all possibilities (%d)",
+				i);
+	return (1);
 }
 
-int			ft_select(char **list, char cmd)
+int				ft_select(char **list, char cmd)
 {
 	t_env_select	*e;
 	int				i;

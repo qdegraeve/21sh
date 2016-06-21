@@ -164,6 +164,7 @@ void				keys_actions(t_env *e, int input, t_list *lst,
 */
 void				ft_dynamic_completion(t_env *e, t_elem *elem);
 void				ft_replace_filename(t_env *e, char *path, char **str);
-void				ft_restore_cursor_position(t_env *e, char *command, int line);
+int					ft_list_corresponding_files(t_env *e, char *path, 
+		char *file, char **str);
 
 #endif

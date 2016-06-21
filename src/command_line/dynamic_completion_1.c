@@ -1,90 +1,112 @@
 #include "shell.h"
 
-char	*ft_remove_old_filename(t_env *e, char **str)
+static char	*ft_corresponding_files2(char **tmp, char *name, char *path)
 {
 	char	*dest;
-	int		tmp;
+	DIR		*tmp2;
+	char	*tmp3;
 
 	dest = NULL;
-	e->curs_pos--;
-	tmp = e->curs_pos;
-	while (e->curs_pos >= 0)
+	tmp2 = NULL;
+	tmp3 = NULL;
+	*tmp = triple_join(*tmp, " ", name, 1);
+	tmp3 = triple_join(path, (path ? "/" : NULL), name, 0);
+	if ((tmp2 = opendir(tmp3)) != NULL)
 	{
-		if ((*str)[e->curs_pos] != ' ' && (*str)[e->curs_pos] != '|' &&
-				(*str)[e->curs_pos] != '&' && (*str)[e->curs_pos] != ';')
-			e->curs_pos--;
-		else
-			break ;
+		*tmp = ft_cjoin(*tmp, ft_strdup("/"));
+		closedir(tmp2);
 	}
-	dest = ft_strnew(e->curs_max - (tmp - e->curs_pos >= 0) + 1);
-	dest = ft_strncpy(dest, *str, e->curs_pos + 1);
-	if (tmp < e->curs_max)
-		dest = ft_strcat(dest, *str + tmp + 1);
-	e->curs_max = ft_strlen(dest);
-	if (*str)
-		ft_strdel(str);
+	if (tmp3)
+		ft_strdel(&tmp3);
 	return (dest);
 }
 
-char	*ft_add_new_path(t_env *e, char *path, char **file, char **str)
+static int	ft_corresponding_files(t_env *e, char *path, char *file)
 {
-	int		len;
-	char	*dest;
-	int		i;
-	int		len_path;
+	int				match;
+	DIR				*repository;
+	struct dirent	*content;
+	char			*tmp;
 
+	tmp = NULL;
+	match = 0;
+	repository = path == NULL ? opendir(".") : opendir(path);
+	if (repository == NULL)
+		return (-1);
+	while ((content = readdir(repository)) != NULL)
+		if (content->d_name[0] != '.' && !ft_strncmp(content->d_name, file,
+					ft_strlen(file)))
+		{
+			match++;
+			ft_corresponding_files2(&tmp, content->d_name, path);
+		}
+	closedir(repository);
+	e->choices = ft_strsplit(tmp, ' ');
+	ft_strdel(&tmp);
+	return (match);
+}
+
+static int	ft_corresponding_cmd(t_env *e, char *file)
+{
+	int				match;
+	int				i;
+	t_builtin		*b;
+	char			*tmp;
+
+	b = get_buil();
+	match = 0;
 	i = 0;
-	len = 0;
-	if (path && path[ft_strlen(path) - 1] != '/')
-		path = ft_strjoin(path, "/");
-	len_path = ft_strlen(path);
-	while (file && file[i])
-		len += (len_path + ft_strlen(file[i++]) + (len ? 1 : 0));
-//	ft_printf("i == %d -- len == %d -- len_path == %d -- max == %d\n", i, len, len_path, e->curs_max);
-	len += e->curs_max;
-	dest = ft_strnew(len);
-	len_path = i;
-	if (e->curs_pos >= 0)
-		dest = ft_strncpy(dest, *str, e->curs_pos + 1);
-	i = 0;
-	while (file && file[i])
+	tmp = NULL;
+	while (b->cmd_hash[i])
 	{
-		dest = ft_strcat(dest, path);
-		dest = ft_strcat(dest, file[i]);
+		if (ft_strncmp(b->cmd_hash[i], file, ft_strlen(file)) == 0)
+		{
+			match++;
+			tmp = triple_join(tmp, " ", b->cmd_hash[i], 1);
+		}
 		i++;
-		dest = i != len_path ? ft_strcat(dest, " ") : dest;
 	}
-	if (e->curs_pos < e->curs_max && e->curs_pos >= 0)
-		dest = ft_strcat(dest, *str + e->curs_pos + 1);
-//	ft_printf("\npos == [%d] -- max == [%d] -- len == [%d]\nstr == [%s]\nstr + pos == [%s]\n", e->curs_pos, e->curs_max, len, *str, *str + e->curs_pos);
-	e->curs_pos += (len - e->curs_max);
-	e->curs_max = len;
-	if (*str)
-		ft_strdel(str);
-	return (dest);
+	e->choices = ft_strsplit(tmp, ' ');
+	ft_strdel(&tmp);
+	return (match);
 }
 
-void	ft_replace_filename(t_env *e, char *path, char **str)
+static int	no_match(t_env *e, char *str)
 {
-	int		tmp;
+	int				move;
 
-	tmp = 0;
+	move = 0;
+	ft_putstr_fd("\nNo match found.", 2);
 	tputs(e->up_one, 0, ft_putchar2);
-	if (e->curs_pos > 0)
-		go_to_position(e, *str, 0);
-	if (e->complete)
+	tputs(e->cr, 0, ft_putchar2);
+	if ((move = calc_row(e, str, e->curs_max)))
+		tputs(tgoto(e->ri, 0, move), 0, ft_putchar2);
+	return (0);
+}
+
+int			ft_list_corresponding_files(t_env *e, char *path, char *file,
+		char **str)
+{
+	int		match;
+
+	match = 0;
+	if (e->cmd)
+		match = ft_corresponding_cmd(e, file);
+	else
+		match = ft_corresponding_files(e, path, file);
+	if (match == 0)
+		return (no_match(e, *str));
+	ft_putchar('\n');
+	if (match > 1)
 	{
-		*str = ft_remove_old_filename(e, str);
-		e->choices = ft_strsplit(e->complete, ' ');
-		*str = ft_add_new_path(e, path, e->choices, str);
+		term_reset();
+		ft_select(e->choices, e->cmd ? 1 : 0);
+		term_set();
 		if (e->choices)
 			clear_tab(&e->choices);
 	}
-	ft_putstr(*str);
-	tputs(e->sc, 0, ft_putchar2);
-	tmp = e->curs_pos + 1;
-	e->curs_pos = e->curs_max;
-	if (e->curs_pos)
-		go_to_position(e, *str, tmp);
-	e->curs_pos = (e->curs_pos && e->complete) ? tmp : tmp - 1;
+	if (match == 1)
+		e->complete = ft_strdup(e->choices[0]);
+	ft_replace_filename(e, path, str);
+	return (match);
 }

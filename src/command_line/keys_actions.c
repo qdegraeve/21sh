@@ -71,6 +71,12 @@ static void	keys_actions_2(t_env *e, int i, t_elem **elem, char *str)
 {
 	if (i == END || i == HOME)
 		move_cursor_line(e, i, str);
+	else if ((i == KLEFT && e->curs_pos) || (i == KRIGHT &&
+				e->curs_pos < e->curs_max))
+	{
+		go_to_position(e, str, i == KLEFT ? e->curs_pos - 1 : e->curs_pos + 1);
+		e->curs_pos += i == KLEFT ? -1 : 1;
+	}
 	else if ((i == LEFT_OPT && e->curs_pos > 0) ||
 			(i == RIGHT_OPT && e->curs_pos < e->curs_max))
 		move_cursor_word(e, i, str);
@@ -104,12 +110,6 @@ void		keys_actions(t_env *e, int i, t_list *lst, t_elem **elem)
 			exec_exit(get_buil());
 		else if (!h->command_edit && *elem == lst->tail)
 			exec_exit(get_buil());
-	}
-	else if ((i == KLEFT && e->curs_pos) || (i == KRIGHT &&
-				e->curs_pos < e->curs_max))
-	{
-		go_to_position(e, str, i == KLEFT ? e->curs_pos - 1 : e->curs_pos + 1);
-		e->curs_pos += i == KLEFT ? -1 : 1;
 	}
 	else if ((i == KUP && (*elem)->prev) || (i == KDOWN && (*elem)->next))
 		command_memory(e, i, lst, elem);

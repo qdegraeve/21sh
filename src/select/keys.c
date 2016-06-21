@@ -21,13 +21,6 @@ int		keys_action_select(t_env_select *e, int input)
 	return (0);
 }
 
-void	get_fd(t_env_select *e)
-{
-	int		fd = 0;
-
-	e->fd = fd;
-}
-
 void	get_input_select(t_env_select *e)
 {
 	int		input;

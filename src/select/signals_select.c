@@ -6,13 +6,13 @@
 /*   By: qdegraev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 13:00:34 by qdegraev          #+#    #+#             */
-/*   Updated: 2016/06/13 16:12:00 by qdegraev         ###   ########.fr       */
+/*   Updated: 2016/06/21 11:41:17 by qdegraev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_env_select	*get_env_select()
+t_env_select	*get_env_select(void)
 {
 	static t_env_select *stat_e = NULL;
 
@@ -34,7 +34,7 @@ void			resize_select(int sig)
 	}
 }
 
-void	signal_catcher_select()
+void			signal_catcher_select(void)
 {
 	int i;
 
